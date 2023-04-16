@@ -15,7 +15,6 @@ $data = json_decode(file_get_contents("php://input"));
 // $product->image = $data->image;
 // $product->categoryId = $data->categoryId;
 
-set_logged('tan123', '2');
 if (!is_admin()) {
     echo json_encode(array('message' => "You aren't admin"));
 }

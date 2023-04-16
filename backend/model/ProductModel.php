@@ -1,5 +1,6 @@
 <?php
 require_once "../../config/Database.php";
+require_once '../../config/Role.php';
 class ProductModel extends Database{
     private $pId;
     private $name;

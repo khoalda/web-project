@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Gán session (SET)
 function session_set($key, $val){
     $_SESSION[$key] = $val;
