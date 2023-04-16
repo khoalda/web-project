@@ -4,12 +4,19 @@
     private $db_name = "bkshop";
     private $username = "root";
     private $password = "";
-    private $conn;
+    protected $conn;
 
     public function __construct() {
-        $this->conn = mysqli_connect($this->host, $this->db_name, $this->username, $this->password);
+        $this->conn = mysqli_connect($this->host, $this->username, $this->password,$this->db_name);
         if (!$this->conn) {
             die("Connection failed: " . mysqli_connect_error());
+        }
+    }
+
+    function __destruct()
+    {
+        if ($this->conn) {
+            mysqli_close($this->conn);
         }
     }
 
