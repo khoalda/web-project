@@ -9,8 +9,8 @@ export default function () {
         <h3 class="login-title">Welcome</h3>
         <form>
           <div class="input-group">
-            <label>Email</label>
-            <input type="email" />
+            <label>Username</label>
+            <input type="text" />
           </div>
           <div class="input-group">
             <label>Password</label>

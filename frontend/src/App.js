@@ -4,6 +4,7 @@ import About from './components/About';
 import Footer from './components/Footer';
 import Home from './components/Home';
 import Login from './components/Login';
+import Register from './components/Register';
 import Navbar from './components/Navbar';
 import News from './components/News';
 import { BrowserRouter as Router, Routes, Route, Link, BrowserRouter } from "react-router-dom";
@@ -20,6 +21,7 @@ function App() {
             <Route path='/about' element={< About />}></Route>
             <Route path='/news' element={< News />}></Route>
             <Route path='/login' element={< Login />}></Route>
+            <Route path='/register' element={< Register />}></Route>
         </Routes>
       </BrowserRouter>
       <Footer/>
