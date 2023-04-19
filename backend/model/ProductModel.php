@@ -2,6 +2,7 @@
 require_once "../../config/Database.php";
 // require_once '../../config/Role.php';
 class ProductModel extends Database{
+    private $table = 'product';
     private $pId;
     private $name;
     private $price;
@@ -58,10 +59,38 @@ class ProductModel extends Database{
 
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("s", $pId);
-        // $result = $stmt->execute();
-        $result = mysqli_query($this->conn, $stmt);
+        $result = $stmt->execute();
         if($result) return true;
         else return false;
+    }
+    public function update($data) {
+        $productTB = 'product';
+        $query = "SELECT * FROM $productTB WHERE pId = ?";
+        $conn = $this->conn;
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $data->pId);
+        // $pId = $data->pId;
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        if (!$row) {
+            return array("status"=>false,'message'=>'Invalid pId');
+        }
+        else {
+            $query ="UPDATE $this->table
+            SET name = ?, price = ?, description = ?, image = ?, categoryId = ?
+            WHERE pId = ?;";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("sissii", $data->name,$data->price,$data->description,$data->image,$data->categoryId,$data->pId);
+            if ($stmt->execute()) {
+                return array("status"=>true,'message'=>'Successful');
+            }
+            else {
+                return array("status"=>false,'message'=>'Query error');
+            }
+        }
     }
 }
 ?>

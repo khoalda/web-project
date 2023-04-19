@@ -28,4 +28,17 @@ function is_admin(){
     }
     return false;
 }
+
+// Lấy username người dùng hiện tại
+function get_current_username(){
+    $user  = is_logged();
+    return isset($user['username']) ? $user['username'] : '';
+}
+ 
+// Lấy level người dùng hiện tại
+function get_current_level(){
+    $user  = is_logged();
+    return isset($user['level']) ? $user['level'] : '';
+}
+
 ?>
