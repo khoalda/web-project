@@ -1,78 +1,135 @@
--- 1. Category
-CREATE TABLE Category(
-    cId     INT             AUTO_INCREMENT      PRIMARY KEY,
-    name    VARCHAR(255)    NOT NULL    UNIQUE
-);
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 20, 2023 at 11:22 AM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.12
 
--- 2. Product
-CREATE TABLE Product(
-    pId             INT      AUTO_INCREMENT      PRIMARY KEY,
-    name            VARCHAR(255)    NOT NULL,
-    price           INT             NOT NULL    CHECK (price > 0),
-    description     VARCHAR(1000)   NOT NULL,
-    image           VARCHAR(512)    NOT NULL    UNIQUE,
-    categoryId      INT,
-    CONSTRAINT  fk_product_category_id  FOREIGN KEY (categoryId)
-                REFERENCES  Category(cId)
-                ON DELETE SET NULL
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- 3. Account
-CREATE TABLE Account(
-    aId         INT     AUTO_INCREMENT    PRIMARY  KEY,
-    username    VARCHAR(30)    NOT NULL     UNIQUE,
-    password    VARCHAR(255)    NOT NULL,
-    level       INT(1)         NOT NULL     CHECK (level >=1 and level <= 2),
-    name        VARCHAR(255)   NOT NULL,
-    dateOfBirth DATE,         
-    urlAvatar   VARCHAR(255),
-    phoneNumber VARCHAR(255)   NOT NULL,
-    email       VARCHAR(255),
-    address     VARCHAR(255)
-);
 
--- 4. Rating
-CREATE TABLE Rating(
-    rId     INT     AUTO_INCREMENT      PRIMARY KEY,
-    comment VARCHAR(1000),
-    start   INT(1)  NOT NULL    CHECK (start >=1 and start <= 5),
-    aId     INT,
-    pId     INT,
-    CONSTRAINT  fk_rating_account_aId  FOREIGN KEY (aId)
-                REFERENCES  Account(aId)
-                ON DELETE SET NULL,
-    CONSTRAINT  fk_rating_product_pId  FOREIGN KEY (pId)
-                REFERENCES  Product(pId)
-                ON DELETE CASCADE
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- 5. StatusOrder
-CREATE TABLE StatusOrder(
-    sId     INT     AUTO_INCREMENT      PRIMARY KEY,
-    name    VARCHAR(255)    NOT NULL    UNIQUE
-);
+--
+-- Database: `bkshop`
+--
 
--- 6. Ordering
-CREATE TABLE Ordering(
-    oId		    CHAR(16)	PRIMARY KEY,
-    time        DATETIME       NOT NULL,
-    address     VARCHAR(255)   NOT NULL,
-    phoneNumber VARCHAR(255)   NOT NULL,
-    statusId    INT,
-    CONSTRAINT  fk_Ordering_Status_sId  FOREIGN KEY (statusId)
-                REFERENCES  StatusOrder(sId)
-                ON DELETE SET NULL
-);
--- Rang buoc cho oId của bang Ordering
-CREATE TABLE S(
-    _no INT AUTO_INCREMENT PRIMARY KEY
-);
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `account`
+--
+
+CREATE TABLE `account` (
+  `aId` int(11) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `level` int(1) NOT NULL CHECK (`level` >= 1 and `level` <= 2),
+  `name` varchar(255) NOT NULL,
+  `dateOfBirth` date DEFAULT NULL,
+  `urlAvatar` varchar(255) DEFAULT NULL,
+  `phoneNumber` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `account`
+--
+
+INSERT INTO `account` (`aId`, `username`, `password`, `level`, `name`, `dateOfBirth`, `urlAvatar`, `phoneNumber`, `email`, `address`) VALUES
+(1, 'laptrinhweb', '565008d1f6f712771b27eee29afc8899', 2, 'admin', '1999-05-06', 'https://tenten.vn/tin-tuc/wp-content/uploads/2022/09/2-6.png', '0362704387', 'admin123@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM'),
+(2, 'customer', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Nguyễn Văn Tân', '2001-08-09', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg', '0362704387', 'tan@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `accountId` int(11) NOT NULL,
+  `productId` int(11) NOT NULL,
+  `count` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `cId` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`cId`, `name`) VALUES
+(1, 'Beverages'),
+(4, 'Burgers'),
+(3, 'Chicken'),
+(2, 'Potato'),
+(5, 'Salads');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orderaccount`
+--
+
+CREATE TABLE `orderaccount` (
+  `oId` char(16) NOT NULL,
+  `aId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `orderaccount`
+--
+
+INSERT INTO `orderaccount` (`oId`, `aId`) VALUES
+('BK20042023000003', NULL),
+('BK20042023000001', 2),
+('BK20042023000002', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ordering`
+--
+
+CREATE TABLE `ordering` (
+  `oId` char(16) NOT NULL,
+  `time` datetime NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `phoneNumber` varchar(255) NOT NULL,
+  `statusId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ordering`
+--
+
+INSERT INTO `ordering` (`oId`, `time`, `address`, `phoneNumber`, `statusId`) VALUES
+('BK20042023000001', '2023-04-14 09:28:25', 'Ký túc xá khu B Đại học quốc gia TP.HCM', '0934897659', 1),
+('BK20042023000002', '2023-04-14 09:20:37', '26 Trường Chinh, thành phố Pleiku, tỉnh Gia Lai', '0134892371', 2),
+('BK20042023000003', '2023-04-14 09:20:37', '58 Lê Lai, Ba Đình, Hà Nội', '01648785758', 3);
+
+--
+-- Triggers `ordering`
+--
 DELIMITER $$
-CREATE TRIGGER before_Ordering_insert
-BEFORE INSERT
-ON Ordering FOR EACH ROW
-BEGIN
+CREATE TRIGGER `before_Ordering_insert` BEFORE INSERT ON `ordering` FOR EACH ROW BEGIN
 	declare maxi int;
 	insert into S value (NULL);
 	select max(_no) from S into maxi;
@@ -80,153 +137,301 @@ BEGIN
 									  LPAD(MONTH(CURRENT_DATE()), 2, '0'), 
 									  YEAR(CURRENT_DATE()), 
                                       LPAD(maxi, 6, '0'));
-END $$
+END
+$$
 DELIMITER ;
--- -------------------------------------------
 
--- 7. OrderProduct
-CREATE TABLE OrderProduct(
-    oId     CHAR(16),
-    pId     INT,
-    count   INT     NOT NULL,
-    PRIMARY KEY     (oId, pId),
-    CONSTRAINT  fk_oProduct_Ordering_oId   FOREIGN KEY (oId) 
-                REFERENCES Ordering(oId)
-                ON DELETE CASCADE,
-    CONSTRAINT  fk_oProduct_Product_pId   FOREIGN KEY (pId) 
-                REFERENCES Product(pId)
-                ON DELETE CASCADE
-);
+-- --------------------------------------------------------
 
--- 8. orderAccount
-CREATE TABLE orderAccount(
-    oId     CHAR(16)    PRIMARY KEY,
-    aId     INT,
-    CONSTRAINT  fk_oAccount_Ordering_oId   FOREIGN KEY (oId) 
-                REFERENCES Ordering(oId)
-                ON DELETE CASCADE,
-    CONSTRAINT  fk_oAccount_Account_aId   FOREIGN KEY (aId) 
-                REFERENCES Account(aId)
-                ON DELETE SET NULL
-);
+--
+-- Table structure for table `orderproduct`
+--
 
--- 9. Cart
-CREATE TABLE Cart(
-    accountId   INT,
-    productId   INT,
-    count       INT,
-    PRIMARY KEY     (accountId, productId),
-    CONSTRAINT  fk_Cart_Account_oId   FOREIGN KEY (accountId) 
-                REFERENCES Account(aId)
-                ON DELETE CASCADE,
-    CONSTRAINT  fk_Cart_Product_pId   FOREIGN KEY (productId) 
-                REFERENCES Product(pId)
-                ON DELETE CASCADE
-);
+CREATE TABLE `orderproduct` (
+  `oId` char(16) NOT NULL,
+  `pId` int(11) NOT NULL,
+  `count` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- INSERT
--- 1. Category
-INSERT INTO Category VALUES ('1','Beverages');
-INSERT INTO Category VALUES ('2','Potato');
-INSERT INTO Category VALUES ('3','Chicken');
-INSERT INTO Category VALUES ('4','Burgers');
-INSERT INTO Category VALUES ('5','Salads');
+--
+-- Dumping data for table `orderproduct`
+--
 
--- 2. Product
-INSERT INTO Product VALUES ('','Cocacola Bottle','20000','Thức uống mát lạnh để giải khát','coca1.png','1');
-INSERT INTO Product VALUES ('','Cocacola','15000','Thức uống mát lạnh để giải khát','coca2.png','1');
-INSERT INTO Product VALUES ('','Lemon Juice','25000','Nước chanh tươi mát','lemon.png','1');
+INSERT INTO `orderproduct` (`oId`, `pId`, `count`) VALUES
+('BK20042023000001', 2, 1),
+('BK20042023000001', 3, 2),
+('BK20042023000001', 10, 1),
+('BK20042023000002', 6, 1),
+('BK20042023000002', 9, 5),
+('BK20042023000003', 20, 1);
 
-INSERT INTO Product VALUES ('','Potato big','20000','Khoai tây chiên giòn rụm','potato.png','2');
-INSERT INTO Product VALUES ('','Potato small','14000','Khoai tây chiên giòn rụm','potato3.png','2');
-INSERT INTO Product VALUES ('','Chicken McNuggets','35000','Gà chiên trong dai ngoài giòn','chicken (2).png','3');
+-- --------------------------------------------------------
 
-INSERT INTO Product VALUES ('','Big Mac Burger','40000','Burger siêu đặc biệt ăn không no không tính tiền','buger5.png','4');
-INSERT INTO Product VALUES ('','Potato slices','14000','Khoai tây cắt lát chiên giòn tan','potato2.png','2');
-INSERT INTO Product VALUES ('','Combo Chicken','50000','Combo gà đặc biệt với nhiều món cho bạn bữa ăn thật no và ngon','chicken.png','3');
+--
+-- Table structure for table `product`
+--
 
-INSERT INTO Product VALUES ('','Big Burger','30000','Burger lớn nhiều thịt nhiều rau','burger.png','4');
-INSERT INTO Product VALUES ('','Mac Burger','35000','Burger đặc biệt nhiều thịt nhiều rau','burger1.png','4');
-INSERT INTO Product VALUES ('','Medium Mac Burger','30000','Burger đặc biệt loại nhỏ','burger2.png','4');
+CREATE TABLE `product` (
+  `pId` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL CHECK (`price` > 0),
+  `description` varchar(1000) NOT NULL,
+  `image` varchar(512) NOT NULL,
+  `categoryId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO Product VALUES ('','Mashed Potato','30000','Khoai tây nghiền, ăn là ghiền','potato4.png','2');
-INSERT INTO Product VALUES ('','Chicken Small','28000','Gà chiên loại nhỏ, lớp vỏ giòn rụm','chicken2.png','3');
-INSERT INTO Product VALUES ('','Chicken Big Max','100000','Combo gà chiên cho nhiều người ăn','chicken4.png','3');
+--
+-- Dumping data for table `product`
+--
 
-INSERT INTO Product VALUES ('','Salat 1','20000','Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả','salat1.png','5');
-INSERT INTO Product VALUES ('','Salat 2','23000','Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả','salat2.png','5');
-INSERT INTO Product VALUES ('','Pepsi','16000','Pepsi mát lạnh, sảng khoái','pepsi1.png','1');
+INSERT INTO `product` (`pId`, `name`, `price`, `description`, `image`, `categoryId`) VALUES
+(1, 'Cocacola Bottle', 20000, 'Thức uống mát lạnh để giải khát', 'coca1.png', 1),
+(2, 'Cocacola', 15000, 'Thức uống mát lạnh để giải khát', 'coca2.png', 1),
+(3, 'Lemon Juice', 25000, 'Nước chanh tươi mát', 'lemon.png', 1),
+(4, 'Potato big', 20000, 'Khoai tây chiên giòn rụm', 'potato.png', 2),
+(5, 'Potato small', 14000, 'Khoai tây chiên giòn rụm', 'potato3.png', 2),
+(6, 'Chicken McNuggets', 35000, 'Gà chiên trong dai ngoài giòn', 'chicken (2).png', 3),
+(7, 'Big Mac Burger', 40000, 'Burger siêu đặc biệt ăn không no không tính tiền', 'buger5.png', 4),
+(8, 'Potato slices', 14000, 'Khoai tây cắt lát chiên giòn tan', 'potato2.png', 2),
+(9, 'Combo Chicken', 50000, 'Combo gà đặc biệt với nhiều món cho bạn bữa ăn thật no và ngon', 'chicken.png', 3),
+(10, 'Big Burger', 30000, 'Burger lớn nhiều thịt nhiều rau', 'burger.png', 4),
+(11, 'Mac Burger', 35000, 'Burger đặc biệt nhiều thịt nhiều rau', 'burger1.png', 4),
+(12, 'Medium Mac Burger', 30000, 'Burger đặc biệt loại nhỏ', 'burger2.png', 4),
+(13, 'Mashed Potato', 30000, 'Khoai tây nghiền, ăn là ghiền', 'potato4.png', 2),
+(14, 'Chicken Small', 28000, 'Gà chiên loại nhỏ, lớp vỏ giòn rụm', 'chicken2.png', 3),
+(15, 'Chicken Big Max', 100000, 'Combo gà chiên cho nhiều người ăn', 'chicken4.png', 3),
+(16, 'Salat 1', 20000, 'Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả', 'salat1.png', 5),
+(17, 'Salat 2', 23000, 'Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả', 'salat2.png', 5),
+(18, 'Pepsi', 16000, 'Pepsi mát lạnh, sảng khoái', 'pepsi1.png', 1),
+(19, 'Salat 3', 25000, 'Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả', 'salat3.png', 5),
+(20, 'Salat 4', 24000, 'Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả', 'salat4.png', 5),
+(21, 'Sprite', 16000, 'Sprite mát lạnh thơm nồng vị chanh', 'sprite2.png', 1),
+(22, 'Chicken Medium', 70000, 'Gà chiên trong dai ngoài giòn', 'chicken 8.png', 3),
+(23, 'Sprite Bottle', 20000, 'Sprite mát lạnh thơm nồng vị chanh', 'sprite1.png', 1),
+(24, 'Pepsi Bottle', 20000, 'Pepsi mát lạnh, sảng khoái', 'pepsi2.png', 1),
+(25, 'Orange Juice', 25000, 'Nước cam ép đến từ thiên nhiên, không phẩm màu không chất bảo quản', 'orange.png', 1);
 
-INSERT INTO Product VALUES ('','Salat 3','25000','Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả','salat3.png','5');
-INSERT INTO Product VALUES ('','Salat 4','24000','Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả','salat4.png','5');
-INSERT INTO Product VALUES ('','Sprite','16000','Sprite mát lạnh thơm nồng vị chanh','sprite2.png','1');
+-- --------------------------------------------------------
 
-INSERT INTO Product VALUES ('','Chicken Medium','70000','Gà chiên trong dai ngoài giòn','chicken 8.png','3');
-INSERT INTO Product VALUES ('','Sprite Bottle','20000','Sprite mát lạnh thơm nồng vị chanh','sprite1.png','1');
-INSERT INTO Product VALUES ('','Pepsi Bottle','20000','Pepsi mát lạnh, sảng khoái','pepsi2.png','1');
+--
+-- Table structure for table `rating`
+--
 
-INSERT INTO Product VALUES ('','Orange Juice','25000','Nước cam ép đến từ thiên nhiên, không phẩm màu không chất bảo quản','orange.png','1');
+CREATE TABLE `rating` (
+  `rId` int(11) NOT NULL,
+  `comment` varchar(1000) DEFAULT NULL,
+  `star` int(1) NOT NULL CHECK (`star` >= 1 and `star` <= 5),
+  `aId` int(11) DEFAULT NULL,
+  `pId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 3. Account
-INSERT INTO Account VALUES ('1','laptrinhweb','565008d1f6f712771b27eee29afc8899','2','admin', '1999-5-6', 'https://tenten.vn/tin-tuc/wp-content/uploads/2022/09/2-6.png','0362704387','admin123@gmail.com','Ký túc xá khu A đại học Quốc gia TP.HCM'); -- mk là bk123
-INSERT INTO Account VALUES ('2','customer','e10adc3949ba59abbe56e057f20f883e','1','Nguyễn Văn Tân', '2001-8-9', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg','0362704387','tan@gmail.com','Ký túc xá khu A đại học Quốc gia TP.HCM'); -- mk là 123456
+--
+-- Dumping data for table `rating`
+--
 
--- 4. Rating
-INSERT INTO Rating VALUES (1,'Sản phẩm thật tuyệt vời', '5', 2, 6);
-INSERT INTO Rating VALUES (2,'Nước chanh rất ngon', '4', 2, 4);
+INSERT INTO `rating` (`rId`, `comment`, `star`, `aId`, `pId`) VALUES
+(1, 'Sản phẩm thật tuyệt vời', 5, 2, 6),
+(2, 'Nước chanh rất ngon', 4, 2, 4);
 
--- 5. StatusOrder
-INSERT INTO StatusOrder VALUES(1,'Waiting');
-INSERT INTO StatusOrder VALUES(2,'Confirmed');
-INSERT INTO StatusOrder VALUES(3,'Cancel');
+-- --------------------------------------------------------
 
--- 6. Ordering, 7, 8
-INSERT INTO Ordering VALUES ('','2023-4-14 09:28:25','Ký túc xá khu B Đại học quốc gia TP.HCM','0934897659',1);
-SELECT 
-    @oId:=MAX(oId)
-FROM
-    ordering;
+--
+-- Table structure for table `s`
+--
 
-INSERT INTO orderproduct VALUES (@oId, 2, 1);
-INSERT INTO orderproduct VALUES (@oId, 3, 2);
-INSERT INTO orderproduct VALUES (@oId, 10, 1);
+CREATE TABLE `s` (
+  `_no` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO orderAccount VALUES (@oId, 2);
+--
+-- Dumping data for table `s`
+--
 
+INSERT INTO `s` (`_no`) VALUES
+(1),
+(2),
+(3);
 
-INSERT INTO Ordering VALUES ('','2023-4-14 09:20:37','26 Trường Chinh, thành phố Pleiku, tỉnh Gia Lai','0134892371',2);
-SELECT 
-    @oId:=MAX(oId)
-FROM
-    ordering;
+-- --------------------------------------------------------
 
-INSERT INTO orderproduct VALUES (@oId, 6, 1);
-INSERT INTO orderproduct VALUES (@oId, 9, 5);
+--
+-- Table structure for table `statusorder`
+--
 
-INSERT INTO orderAccount VALUES (@oId, 2);
+CREATE TABLE `statusorder` (
+  `sId` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `statusorder`
+--
 
-INSERT INTO Ordering VALUES ('','2023-4-14 09:20:37','58 Lê Lai, Ba Đình, Hà Nội','01648785758',3);
-SELECT 
-    @oId:=MAX(oId)
-FROM
-    ordering;
+INSERT INTO `statusorder` (`sId`, `name`) VALUES
+(3, 'Cancel'),
+(2, 'Confirmed'),
+(1, 'Waiting');
 
-INSERT INTO orderproduct VALUES (@oId, 20, 1);
+--
+-- Indexes for dumped tables
+--
 
-INSERT INTO orderAccount VALUES (@oId, NULL);
+--
+-- Indexes for table `account`
+--
+ALTER TABLE `account`
+  ADD PRIMARY KEY (`aId`),
+  ADD UNIQUE KEY `username` (`username`);
 
--- 7. OrderProduct
--- INSERT INTO OrderProduct VALUES ('BK14042023000001', 2, 1);
--- INSERT INTO OrderProduct VALUES ('BK14042023000001', 3, 2);
--- INSERT INTO OrderProduct VALUES ('BK14042023000001', 10, 1);
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`accountId`,`productId`),
+  ADD KEY `fk_Cart_Product_pId` (`productId`);
 
--- INSERT INTO OrderProduct VALUES ('BK14042023000002', 6, 1);
--- INSERT INTO OrderProduct VALUES ('BK14042023000002', 9, 5);
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`cId`),
+  ADD UNIQUE KEY `name` (`name`);
 
--- INSERT INTO OrderProduct VALUES ('BK14042023000003', 20, 1);
+--
+-- Indexes for table `orderaccount`
+--
+ALTER TABLE `orderaccount`
+  ADD PRIMARY KEY (`oId`),
+  ADD KEY `fk_oAccount_Account_aId` (`aId`);
 
--- 8. orderAccount
--- INSERT INTO orderAccount VALUES ('BK14042023000001', 2);
--- INSERT INTO orderAccount VALUES ('BK14042023000002', 2);
--- INSERT INTO orderAccount VALUES ('BK14042023000003', NULL);
+--
+-- Indexes for table `ordering`
+--
+ALTER TABLE `ordering`
+  ADD PRIMARY KEY (`oId`),
+  ADD KEY `fk_Ordering_Status_sId` (`statusId`);
+
+--
+-- Indexes for table `orderproduct`
+--
+ALTER TABLE `orderproduct`
+  ADD PRIMARY KEY (`oId`,`pId`),
+  ADD KEY `fk_oProduct_Product_pId` (`pId`);
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`pId`),
+  ADD UNIQUE KEY `image` (`image`),
+  ADD KEY `fk_product_category_id` (`categoryId`);
+
+--
+-- Indexes for table `rating`
+--
+ALTER TABLE `rating`
+  ADD PRIMARY KEY (`rId`),
+  ADD KEY `fk_rating_account_aId` (`aId`),
+  ADD KEY `fk_rating_product_pId` (`pId`);
+
+--
+-- Indexes for table `s`
+--
+ALTER TABLE `s`
+  ADD PRIMARY KEY (`_no`);
+
+--
+-- Indexes for table `statusorder`
+--
+ALTER TABLE `statusorder`
+  ADD PRIMARY KEY (`sId`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `account`
+--
+ALTER TABLE `account`
+  MODIFY `aId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `cId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `pId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `rating`
+--
+ALTER TABLE `rating`
+  MODIFY `rId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `s`
+--
+ALTER TABLE `s`
+  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `statusorder`
+--
+ALTER TABLE `statusorder`
+  MODIFY `sId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `fk_Cart_Account_oId` FOREIGN KEY (`accountId`) REFERENCES `account` (`aId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_Cart_Product_pId` FOREIGN KEY (`productId`) REFERENCES `product` (`pId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `orderaccount`
+--
+ALTER TABLE `orderaccount`
+  ADD CONSTRAINT `fk_oAccount_Account_aId` FOREIGN KEY (`aId`) REFERENCES `account` (`aId`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_oAccount_Ordering_oId` FOREIGN KEY (`oId`) REFERENCES `ordering` (`oId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `ordering`
+--
+ALTER TABLE `ordering`
+  ADD CONSTRAINT `fk_Ordering_Status_sId` FOREIGN KEY (`statusId`) REFERENCES `statusorder` (`sId`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `orderproduct`
+--
+ALTER TABLE `orderproduct`
+  ADD CONSTRAINT `fk_oProduct_Ordering_oId` FOREIGN KEY (`oId`) REFERENCES `ordering` (`oId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_oProduct_Product_pId` FOREIGN KEY (`pId`) REFERENCES `product` (`pId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `product`
+--
+ALTER TABLE `product`
+  ADD CONSTRAINT `fk_product_category_id` FOREIGN KEY (`categoryId`) REFERENCES `category` (`cId`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `rating`
+--
+ALTER TABLE `rating`
+  ADD CONSTRAINT `fk_rating_account_aId` FOREIGN KEY (`aId`) REFERENCES `account` (`aId`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_rating_product_pId` FOREIGN KEY (`pId`) REFERENCES `product` (`pId`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
