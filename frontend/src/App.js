@@ -1,12 +1,12 @@
 import './App.css';
 import './Login.css';
-import About from './components/About';
+import About from './pages/About';
 import Footer from './components/Footer';
-import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Navbar from './components/Navbar';
-import News from './components/News';
+import News from './pages/News';
 import { BrowserRouter as Router, Routes, Route, Link, BrowserRouter } from "react-router-dom";
 
 
