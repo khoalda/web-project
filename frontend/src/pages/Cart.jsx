@@ -1,5 +1,4 @@
 import React from 'react'
-<link rel="stylesheet" href="./Cart.css"></link>;
 
 
 const Cart = () => {
@@ -14,14 +13,19 @@ const Cart = () => {
                   <div class="col-md-3">
                     <img src="https://marketplace.canva.com/EAFB178SOVE/1/0/1600w/canva-crispy-n%E2%80%99-crunchy-fried-chicken-brown-gastronomy-instagram-post-PTNnFAi_dLU.jpg" class="img-fluid rounded-start" alt="..."/>
                   </div>
-                  <div class="col-md-5" style={{paddingTop: "10%"}}>
+                  <div class="col-md-4" style={{paddingTop: "10%"}}>
                     <div class="card-body">
                       <h6 class="card-title fw-bold">Gà Giòn Không Xương</h6>
                     </div>
                   </div>
-                  <div class="col-md-2" style={{paddingTop: "10%"}}>
+                  <div class="col-md-1" style={{paddingTop: "10%"}}>
                     <div class="card-body">
                       <h6 class="card-title fw-bold">1</h6>
+                    </div>
+                  </div>
+                  <div class="col-md-2" style={{paddingTop: "10%"}}>
+                    <div class="card-body">
+                      <h6 class="card-title fw-bold">45.000₫</h6>
                     </div>
                   </div>
                   <div class="col-md-2" style={{paddingTop: "10%"}}>
@@ -39,14 +43,19 @@ const Cart = () => {
                   <div class="col-md-3">
                     <img src="https://marketplace.canva.com/EAFId9YclVc/1/0/1600w/canva-pizza-delicious-instagram-post-I_b_OQJOWog.jpg" class="card-img-top" alt="..."/>
                   </div>
-                  <div class="col-md-5" style={{paddingTop: "10%"}}>
+                  <div class="col-md-4" style={{paddingTop: "10%"}}>
                     <div class="card-body">
                       <h6 class="card-title fw-bold">Pizza Thịt Xông Khói</h6>
                     </div>
                   </div>
-                  <div class="col-md-2" style={{paddingTop: "10%"}}>
+                  <div class="col-md-1" style={{paddingTop: "10%"}}>
                     <div class="card-body">
                       <h6 class="card-title fw-bold">1</h6>
+                    </div>
+                  </div>
+                  <div class="col-md-2" style={{paddingTop: "10%"}}>
+                    <div class="card-body">
+                      <h6 class="card-title fw-bold">129.000₫</h6>
                     </div>
                   </div>
                   <div class="col-md-2" style={{paddingTop: "10%"}}>

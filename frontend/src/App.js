@@ -1,6 +1,5 @@
 import './App.css';
 import './Login.css';
-import './Cart.css';
 import About from './pages/About';
 import Footer from './components/Footer';
 import Home from './pages/Home';
