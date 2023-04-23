@@ -1,7 +1,7 @@
-export const Categories = {
-  1: "Thức uống",
-  2: "Khoai tây",
-  3: "Gà",
-  4: "Hambuger",
-  5: "Salad",
-};
+export const Categories = [
+  { key: "1", name: "Beverages", value: "Thức uống" },
+  { key: "2", name: "Potato", value: "Khoai tây" },
+  { key: "3", name: "Chicken", value: "Gà" },
+  { key: "4", name: "Burgers", value: "Hambuger" },
+  { key: "5", name: "Salads", value: "Salad" },
+];
