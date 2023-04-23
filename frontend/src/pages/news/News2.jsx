@@ -5,7 +5,7 @@ export default function News2() {
     <div style={{backgroundColor: "#F2F4F3"}}>
         <div className='container'>
             <div className='container'>
-                <img src="https://marketplace.canva.com/EAFH5olFjJw/1/0/1600w/canva-delicious-burger-instagram-post-RTUyjcM0leU.jpg" class="card-img-top py-5" alt="..."/>
+                <img src="https://marketplace.canva.com/EAFH5olFjJw/1/0/1600w/canva-delicious-burger-instagram-post-RTUyjcM0leU.jpg" className="card-img-top py-5" alt="..."/>
                 <center><h2 className='fw-bold'>THƯỞNG THỨC HƯƠNG VỊ BURGER THƯỢNG HẠNG HOÀN TOÀN MỚI</h2></center>
                 <p className='py-3'>
                     <h2  style={{color: "#49111C"}}><i style={{fontFamily: "lobster"}}>Lần đầu tiên xuất hiện tại JolliBee: Bánh Burger Brioche.</i></h2><br/>

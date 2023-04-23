@@ -5,7 +5,7 @@ export default function News3() {
     <div style={{backgroundColor: "#F2F4F3"}}>
         <div className='container'>
             <div className='container'>
-                <img src="https://dscnnwjxnwl3f.cloudfront.net/media/mageplaza/blog/post/p/l/playtogether_web.jpg" class="card-img-top py-5" alt="..."/>
+                <img src="https://dscnnwjxnwl3f.cloudfront.net/media/mageplaza/blog/post/p/l/playtogether_web.jpg" className="card-img-top py-5" alt="..."/>
                 <center><h2 className='fw-bold'>JOLLIBEE ĐÃ CÓ MẶT TẠI GAME PLAY TOGETHER</h2></center>
                 <p className='py-3'>
                     <b><i>Hế lô các thần dân của đảo Kaia, JolliBee vừa "khai trương" một cửa hàng mới tại khu trung tâm đó.<br/>
