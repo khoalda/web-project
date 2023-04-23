@@ -2,13 +2,15 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api/users";
+import { useSnackbar } from "notistack";
 
 <link rel="stylesheet" href="./Login.css"></link>;
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
 
@@ -22,16 +24,19 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    try {
-      const response = await login(username, password);
-      if (response.status === 200) {
+    login(username, password)
+      .then((response) => {
+        enqueueSnackbar("Đăng nhập thành công!", {
+          variant: "success",
+        });
+        sessionStorage.setItem("user", "customer");
         navigate("/");
-      } else {
-        setError("Invalid username or password");
-      }
-    } catch (error) {
-      setError("An error occurred during login");
-    }
+      })
+      .catch((error) => {
+        enqueueSnackbar(error, {
+          variant: "error",
+        });
+      });
   };
 
   return (
@@ -39,15 +44,22 @@ const Login = () => {
       <div className="full-screen-container">
         <div className="login-container">
           <h3 className="login-title">Welcome</h3>
-          {error && <div className="error">{error}</div>}
           <form onSubmit={handleLogin}>
             <div className="input-group">
               <label>Username</label>
-              <input type="text" value={username} onChange={handleUsernameChange} />
+              <input
+                type="text"
+                value={username}
+                onChange={handleUsernameChange}
+              />
             </div>
             <div className="input-group">
               <label>Password</label>
-              <input type="password" value={password} onChange={handlePasswordChange} />
+              <input
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
             </div>
             <button type="submit" className="login-button">
               Log In

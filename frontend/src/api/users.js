@@ -1,10 +1,12 @@
 import instance from "../axios";
 
 export const login = (username, password) => {
-  return instance.post("/users/login.php", {
-    username,
-    password,
-  });
+  const user = {
+    username: username,
+    password: password,
+  };
+
+  return instance.post("/users/login.php", JSON.stringify(user));
 };
 
 export const register = (username, email, password) => {
