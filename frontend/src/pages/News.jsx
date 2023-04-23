@@ -18,7 +18,7 @@ export default function News() {
                     <hr/>
                     <center>
                         <button type="button" class="btn btn-light">
-                            <p class="card-title fw-bold" style={{color: "#49111C"}}>Xem thêm</p>
+                            <a class="card-title fw-bold" style={{color: "#49111C"}} href="/news/news1">Xem thêm</a>
                         </button>
                     </center>
                 </div>
@@ -33,7 +33,7 @@ export default function News() {
                     <hr/>
                     <center>
                         <button type="button" class="btn btn-light">
-                            <p class="card-title fw-bold" style={{color: "#49111C"}}>Xem thêm</p>
+                            <a class="card-title fw-bold" style={{color: "#49111C"}} href="/news/news2">Xem thêm</a>
                         </button>
                     </center>
                 </div>
@@ -48,7 +48,7 @@ export default function News() {
                     <hr/>
                     <center>
                         <button type="button" class="btn btn-light">
-                            <p class="card-title fw-bold" style={{color: "#49111C"}}>Xem thêm</p>
+                            <a class="card-title fw-bold" style={{color: "#49111C"}} href="/news/news3">Xem thêm</a>
                         </button>
                     </center>
                 </div>
@@ -63,7 +63,7 @@ export default function News() {
                     <hr/>
                     <center>
                         <button type="button" class="btn btn-light">
-                            <p class="card-title fw-bold" style={{color: "#49111C"}}>Xem thêm</p>
+                            <a class="card-title fw-bold" style={{color: "#49111C"}} href="/news/news4">Xem thêm</a>
                         </button>
                     </center>
                 </div>
@@ -78,7 +78,7 @@ export default function News() {
                     <hr/>
                     <center>
                         <button type="button" class="btn btn-light">
-                            <p class="card-title fw-bold" style={{color: "#49111C"}}>Xem thêm</p>
+                            <a class="card-title fw-bold" style={{color: "#49111C"}} href="news/news2">Xem thêm</a>
                         </button>
                     </center>
                 </div>
@@ -93,7 +93,7 @@ export default function News() {
                     <hr/>
                     <center>
                         <button type="button" class="btn btn-light">
-                            <p class="card-title fw-bold" style={{color: "#49111C"}}>Xem thêm</p>
+                            <a class="card-title fw-bold" style={{color: "#49111C"}} href="news/news2">Xem thêm</a>
                         </button>
                     </center>
                 </div>
