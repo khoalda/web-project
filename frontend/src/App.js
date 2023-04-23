@@ -10,6 +10,11 @@ import News from './pages/News';
 import { BrowserRouter as Router, Routes, Route, Link, BrowserRouter } from "react-router-dom";
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import Product from './pages/Product';
+import News1 from './pages/news/News1';
+import News2 from './pages/news/News2';
+import News3 from './pages/news/News3';
+import News4 from './pages/news/News4';
 
 
 
@@ -26,6 +31,11 @@ function App() {
             <Route path='/register' element={< Register />}></Route>
             <Route path='/cart' element={< Cart />}></Route>
             <Route path='/checkout' element={< Checkout />}></Route>
+            <Route path='/product' element={< Product />}></Route>
+            <Route path='/news/news1' element={< News1 />}></Route>
+            <Route path='/news/news2' element={< News2 />}></Route>
+            <Route path='/news/news3' element={< News3 />}></Route>
+            <Route path='/news/news4' element={< News4 />}></Route>
         </Routes>
       </BrowserRouter>
       <Footer/>
