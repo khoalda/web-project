@@ -1,14 +1,18 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { login } from "../api/users";
 import { useSnackbar } from "notistack";
+import { useSelector, useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/slices/auth";
 
 <link rel="stylesheet" href="./Login.css"></link>;
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -31,6 +35,7 @@ const Login = () => {
         });
         sessionStorage.setItem("user", "customer");
         navigate("/");
+        dispatch(loginSuccess("customer"));
       })
       .catch((error) => {
         enqueueSnackbar(error, {
@@ -41,6 +46,7 @@ const Login = () => {
 
   return (
     <div>
+      {user && <Navigate to="/" replace={true} />}
       <div className="full-screen-container">
         <div className="login-container">
           <h3 className="login-title">Welcome</h3>
