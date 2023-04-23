@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { readAll } from "../api/products";
 import { Categories } from "../constants/categories";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slices/cart";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("");
   const [sortType, setSortType] = useState("");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -97,7 +101,11 @@ const Product = () => {
                         </p>
                       </center>
                     </div>
-                    <button type="button" className="btn btn-light fw-bold">
+                    <button
+                      type="button"
+                      className="btn btn-light fw-bold"
+                      onClick={() => dispatch(addToCart(product))}
+                    >
                       Thêm vào giỏ hàng
                     </button>
                   </div>
