@@ -1,13 +1,32 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  removeFromCart,
+  decrementCartItem,
+  incrementCartItem,
+} from "../redux/slices/cart";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
 
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
+
+  const decrementItem = (item) => {
+    dispatch(decrementCartItem(item));
+  };
+
+  const incrementItem = (item) => {
+    dispatch(incrementCartItem(item));
+  };
+
+  const removeItem = (item) => {
+    dispatch(removeFromCart(item));
+  };
 
   return (
     <div>
@@ -28,11 +47,12 @@ const Cart = () => {
                   <div className="col-md-4" style={{ paddingTop: "10%" }}>
                     <div className="card-body">
                       <h6 className="card-title fw-bold">{item.name}</h6>
-                    </div>
-                  </div>
-                  <div className="col-md-1" style={{ paddingTop: "10%" }}>
-                    <div className="card-body">
-                      <h6 className="card-title fw-bold">{item.quantity}</h6>
+                      <button onClick={() => decrementItem(item)}>-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => incrementItem(item)}>+</button>
+                      {item.quantity === 0 && (
+                        <button onClick={() => removeItem(item)}>Remove</button>
+                      )}
                     </div>
                   </div>
                   <div className="col-md-2" style={{ paddingTop: "10%" }}>
@@ -97,7 +117,7 @@ const Cart = () => {
               <div className="col-3 py-3">
                 <p>{totalPrice}₫</p>
                 <p>10.000₫</p>
-                <p className="fw-bold">184.000₫</p>
+                <p className="fw-bold">{totalPrice + 100000}₫</p>
               </div>
               <hr />
               <a
