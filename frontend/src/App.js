@@ -21,7 +21,20 @@ import News2 from "./pages/news/News2";
 import News3 from "./pages/news/News3";
 import News4 from "./pages/news/News4";
 
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { loginSuccess } from "./redux/slices/auth";
+
 function App() {
+  const user = sessionStorage.getItem("user");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(loginSuccess(user));
+    }
+  }, [dispatch, user]);
+
   return (
     <>
       <BrowserRouter>
