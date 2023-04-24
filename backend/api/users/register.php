@@ -10,7 +10,11 @@ require_once '../../config/Role.php';
 $user = new UserModel();
 // Get data
 $data = json_decode(file_get_contents("php://input"));
-if(!isset($data->username) || $data->username == "") {
+if(is_logged()) {
+    http_response_code(404);
+    echo json_encode(array('message'=>"You are logged in"));
+}
+else if(!isset($data->username) || $data->username == "") {
     http_response_code(404);
     echo json_encode(array('message'=>"Don't have the username"));
 }

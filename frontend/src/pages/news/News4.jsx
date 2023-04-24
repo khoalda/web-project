@@ -29,7 +29,7 @@ export default function News4() {
                 <br />
               </i>
             </b>
-            Nhanh chân đến ngay cửa hàng JolliBee để rước ngay một em Doraemon
+            Nhanh chân đến ngay cửa hàng BK Restaurant để rước ngay một em Doraemon
             về bạn nhé! Số lượng combo quà tặng hiện đang được bán hết rất nhanh
             đó!
             <p className="py-3"></p>

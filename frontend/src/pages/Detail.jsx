@@ -41,36 +41,43 @@ export default function Detail() {
             </div>
             <div className="col-md-7">
               <div className="card-body" style={{ marginLeft: "60px" }}>
-                <h5 className="py-3">
-                  <i className="fa fa-solid fa-tags"></i> Danh mục:{" "}
-                  {product.Cname}
-                </h5>
-
-                <h2 className="card-title fw-bold">{product.name}</h2>
-                <h2 className="card-text fw-bold" style={{ color: "#49111C" }}>
-                  {Number(product.price).toLocaleString("de-DE")} ₫
-                </h2>
-                <hr className="dashed-line" />
-
-                <h4 className="card-text fw-bold">Mô tả</h4>
-                <p>{product.description}</p>
-
-                <button
-                  type="button"
-                  className="btn btn-lg"
-                  style={{ backgroundColor: "#49111C", color: "#F2F4F3" }}
-                  onClick={() => {
-                    dispatch(addToCart(product));
-                    enqueueSnackbar(
-                      `Thêm ${product.name} vào giỏ hàng thành công!`,
-                      {
-                        variant: "success",
-                      }
-                    );
-                  }}
+                <div
+                  className="card container border-0 shadow"
+                  style={{ backgroundColor: "#A9927D", color: "#F2F4F3" }}
                 >
-                  Thêm vào giỏ hàng
-                </button>
+                  <h5 className="py-4">
+                    <i className="fa fa-solid fa-tags"></i> Danh mục:{" "}
+                    {product.Cname}
+                  </h5>
+
+                  <h2 className="card-title fw-bold">{product.name}</h2>
+                  <h2
+                    className="card-text fw-bold"
+                    style={{ color: "#5E503F" }}
+                  >
+                    {Number(product.price).toLocaleString("de-DE")} ₫
+                  </h2>
+                  <hr className="dashed-line" />
+
+                  <h4 className="card-text fw-bold">Mô tả</h4>
+                  <p>{product.description}</p>
+
+                  <button
+                    type="button"
+                    className="btn btn-lg"
+                    style={{ backgroundColor: "#5E503F", color: "#F2F4F3" }}
+                    onClick={() => {
+                      dispatch(addToCart(product));
+
+                      enqueueSnackbar(`Đã thêm ${product.name} vào giỏ hàng`, {
+                        variant: "success",
+                      });
+                    }}
+                  >
+                    Thêm vào giỏ hàng
+                  </button>
+                  <div className="py-3"></div>
+                </div>
               </div>
             </div>
           </div>

@@ -99,5 +99,118 @@ class UserModel extends Database {
             return array("status"=>true,"message"=>"Successful","data"=>$row);
         }
     }
+    public function updateInfo($aId, $data){
+        $query0 = "SELECT * FROM $this->dbTable WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt0 = $this->conn->prepare($query0);
+        // Gán giá trị vào các tham số ẩn
+        $stmt0->bind_param("i",$aId);
+        $stmt0->execute();
+        $result0 = $stmt0->get_result();
+        $count0 = $result0->num_rows;
+        if($count0 != 1) return array("status"=>false,"message"=>"Error aId");
+        
+        $name = $data->name;
+        $dateOfBirth = isset($data->dateOfBirth) ? $data->dateOfBirth : NULL;
+        $urlAvatar = isset($data->urlAvatar) ? $data->urlAvatar : NULL;
+        $phoneNumber = $data->phoneNumber;
+        $email = isset($data->email) ? $data->email : NULL;
+        $address = isset($data->address) ? $data->address : NULL;
+
+        $query = "UPDATE $this->dbTable
+        SET name = ?, dateOfBirth = ?, urlAvatar = ?, phoneNumber = ?, email = ?, address = ?
+        WHERE aId = ?";
+
+        // Tạo đối tượng repared
+        $stmt = $this->conn->prepare($query);
+        // Gán giá trị vào các tham số ẩn
+        $stmt->bind_param("ssssssi", $name, $dateOfBirth, $urlAvatar, $phoneNumber, $email, $address, $aId);
+
+        if($stmt->execute()) return array('status'=>true,'message'=>'');
+        else return array('status'=>false,'message'=>'Error query');
+    }
+    public function updatePassWord($currUsername, $oldPassWord, $newPassWord) {
+        $query = "SELECT password FROM $this->dbTable WHERE username = ?";
+        // Tạo đối tượng repared
+        $stmt = $this->conn->prepare($query);
+        // Gán giá trị vào các tham số ẩn
+        $stmt->bind_param("s", $currUsername);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $count = $result->num_rows;
+        if($count != 1) return array("status"=>false,"message"=>"Error current username or database");
+
+        $row = $result->fetch_assoc();
+        if (md5($oldPassWord) != $row['password']) return array("status"=>false,"message"=>"Incorrect password");
+
+        $query2 = "UPDATE $this->dbTable 
+        SET password = ?
+        WHERE username = ?";
+        // Tạo đối tượng repared
+        $stmt2 = $this->conn->prepare($query2);
+        $md5NewPassWord = md5($newPassWord);
+        // Gán giá trị vào các tham số ẩn
+        $stmt2->bind_param("ss", $md5NewPassWord, $currUsername);
+        if($stmt2->execute()) return array("status"=>true,"message"=>"");
+        else return array("status"=>false,"message"=>"Error system");
+
+    }
+    public function updateStatus($aId) {
+        $query0 = "SELECT level, status FROM $this->dbTable WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt0 = $this->conn->prepare($query0);
+        // Gán giá trị vào các tham số ẩn
+        $stmt0->bind_param("i", $aId);
+        $stmt0->execute();
+        $result0 = $stmt0->get_result();
+        $count0 = $result0->num_rows;
+        if ($count0 != 1) return array("status"=>false,'message'=>"Error current username or database");
+
+        $row0 = $result0->fetch_assoc();
+        if($row0['level'] == 2) return array("status"=>false,'message'=>"You don't have the right to modify other admin's information");
+        
+        $status = 1;
+        if($row0['status'] == 1) $status = 0;
+        else $status = 1;
+
+        $query = "UPDATE $this->dbTable
+        SET status = ?
+        WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt = $this->conn->prepare($query);
+        // Gán giá trị vào các tham số ẩn
+        $stmt->bind_param("ii", $status, $aId);
+        if($stmt->execute()) return array("status"=>true,"message"=>'');
+        else return array("status"=>false,"message"=>'Error system');
+
+    }
+    public function deleteOne($aId) {
+        $query0 = "SELECT * FROM $this->dbTable WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt0 = $this->conn->prepare($query0);
+        // Gán giá trị vào các tham số ẩn
+        $stmt0->bind_param("i", $aId);
+        $stmt0->execute();
+        $result0 = $stmt0->get_result();
+        $count0 = $result0->num_rows;
+        if ($count0 != 1) return array("status"=>false,'message'=>"Incorrect aId or error database");
+        
+        $row0 = $result0->fetch_assoc();
+        if($row0['level'] == 2) return array("status"=>false,'message'=>"Can't not delete admin account");
+
+        $query = "DELETE FROM $this->dbTable WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt = $this->conn->prepare($query);
+        // Gán giá trị vào các tham số ẩn
+        $stmt->bind_param("i", $aId);
+        $result = $stmt->execute();
+        return array("status"=>$result,'message'=>"Error system");
+    }
+
+    public function deleteAll() {
+        $query = "DELETE FROM $this->dbTable WHERE level = 1";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute();
+    }
 }
 ?>
