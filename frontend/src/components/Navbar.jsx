@@ -67,7 +67,7 @@ const Navbar = () => {
               {user ? (
                 <>
                   <Link to="/profile">
-                  <img src="https://img.hoidap247.com/picture/answer/20210427/large_1619529081459.jpg" alt="Avatar" style={{width:"50px", borderRadius: "50%"}}/>
+                  <img src="https://img.hoidap247.com/picture/answer/20210427/large_1619529081459.jpg" alt="Avatar" style={{width:"40px", borderRadius: "50%"}}/>
                   </Link>
                   <Link to="/cart" className="btn btn-outline-dark ms-2">
                     <i className="fa fa-shopping-cart me-1"></i>Giỏ hàng (
