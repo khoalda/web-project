@@ -4,6 +4,7 @@ import { Categories } from "../constants/categories";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cart";
 import { Link } from "react-router-dom";
+import { useSnackbar } from "notistack";
 import "./Product.css";
 
 const Product = () => {
@@ -11,6 +12,7 @@ const Product = () => {
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("");
   const [sortType, setSortType] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const dispatch = useDispatch();
 
@@ -126,7 +128,15 @@ const Product = () => {
                     <button
                       type="button"
                       className="btn btn-light fw-bold"
-                      onClick={() => dispatch(addToCart(product))}
+                      onClick={() => {
+                        dispatch(addToCart(product));
+                        enqueueSnackbar(
+                          `Thêm ${product.name} vào giỏ hàng thành công!`,
+                          {
+                            variant: "success",
+                          }
+                        );
+                      }}
                     >
                       Thêm vào giỏ hàng
                     </button>

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { readOne } from "../api/products";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cart";
+import { useSnackbar } from "notistack";
 
 export default function Detail() {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const pId = window.location.pathname.split("/")[2];
   const dispatch = useDispatch();
@@ -57,7 +59,15 @@ export default function Detail() {
                   type="button"
                   className="btn btn-lg"
                   style={{ backgroundColor: "#49111C", color: "#F2F4F3" }}
-                  onClick={() => dispatch(addToCart(product))}
+                  onClick={() => {
+                    dispatch(addToCart(product));
+                    enqueueSnackbar(
+                      `Thêm ${product.name} vào giỏ hàng thành công!`,
+                      {
+                        variant: "success",
+                      }
+                    );
+                  }}
                 >
                   Thêm vào giỏ hàng
                 </button>
