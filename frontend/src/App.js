@@ -29,7 +29,8 @@ import ManageUsers from "./pages/admin/ManageUsers";
 
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { loginSuccess } from "./redux/slices/auth";
+import { loginSuccess, updateInfo } from "./redux/slices/auth";
+import { readMyInfo } from "./api/users";
 
 
 function App() {
@@ -40,6 +41,9 @@ function App() {
     if (user) {
       const userInfo = JSON.parse(user);
       dispatch(loginSuccess(userInfo));
+      readMyInfo().then((res) => {
+        dispatch(updateInfo(res.data));
+      });
     }
   }, [dispatch, user]);
 

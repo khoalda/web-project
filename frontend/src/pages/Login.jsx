@@ -4,7 +4,9 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { login } from "../api/users";
 import { useSnackbar } from "notistack";
 import { useSelector, useDispatch } from "react-redux";
-import { loginSuccess } from "../redux/slices/auth";
+import { loginSuccess, updateInfo } from "../redux/slices/auth";
+import { readMyInfo } from "../api/users";
+
 
 <link rel="stylesheet" href="./Login.css"></link>;
 
@@ -13,9 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-
   const { enqueueSnackbar } = useSnackbar();
-
   const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
@@ -37,6 +37,9 @@ const Login = () => {
         sessionStorage.setItem("user", JSON.stringify(response.data.data));
         navigate("/");
         dispatch(loginSuccess(response.data.data));
+        readMyInfo().then((res) => {
+          dispatch(updateInfo(res.data));
+        });
       })
       .catch((error) => {
         enqueueSnackbar(error, {
