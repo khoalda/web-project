@@ -97,7 +97,7 @@ const Product = () => {
                           style={{ color: "#49111C" }}
                         >
                           {product.name} <br />
-                          <b className="fw-bold">{product.price} ₫</b>
+                          <b className="fw-bold">{Number(product.price).toLocaleString("de-DE")} ₫</b>
                         </p>
                       </center>
                     </div>

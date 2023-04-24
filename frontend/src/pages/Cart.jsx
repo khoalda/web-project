@@ -57,13 +57,13 @@ const Cart = () => {
                   </div>
                   <div className="col-md-2" style={{ paddingTop: "10%" }}>
                     <div className="card-body">
-                      <h6 className="card-title fw-bold">{item.price}₫</h6>
+                      <h6 className="card-title fw-bold">{Number(item.price).toLocaleString("de-DE")}₫</h6>
                     </div>
                   </div>
                   <div className="col-md-2" style={{ paddingTop: "10%" }}>
                     <div className="card-body">
                       <h6 className="card-title fw-bold">
-                        {item.price * item.quantity}₫
+                        {(item.price * item.quantity).toLocaleString("de-DE")}₫
                       </h6>
                     </div>
                   </div>
@@ -115,9 +115,9 @@ const Cart = () => {
                 <p className="fw-bold">Tổng thanh toán</p>
               </div>
               <div className="col-3 py-3">
-                <p>{totalPrice}₫</p>
+                <p>{totalPrice.toLocaleString("de-DE")}₫</p>
                 <p>10.000₫</p>
-                <p className="fw-bold">{totalPrice + 100000}₫</p>
+                <p className="fw-bold">{(totalPrice + 10000).toLocaleString("de-DE")}₫</p>
               </div>
               <hr />
               <a
