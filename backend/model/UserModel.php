@@ -21,15 +21,15 @@ class UserModel extends Database {
         // // $stmt->bindParam(2, $username);
         // $stmt->execute($data);
 
-        if(mysqli_num_rows($query_stmt) != 1) return array('status'=>false, 'message'=>'Invalid username');
+        if(mysqli_num_rows($query_stmt) != 1) return array('status'=>false, 'message'=>'Invalid username', 'data'=>NULL);
         else
         {
             $row = mysqli_fetch_assoc($query_stmt);
             $md5Password = md5($password);
-            if($md5Password != $row['password']) return array('status'=>false, 'message'=>'Invalid password');
+            if($md5Password != $row['password']) return array('status'=>false, 'message'=>'Invalid password', 'data'=>NULL);
             else {
-                set_logged($username, $row['level']);
-                return array('status'=>true, 'message'=>'');
+                set_logged($username, $row['level'], $row['aId']);
+                return array('status'=>true, 'message'=>'', 'data'=>array('aId'=>$row['aId'],'level'=>$row['level']));
             }
         }
     }
@@ -71,6 +71,32 @@ class UserModel extends Database {
             return array("status"=>True,"message"=>"Register successfully");
         } else {
             return array("status"=>False,"message"=>"Error query");
+        }
+    }
+    public function readAll() {
+        $query = "SELECT * FROM $this->dbTable";
+        $stmt = mysqli_query($this->conn, $query);
+        $dataResult = array();
+        if (mysqli_num_rows($stmt) == 0) return array("status"=>false,"message"=>"Empty database","data"=>NULL);
+        while($row = mysqli_fetch_assoc($stmt)) {
+            $dataResult[] = $row;
+        }
+        return array("status"=>True,"message"=>"Successful","data"=>$dataResult);
+    }
+    public function readOne($aId){
+        $query = "SELECT * FROM $this->dbTable WHERE aId = ?";
+
+        // Tạo đối tượng repared
+        $stmt = $this->conn->prepare($query);
+        // Gán giá trị vào các tham số ẩn
+        $stmt->bind_param("i",$aId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $count = $result->num_rows;
+        if($count != 1) return array("status"=>false,"message"=>"Error aId","data"=>NULL);
+        else {
+            $row = $result->fetch_assoc();
+            return array("status"=>true,"message"=>"Successful","data"=>$row);
         }
     }
 }

@@ -2,10 +2,11 @@
 require_once 'Session.php';
 
 // Hàm thiết lập là đã đăng nhập
-function set_logged($username, $level){
+function set_logged($username, $level, $aId){
     session_set('ss_user_token', array(
         'username' => $username,
-        'level' => $level
+        'level' => $level,
+        'aId' => $aId
     ));
 }
  
@@ -41,4 +42,9 @@ function get_current_level(){
     return isset($user['level']) ? $user['level'] : '';
 }
 
+// Lấy aId người dùng hiện tại
+function get_current_aId(){
+    $user  = is_logged();
+    return isset($user['aId']) ? $user['aId'] : '';
+}
 ?>

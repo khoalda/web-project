@@ -26,7 +26,7 @@ else {
     $result = $user->login($data);
     if($result['status']) {
         http_response_code(200);
-        echo json_encode(array('message' => 'Login successful'));
+        echo json_encode(array('message' => 'Login successful','data'=>$result['data']));
     }
     else {
         http_response_code(404);
