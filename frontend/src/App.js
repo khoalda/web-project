@@ -21,6 +21,9 @@ import News2 from "./pages/news/News2";
 import News3 from "./pages/news/News3";
 import News4 from "./pages/news/News4";
 import Detail from "./pages/Detail";
+import ManageOrders from "./pages/admin/ManageOrders";
+import ManageProducts from "./pages/admin/ManageProducts";
+import ManageUsers from "./pages/admin/ManageUsers";
 
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -32,7 +35,8 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      dispatch(loginSuccess(user));
+      const userInfo = JSON.parse(user);
+      dispatch(loginSuccess(userInfo));
     }
   }, [dispatch, user]);
 
@@ -53,6 +57,9 @@ function App() {
           <Route path="/news/news2" element={<News2 />}></Route>
           <Route path="/news/news3" element={<News3 />}></Route>
           <Route path="/news/news4" element={<News4 />}></Route>
+          <Route path="/admin/product" element={<ManageProducts />}></Route>
+          <Route path="/admin/order" element={<ManageOrders />}></Route>
+          <Route path="/admin/user" element={<ManageUsers />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>

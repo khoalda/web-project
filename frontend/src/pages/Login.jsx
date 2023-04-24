@@ -30,12 +30,13 @@ const Login = () => {
     event.preventDefault();
     login(username, password)
       .then((response) => {
+        console.log(response);
         enqueueSnackbar("Đăng nhập thành công!", {
           variant: "success",
         });
-        sessionStorage.setItem("user", "customer");
+        sessionStorage.setItem("user", JSON.stringify(response.data.data));
         navigate("/");
-        dispatch(loginSuccess("customer"));
+        dispatch(loginSuccess(response.data.data));
       })
       .catch((error) => {
         enqueueSnackbar(error, {
