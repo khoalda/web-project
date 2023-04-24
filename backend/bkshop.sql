@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2023 at 11:22 AM
+-- Generation Time: Apr 24, 2023 at 03:52 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -37,16 +37,17 @@ CREATE TABLE `account` (
   `urlAvatar` varchar(255) DEFAULT NULL,
   `phoneNumber` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL
+  `address` varchar(255) DEFAULT NULL,
+  `status` int(1) NOT NULL CHECK (`status` >= 0 and `status` <= 1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`aId`, `username`, `password`, `level`, `name`, `dateOfBirth`, `urlAvatar`, `phoneNumber`, `email`, `address`) VALUES
-(1, 'laptrinhweb', '565008d1f6f712771b27eee29afc8899', 2, 'admin', '1999-05-06', 'https://tenten.vn/tin-tuc/wp-content/uploads/2022/09/2-6.png', '0362704387', 'admin123@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM'),
-(2, 'customer', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Nguyễn Văn Tân', '2001-08-09', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg', '0362704387', 'tan@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM');
+INSERT INTO `account` (`aId`, `username`, `password`, `level`, `name`, `dateOfBirth`, `urlAvatar`, `phoneNumber`, `email`, `address`, `status`) VALUES
+(1, 'laptrinhweb', '565008d1f6f712771b27eee29afc8899', 2, 'admin', '1999-05-06', 'https://tenten.vn/tin-tuc/wp-content/uploads/2022/09/2-6.png', '0362704387', 'admin123@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1),
+(2, 'customer', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Nguyễn Văn Tân', '2001-08-09', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg', '0362704387', 'tan@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1);
 
 -- --------------------------------------------------------
 
@@ -98,9 +99,9 @@ CREATE TABLE `orderaccount` (
 --
 
 INSERT INTO `orderaccount` (`oId`, `aId`) VALUES
-('BK20042023000003', NULL),
-('BK20042023000001', 2),
-('BK20042023000002', 2);
+('BK24042023000003', NULL),
+('BK24042023000001', 2),
+('BK24042023000002', 2);
 
 -- --------------------------------------------------------
 
@@ -121,9 +122,9 @@ CREATE TABLE `ordering` (
 --
 
 INSERT INTO `ordering` (`oId`, `time`, `address`, `phoneNumber`, `statusId`) VALUES
-('BK20042023000001', '2023-04-14 09:28:25', 'Ký túc xá khu B Đại học quốc gia TP.HCM', '0934897659', 1),
-('BK20042023000002', '2023-04-14 09:20:37', '26 Trường Chinh, thành phố Pleiku, tỉnh Gia Lai', '0134892371', 2),
-('BK20042023000003', '2023-04-14 09:20:37', '58 Lê Lai, Ba Đình, Hà Nội', '01648785758', 3);
+('BK24042023000001', '2023-04-14 09:28:25', 'Ký túc xá khu B Đại học quốc gia TP.HCM', '0934897659', 1),
+('BK24042023000002', '2023-04-14 09:20:37', '26 Trường Chinh, thành phố Pleiku, tỉnh Gia Lai', '0134892371', 2),
+('BK24042023000003', '2023-04-14 09:20:37', '58 Lê Lai, Ba Đình, Hà Nội', '01648785758', 3);
 
 --
 -- Triggers `ordering`
@@ -158,12 +159,12 @@ CREATE TABLE `orderproduct` (
 --
 
 INSERT INTO `orderproduct` (`oId`, `pId`, `count`) VALUES
-('BK20042023000001', 2, 1),
-('BK20042023000001', 3, 2),
-('BK20042023000001', 10, 1),
-('BK20042023000002', 6, 1),
-('BK20042023000002', 9, 5),
-('BK20042023000003', 20, 1);
+('BK24042023000001', 2, 1),
+('BK24042023000001', 3, 2),
+('BK24042023000001', 10, 1),
+('BK24042023000002', 6, 1),
+('BK24042023000002', 9, 5),
+('BK24042023000003', 20, 1);
 
 -- --------------------------------------------------------
 
