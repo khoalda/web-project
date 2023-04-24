@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
 import News from "./pages/News";
+import Profile from "./pages/Profile";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -28,6 +30,7 @@ import ManageUsers from "./pages/admin/ManageUsers";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { loginSuccess } from "./redux/slices/auth";
+
 
 function App() {
   const user = sessionStorage.getItem("user");
@@ -53,6 +56,7 @@ function App() {
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/product" element={<Product />}></Route>
           <Route path="/product/:id" element={<Detail />}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
           <Route path="/news/news1" element={<News1 />}></Route>
           <Route path="/news/news2" element={<News2 />}></Route>
           <Route path="/news/news3" element={<News3 />}></Route>
