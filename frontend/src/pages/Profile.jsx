@@ -12,8 +12,8 @@ export default function Profile() {
                             <img src="https://img.hoidap247.com/picture/answer/20210427/large_1619529081459.jpg" alt="Avatar" style={{width:"145px", borderRadius: "50%", marginTop: "50px"}}/>
                             </div>
                             <div className='py-3'></div>
-                            <b><p className='py-1'>Username: hfjsjf</p>
-                                <p className='py-1'><i class="fa fa-solid fa-star"></i> Level: 1</p>
+                            <b><h5 className='py-1'>Username: hfjsjf</h5>
+                            <p><i class="fa fa-solid fa-star"></i> Level: 1</p>
                             </b>
                         </center>
                     </div>
