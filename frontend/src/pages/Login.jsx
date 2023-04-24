@@ -49,10 +49,10 @@ const Login = () => {
       {user && <Navigate to="/" replace={true} />}
       <div className="full-screen-container">
         <div className="login-container">
-          <h3 className="login-title">Welcome</h3>
+          <h3 className="login-title">Xin chào</h3>
           <form onSubmit={handleLogin}>
             <div className="input-group">
-              <label>Username</label>
+              <label>Tên đăng nhập</label>
               <input
                 type="text"
                 value={username}
@@ -60,7 +60,7 @@ const Login = () => {
               />
             </div>
             <div className="input-group">
-              <label>Password</label>
+              <label>Mật khẩu</label>
               <input
                 type="password"
                 value={password}
