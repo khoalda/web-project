@@ -125,9 +125,64 @@ class UserModel extends Database {
         $stmt = $this->conn->prepare($query);
         // Gán giá trị vào các tham số ẩn
         $stmt->bind_param("ssssssi", $name, $dateOfBirth, $urlAvatar, $phoneNumber, $email, $address, $aId);
-        
+
         if($stmt->execute()) return array('status'=>true,'message'=>'');
         else return array('status'=>false,'message'=>'Error query');
+    }
+    public function updatePassWord($currUsername, $oldPassWord, $newPassWord) {
+        $query = "SELECT password FROM $this->dbTable WHERE username = ?";
+        // Tạo đối tượng repared
+        $stmt = $this->conn->prepare($query);
+        // Gán giá trị vào các tham số ẩn
+        $stmt->bind_param("s", $currUsername);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $count = $result->num_rows;
+        if($count != 1) return array("status"=>false,"message"=>"Error current username or database");
+
+        $row = $result->fetch_assoc();
+        if (md5($oldPassWord) != $row['password']) return array("status"=>false,"message"=>"Incorrect password");
+
+        $query2 = "UPDATE $this->dbTable 
+        SET password = ?
+        WHERE username = ?";
+        // Tạo đối tượng repared
+        $stmt2 = $this->conn->prepare($query2);
+        $md5NewPassWord = md5($newPassWord);
+        // Gán giá trị vào các tham số ẩn
+        $stmt2->bind_param("ss", $md5NewPassWord, $currUsername);
+        if($stmt2->execute()) return array("status"=>true,"message"=>"");
+        else return array("status"=>false,"message"=>"Error system");
+
+    }
+    public function updateStatus($aId) {
+        $query0 = "SELECT level, status FROM $this->dbTable WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt0 = $this->conn->prepare($query0);
+        // Gán giá trị vào các tham số ẩn
+        $stmt0->bind_param("i", $aId);
+        $stmt0->execute();
+        $result0 = $stmt0->get_result();
+        $count0 = $result0->num_rows;
+        if ($count0 != 1) return array("status"=>false,'message'=>"Error current username or database");
+
+        $row0 = $result0->fetch_assoc();
+        if($row0['level'] == 2) return array("status"=>false,'message'=>"You don't have the right to modify other admin's information");
+        
+        $status = 1;
+        if($row0['status'] == 1) $status = 0;
+        else $status = 1;
+
+        $query = "UPDATE $this->dbTable
+        SET status = ?
+        WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt = $this->conn->prepare($query);
+        // Gán giá trị vào các tham số ẩn
+        $stmt->bind_param("ii", $status, $aId);
+        if($stmt->execute()) return array("status"=>true,"message"=>'');
+        else return array("status"=>false,"message"=>'Error system');
+
     }
 }
 ?>
