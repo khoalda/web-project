@@ -184,5 +184,33 @@ class UserModel extends Database {
         else return array("status"=>false,"message"=>'Error system');
 
     }
+    public function deleteOne($aId) {
+        $query0 = "SELECT * FROM $this->dbTable WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt0 = $this->conn->prepare($query0);
+        // Gán giá trị vào các tham số ẩn
+        $stmt0->bind_param("i", $aId);
+        $stmt0->execute();
+        $result0 = $stmt0->get_result();
+        $count0 = $result0->num_rows;
+        if ($count0 != 1) return array("status"=>false,'message'=>"Incorrect aId or error database");
+        
+        $row0 = $result0->fetch_assoc();
+        if($row0['level'] == 2) return array("status"=>false,'message'=>"Can't not delete admin account");
+
+        $query = "DELETE FROM $this->dbTable WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt = $this->conn->prepare($query);
+        // Gán giá trị vào các tham số ẩn
+        $stmt->bind_param("i", $aId);
+        $result = $stmt->execute();
+        return array("status"=>$result,'message'=>"Error system");
+    }
+
+    public function deleteAll() {
+        $query = "DELETE FROM $this->dbTable WHERE level = 1";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute();
+    }
 }
 ?>
