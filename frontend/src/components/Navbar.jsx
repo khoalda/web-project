@@ -7,6 +7,7 @@ import { logoutSuccess } from "../redux/slices/auth";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const cartItems = useSelector((state) => state.cart.items);
 
   const handleLogout = () => {
     logout();
@@ -66,7 +67,8 @@ const Navbar = () => {
               {user ? (
                 <>
                   <Link to="/cart" className="btn btn-outline-dark ms-2">
-                    <i className="fa fa-shopping-cart me-1"></i>Giỏ hàng (0)
+                    <i className="fa fa-shopping-cart me-1"></i>Giỏ hàng (
+                    {cartItems.length})
                   </Link>
                   <button
                     className="btn btn-outline-dark ms-2"

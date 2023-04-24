@@ -37,27 +37,61 @@ const Cart = () => {
             {cartItems.map((item) => (
               <div key={item.name} className="card mb-3">
                 <div className="row g-0">
-                  <div className="col-md-3">
+                  <div
+                    className="col-md-3"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
                     <img
                       src={item.image}
                       className="img-fluid rounded-start"
                       alt={item.name}
+                      style={{
+                        height: "200px",
+                        objectFit: "contain",
+                        objectPosition: "center center",
+                      }}
                     />
                   </div>
                   <div className="col-md-4" style={{ paddingTop: "10%" }}>
-                    <div className="card-body">
-                      <h6 className="card-title fw-bold">{item.name}</h6>
-                      <button onClick={() => decrementItem(item)}>-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => incrementItem(item)}>+</button>
-                      {item.quantity === 0 && (
-                        <button onClick={() => removeItem(item)}>Remove</button>
-                      )}
+                    <div className="card-body d-flex align-items-center justify-content-between">
+                      <div>
+                        <h6 className="card-title fw-bold mb-0">{item.name}</h6>
+                        {item.quantity === 0 && (
+                          <button
+                            onClick={() => removeItem(item)}
+                            className="btn btn-outline-danger btn-sm mt-2"
+                          >
+                            Remove
+                          </button>
+                        )}
+                      </div>
+                      <div className="d-flex align-items-center">
+                        <button
+                          onClick={() => decrementItem(item)}
+                          className="btn btn-outline-secondary btn-sm me-2"
+                        >
+                          -
+                        </button>
+                        <span className="fw-bold me-2">{item.quantity}</span>
+                        <button
+                          onClick={() => incrementItem(item)}
+                          className="btn btn-outline-secondary btn-sm"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
+
                   <div className="col-md-2" style={{ paddingTop: "10%" }}>
                     <div className="card-body">
-                      <h6 className="card-title fw-bold">{Number(item.price).toLocaleString("de-DE")}₫</h6>
+                      <h6 className="card-title fw-bold">
+                        {Number(item.price).toLocaleString("de-DE")}₫
+                      </h6>
                     </div>
                   </div>
                   <div className="col-md-2" style={{ paddingTop: "10%" }}>
@@ -117,7 +151,9 @@ const Cart = () => {
               <div className="col-3 py-3">
                 <p>{totalPrice.toLocaleString("de-DE")}₫</p>
                 <p>10.000₫</p>
-                <p className="fw-bold">{(totalPrice + 10000).toLocaleString("de-DE")}₫</p>
+                <p className="fw-bold">
+                  {(totalPrice + 10000).toLocaleString("de-DE")}₫
+                </p>
               </div>
               <hr />
               <a
