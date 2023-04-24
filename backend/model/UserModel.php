@@ -99,5 +99,35 @@ class UserModel extends Database {
             return array("status"=>true,"message"=>"Successful","data"=>$row);
         }
     }
+    public function updateInfo($aId, $data){
+        $query0 = "SELECT * FROM $this->dbTable WHERE aId = ?";
+        // Tạo đối tượng repared
+        $stmt0 = $this->conn->prepare($query0);
+        // Gán giá trị vào các tham số ẩn
+        $stmt0->bind_param("i",$aId);
+        $stmt0->execute();
+        $result0 = $stmt0->get_result();
+        $count0 = $result0->num_rows;
+        if($count0 != 1) return array("status"=>false,"message"=>"Error aId");
+        
+        $name = $data->name;
+        $dateOfBirth = isset($data->dateOfBirth) ? $data->dateOfBirth : NULL;
+        $urlAvatar = isset($data->urlAvatar) ? $data->urlAvatar : NULL;
+        $phoneNumber = $data->phoneNumber;
+        $email = isset($data->email) ? $data->email : NULL;
+        $address = isset($data->address) ? $data->address : NULL;
+
+        $query = "UPDATE $this->dbTable
+        SET name = ?, dateOfBirth = ?, urlAvatar = ?, phoneNumber = ?, email = ?, address = ?
+        WHERE aId = ?";
+
+        // Tạo đối tượng repared
+        $stmt = $this->conn->prepare($query);
+        // Gán giá trị vào các tham số ẩn
+        $stmt->bind_param("ssssssi", $name, $dateOfBirth, $urlAvatar, $phoneNumber, $email, $address, $aId);
+        
+        if($stmt->execute()) return array('status'=>true,'message'=>'');
+        else return array('status'=>false,'message'=>'Error query');
+    }
 }
 ?>
