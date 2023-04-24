@@ -43,22 +43,22 @@ const Navbar = () => {
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0 fs-5">
               <li className="nav-item">
                 <Link className="nav-link active" aria-current="page" to="/">
-                  Home
+                  Trang chủ
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/product">
-                  Products
+                  Sản phẩm
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/about">
-                  About
+                  Về chúng tôi
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/news">
-                  News
+                  Tin tức
                 </Link>
               </li>
             </ul>
