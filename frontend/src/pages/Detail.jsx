@@ -1,9 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { readOne } from "../api/products";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slices/cart";
 
 export default function Detail() {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const pId = window.location.pathname.split("/")[2];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      setLoading(true);
+      await readOne(pId).then((res) => {
+        setProduct(res.data);
+        console.log(res.data);
+      });
+      setLoading(false);
+    };
+    fetchProduct();
+  }, [pId]);
 
   return (
     <div style={{ backgroundColor: "#F2F4F3" }}>
@@ -15,30 +32,32 @@ export default function Detail() {
           <div className="row g-0">
             <div className="col-md-5">
               <img
-                src="https://marketplace.canva.com/EAFB178SOVE/1/0/1600w/canva-crispy-n%E2%80%99-crunchy-fried-chicken-brown-gastronomy-instagram-post-PTNnFAi_dLU.jpg"
-                class="img-fluid rounded-0"
+                src={`/${product.image}`}
+                className="img-fluid rounded-0"
                 alt="..."
               />
             </div>
             <div className="col-md-7">
               <div className="card-body" style={{ marginLeft: "60px" }}>
                 <h5 className="py-3">
-                  <i class="fa fa-solid fa-tags"></i> Category: Burger
+                  <i className="fa fa-solid fa-tags"></i> Danh mục:{" "}
+                  {product.Cname}
                 </h5>
 
-                <h2 className="card-title fw-bold">Burger Mac</h2>
+                <h2 className="card-title fw-bold">{product.name}</h2>
                 <h2 className="card-text fw-bold" style={{ color: "#49111C" }}>
-                  49.000 ₫
+                  {Number(product.price).toLocaleString("de-DE")} ₫
                 </h2>
-                <hr class="dashed-line" />
+                <hr className="dashed-line" />
 
                 <h4 className="card-text fw-bold">Mô tả</h4>
-                <p>Burger đặc biệt nhiều thịt nhiều rau</p>
+                <p>{product.description}</p>
 
                 <button
                   type="button"
-                  class="btn btn-lg"
+                  className="btn btn-lg"
                   style={{ backgroundColor: "#49111C", color: "#F2F4F3" }}
+                  onClick={() => dispatch(addToCart(product))}
                 >
                   Thêm vào giỏ hàng
                 </button>

@@ -3,6 +3,8 @@ import { readAll } from "../api/products";
 import { Categories } from "../constants/categories";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cart";
+import { Link } from "react-router-dom";
+import "./Product.css";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -100,6 +102,13 @@ const Product = () => {
                           objectPosition: "center center",
                         }}
                       />
+                      <div className="card-img-overlay">
+                        <Link to={`/product/${product.pId}`}>
+                          <button type="button" onClick={() => {}}>
+                            Xem chi tiết
+                          </button>
+                        </Link>
+                      </div>
                     </div>
                     <div className="card-body">
                       <center>
