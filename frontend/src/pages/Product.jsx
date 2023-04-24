@@ -62,7 +62,7 @@ const Product = () => {
             <div className="spinner-border" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
-          ) : (
+          ) : products && products.length > 0 ? (
             products
               .filter(
                 (product) =>
@@ -97,7 +97,7 @@ const Product = () => {
                           style={{ color: "#49111C" }}
                         >
                           {product.name} <br />
-                          <b className="fw-bold">{product.price} ₫</b>
+                          <b className="fw-bold">{Number(product.price).toLocaleString("de-DE")} ₫</b>
                         </p>
                       </center>
                     </div>
@@ -111,6 +111,10 @@ const Product = () => {
                   </div>
                 </div>
               ))
+          ) : (
+            <div className="alert alert-danger" role="alert">
+              Không có sản phẩm nào
+            </div>
           )}
         </div>
       </div>

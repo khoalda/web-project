@@ -20,6 +20,7 @@ import News1 from "./pages/news/News1";
 import News2 from "./pages/news/News2";
 import News3 from "./pages/news/News3";
 import News4 from "./pages/news/News4";
+import Detail from "./pages/Detail";
 
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -47,6 +48,7 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/product" element={<Product />}></Route>
+          <Route path="/product/:id" element={<Detail />}></Route>
           <Route path="/news/news1" element={<News1 />}></Route>
           <Route path="/news/news2" element={<News2 />}></Route>
           <Route path="/news/news3" element={<News3 />}></Route>
