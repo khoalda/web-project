@@ -43,7 +43,7 @@ export default function News() {
                 <div className="card">
                 <img src="https://pinno.app/api/internal/cdb/contents/6ffa1827-3589-4032-8de7-46114c7b1d91/0/117918" className="card-img-top" alt="..."/>
                 <div className="card-body">
-                    <p className="card-title fw-bold">JOLLIBEE ĐÃ CÓ MẶT TẠI GAME PLAY TOGETHER</p>
+                    <p className="card-title fw-bold">BK RESTAURANT ĐÃ CÓ MẶT TẠI GAME PLAY TOGETHER</p>
                     <p className="card-title" style={{color: "#808080"}}>10/04/2023</p>
                     <hr/>
                     <center>

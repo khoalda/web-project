@@ -8,7 +8,7 @@ export default function News2() {
                 <img src="https://marketplace.canva.com/EAFH5olFjJw/1/0/1600w/canva-delicious-burger-instagram-post-RTUyjcM0leU.jpg" className="card-img-top py-5" alt="..."/>
                 <center><h2 className='fw-bold'>THƯỞNG THỨC HƯƠNG VỊ BURGER THƯỢNG HẠNG HOÀN TOÀN MỚI</h2></center>
                 <p className='py-3'>
-                    <h2  style={{color: "#49111C"}}><i style={{fontFamily: "lobster"}}>Lần đầu tiên xuất hiện tại JolliBee: Bánh Burger Brioche.</i></h2><br/>
+                    <h2  style={{color: "#49111C"}}><i style={{fontFamily: "lobster"}}>Lần đầu tiên xuất hiện tại BK Restaurant: Bánh Burger Brioche.</i></h2><br/>
                     <center><i><b>Bánh Burger mới đã được “thăng cấp” toàn diện từ diện mạo lẫn hương vị.<br/>
                     – Mềm mại hơn – Thơm hơn – Ngon hơn <br/>
                     – Đậm vị trứng, thơm vị bơ <br/><br/>
