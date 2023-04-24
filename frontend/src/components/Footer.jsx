@@ -37,7 +37,7 @@ export default function Footer() {
                         <h5 className="text-white mb-3">CÔNG TY LIÊN DOANH TNHH BK RESTAURANT VIỆT NAM</h5>
                         <p className="small text-muted">Số XX Thủ Đức, TP. Hồ Chí Minh.<br/>
                         Điện thoại: (028) 38489828 <br/>
-                        Email: lienhe@kfcvietnam.com.vn <br/>
+                        Email: lienhe@bkrstvietnam.com.vn <br/>
                         Mã số thuế: 0100773885
                         </p>
                     </div>
