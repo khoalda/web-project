@@ -84,12 +84,23 @@ const Product = () => {
               })
               .map((product) => (
                 <div className="col">
-                  <div className="card">
-                    <img
-                      src={product.image}
-                      className="card-img-top"
-                      alt="..."
-                    />
+                  <div className="card h-100">
+                    <div
+                      style={{
+                        position: "relative",
+                        paddingBottom: "100%",
+                      }}
+                    >
+                      <img
+                        src={product.image}
+                        className="card-img-top position-absolute w-100 h-100"
+                        alt="..."
+                        style={{
+                          objectFit: "contain",
+                          objectPosition: "center center",
+                        }}
+                      />
+                    </div>
                     <div className="card-body">
                       <center>
                         <p
@@ -97,7 +108,9 @@ const Product = () => {
                           style={{ color: "#49111C" }}
                         >
                           {product.name} <br />
-                          <b className="fw-bold">{Number(product.price).toLocaleString("de-DE")} ₫</b>
+                          <b className="fw-bold">
+                            {Number(product.price).toLocaleString("de-DE")} ₫
+                          </b>
                         </p>
                       </center>
                     </div>
