@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 require_once '../../model/OrderingModel.php';
 require_once '../../config/Role.php';
 
-if(!is_admin()) die("You don't have the right to access other people's orders")
+if(!is_admin()) die("You don't have the right to access other people's orders");
 
 $ordering = new OrderingModel();
 

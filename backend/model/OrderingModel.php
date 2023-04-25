@@ -5,6 +5,7 @@ class OrderingModel extends Database {
     private $dbTable = 'ordering';
     private $oderAccTable = 'orderaccount';
     private $oderProTable = 'orderproduct';
+    private $statusorder = 'statusorder';
     public function create($data, $products) {
         $name = $data->name;
         $address = $data->address;
@@ -76,7 +77,35 @@ class OrderingModel extends Database {
         
     }
     public function readAll() {
-        
+        $query = "SELECT O.oId, time, O.name, O.address, O.phoneNumber, ST.name AS statusName, deliveryCost, totalPrice
+        FROM $this->dbTable O, $this->statusorder ST
+        WHERE O.statusId = ST.sId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $num_row = $result->num_rows;
+        if($num_row == 0) return array("status"=>false, "message"=>"Empty order", 'data'=>NULL);
+
+        $query2 = "SELECT P.pId, P.name, OP.count 
+            FROM ordering O, orderproduct OP, product P
+            WHERE O.oId = ? AND O.oId = OP.oId AND OP.pId = P.pId";
+        $stmt2 = $this->conn->prepare($query2);
+
+        $dataResult = array();
+        while($row = $result->fetch_assoc()) {
+            $stmt2->bind_param("s",$row['oId']);
+            $stmt2->execute();
+            $result2 = $stmt2->get_result();
+            // $num_row2 = $result2->num_rows;
+            $products = array();
+            while($row2 = $result2->fetch_assoc())
+            {
+                $products[] = $row2;
+            }
+            $dataResult[] = $row + $products; 
+            
+        }
+        return array("status"=>true, "message"=>"Successful", 'data'=>$dataResult);
     }
 }
 ?>
