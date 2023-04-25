@@ -21,7 +21,7 @@ export default function Register() {
       const response = await register(username, password, name, phoneNumber);
       dispatch({ type: "AUTH_SUCCESS", payload: response.data });
       enqueueSnackbar("Đăng ký tài khoản thành công", { variant: "success" });
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       enqueueSnackbar("Đăng ký tài khoản thất bại", { variant: "error" });
     }
@@ -29,7 +29,7 @@ export default function Register() {
 
   return (
     <div>
-      {user && <Navigate to="/login" replace={true} />}
+      {user && <Navigate to="/" replace={true} />}
 
       <div className="full-screen-container-rg">
         <div className="login-container">

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { updateMyInfo, readMyInfo } from "../../api/users";
 
 const authSlice = createSlice({
   name: "auth",
@@ -31,6 +32,7 @@ const authSlice = createSlice({
       state.user = null;
       state.loading = false;
       state.error = null;
+      state.info = null;
     },
     updateInfo: (state, action) => {
       state.info = action.payload;

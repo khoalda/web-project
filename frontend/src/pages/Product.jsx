@@ -45,7 +45,7 @@ const Product = () => {
                   marginRight: "10px",
                 }}
               >
-                <i class="fa fa-solid fa-tags"></i> Danh mục
+                <i className="fa fa-solid fa-tags"></i> Danh mục
               </label>
             </b>
             <select
@@ -76,7 +76,7 @@ const Product = () => {
                   marginRight: "10px",
                 }}
               >
-                <i class="fa fa-solid fa-filter"></i> Sắp xếp
+                <i className="fa fa-solid fa-filter"></i> Sắp xếp
               </label>
             </b>
             <select
