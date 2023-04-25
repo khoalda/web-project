@@ -23,8 +23,20 @@ export default function Profile() {
                       width: "145px",
                       borderRadius: "50%",
                       marginTop: "50px",
+                      position: "relative"
                     }}
                   />
+                  <sup>
+                    <button 
+                      className="btn btn-dark"
+                      style={{position: "absolute", 
+                      top: "50%", 
+                      left: "50%", 
+                      transform:"translate(-50%, -50%)",
+                      borderRadius: "50%"}}>
+                        +
+                    </button>
+                  </sup>
                 </div>
                 <div className="py-3"></div>
                 <b>
