@@ -128,7 +128,7 @@ const Navbar = () => {
                       style={{ borderRadius: "20%" }}
                     >
                       <i className="fa fa-shopping-cart fa-lg"></i>
-                      <sup>({cartItems.length})</sup>
+                      <sup>({cartItems ? cartItems.length : 0})</sup>
                     </Link>
                   )}
 

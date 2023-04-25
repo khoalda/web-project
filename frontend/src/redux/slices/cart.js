@@ -17,6 +17,7 @@ const cartSlice = createSlice({
       } else {
         state.items.push({ ...action.payload, quantity: 1 });
       }
+      sessionStorage.setItem("cart", JSON.stringify(state.items));
     },
     removeFromCart: (state, action) => {
       const index = state.items.findIndex(
@@ -30,6 +31,7 @@ const cartSlice = createSlice({
           item.quantity -= 1;
         }
       }
+      sessionStorage.setItem("cart", JSON.stringify(state.items));
     },
     decrementCartItem: (state, action) => {
       const index = state.items.findIndex(
@@ -43,6 +45,7 @@ const cartSlice = createSlice({
           item.quantity -= 1;
         }
       }
+      sessionStorage.setItem("cart", JSON.stringify(state.items));
     },
     incrementCartItem: (state, action) => {
       const index = state.items.findIndex(
@@ -52,30 +55,31 @@ const cartSlice = createSlice({
         const item = state.items[index];
         item.quantity += 1;
       }
+      sessionStorage.setItem("cart", JSON.stringify(state.items));
     },
-    updateCart: (state, action) => {
-      const { pId, quantity } = action.payload;
-      const item = state.items.find((item) => item.pId === pId);
-      if (item) {
-        item.quantity = quantity;
-        // Update the cart in the database here
-        fetch(`/api/cart/${pId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ quantity }),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Failed to update cart");
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    },
+    // updateCart: (state, action) => {
+    //   const { pId, quantity } = action.payload;
+    //   const item = state.items.find((item) => item.pId === pId);
+    //   if (item) {
+    //     item.quantity = quantity;
+    //     // Update the cart in the database here
+    //     fetch(`/api/cart/${pId}`, {
+    //       method: "PUT",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ quantity }),
+    //     })
+    //       .then((response) => {
+    //         if (!response.ok) {
+    //           throw new Error("Failed to update cart");
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    //   }
+    // },
     loadCartRequest: (state) => {
       state.loading = true;
       state.error = null;
@@ -96,7 +100,7 @@ export const {
   removeFromCart,
   decrementCartItem,
   incrementCartItem,
-  updateCart,
+  // updateCart,
   loadCartRequest,
   loadCartSuccess,
   loadCartFailure,

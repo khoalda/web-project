@@ -143,6 +143,7 @@ export default function Profile() {
                         <input
                           type="date"
                           className="form-control"
+                          // TODO: format date
                           value={currentInfo.dateOfBirth}
                           onChange={(event) => {
                             setCurrentInfo({

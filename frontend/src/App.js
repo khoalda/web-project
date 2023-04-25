@@ -31,10 +31,12 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { loginSuccess, updateInfo } from "./redux/slices/auth";
 import { readMyInfo } from "./api/users";
+import { loadCartSuccess } from "./redux/slices/cart";
 
 
 function App() {
   const user = sessionStorage.getItem("user");
+  const cart = sessionStorage.getItem("cart");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,6 +48,13 @@ function App() {
       });
     }
   }, [dispatch, user]);
+
+  useEffect(() => {
+    if (cart) {
+      const cartInfo = JSON.parse(cart);
+      dispatch(loadCartSuccess(cartInfo));
+    }
+  }, [dispatch, cart]);
 
   return (
     <>
