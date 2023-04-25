@@ -10,12 +10,13 @@ class OrderingModel extends Database {
         $address = $data->address;
         $phoneNumber = $data->phoneNumber;
         $statusId = 1; // waiting
+        $deliveryCost = $data->deliveryCost;
         // $products = $data->products;
                                                     //oId, time, name, address, phoneNumber, statusId
-        $query = "INSERT INTO $this->dbTable VALUES(NULL,NOW(), ?, ?, ?, ?)";
+        $query = "INSERT INTO $this->dbTable VALUES(NULL,NOW(), ?, ?, ?, ?, ?, NULL)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("sssi", $name, $address, $phoneNumber, $statusId);
-        $stmt->execute();
+        $stmt->bind_param("sssis", $name, $address, $phoneNumber, $statusId, $deliveryCost);
+        // $stmt->execute();
         if(!$stmt->execute()) return array('status'=>false,'message'=>'Error system 1');
 
         $query2 = "SELECT max(oId) FROM $this->dbTable as ooId";
@@ -72,6 +73,9 @@ class OrderingModel extends Database {
         $stmt3->bind_param("is", $statusId, $oId);
         if($stmt3->execute()) return array("status"=>true, "message"=>"");
         else return array("status"=>false, "message"=>"Error system 4");
+        
+    }
+    public function readAll() {
         
     }
 }
