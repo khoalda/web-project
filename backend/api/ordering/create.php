@@ -15,6 +15,10 @@ if (!is_logged()) {
     // http_response_code(404);
     // echo json_encode(array('message' => "You are not logged in"));
 }
+else if(is_block()) {
+    http_response_code(404);
+    echo json_encode(array('message' => 'Your account is blocked'));
+}
 else if(!isset($data->name) || $data->name == "" || !isset($data->address) || $data->address == ""
 || !isset($data->phoneNumber) || $data->phoneNumber == ""|| !isset($data->products) || $data->products == ""
 || !isset($data->deliveryCost) || $data->deliveryCost == "") {

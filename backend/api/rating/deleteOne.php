@@ -12,6 +12,10 @@ if (!is_logged()) {
     http_response_code(404);
     echo json_encode(array('message' => "You are not logged in"));
 }
+else if(is_block()) {
+    http_response_code(404);
+    echo json_encode(array('message' => 'Your account is blocked'));
+}
 else {
     $rq_rId = isset($_GET['rId']) ? $_GET['rId'] : die("Don't have the rId field"); //request rId
     $result = $rating->deleteOne($rq_rId);

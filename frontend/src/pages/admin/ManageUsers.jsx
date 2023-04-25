@@ -70,8 +70,8 @@ const ManageProducts = () => {
   const [selectedUser, setSelectedUser] = useState(initialUsersList);
   const [openDelete, setOpenDelete] = useState(false);
   const [openStatus, setOpenStatus] = useState(false);
+  const [userId, setChangeStatus] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState(null);
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortOrder, setSortOrder] = useState("asc");
