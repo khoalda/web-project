@@ -8,7 +8,7 @@ import "./Navbar.css";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user, info } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart.items);
 
   const location = useLocation();
@@ -114,7 +114,7 @@ const Navbar = () => {
                 <>
                   <Link to="/profile">
                     <img
-                      src="https://img.hoidap247.com/picture/answer/20210427/large_1619529081459.jpg"
+                      src={info?.urlAvatar || "/avatar.png"}
                       alt="Avatar"
                       style={{ width: "35px", borderRadius: "50%" }}
                       className="me-3"
@@ -122,16 +122,17 @@ const Navbar = () => {
                   </Link>
 
                   {user.level === "1" && (
-                    <Link to="/cart" className="btn btn-lg" style={{borderRadius: "20%" }}>
-                      <i className="fa fa-shopping-cart fa-lg"></i><sup>(
-                      {cartItems.length})</sup>
+                    <Link
+                      to="/cart"
+                      className="btn btn-lg"
+                      style={{ borderRadius: "20%" }}
+                    >
+                      <i className="fa fa-shopping-cart fa-lg"></i>
+                      <sup>({cartItems.length})</sup>
                     </Link>
                   )}
 
-                  <button
-                    className="btn btn-btn-lg" 
-                    onClick={handleLogout}
-                  >
+                  <button className="btn btn-btn-lg" onClick={handleLogout}>
                     <i className="fa fa-power-off fa-lg"></i>
                   </button>
                 </>

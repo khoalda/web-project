@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateMyInfo, readMyInfo } from "../../api/users";
 
 const authSlice = createSlice({
   name: "auth",

@@ -30,17 +30,15 @@ export const readMyInfo = () => {
 
 export const updateMyInfo = (data) => {
   const payload = JSON.stringify(data);
-
-  // {
-  //   "name": "Khoa Lai",
-  //   "phoneNumber": "0905335297",
-  //   "dateOfBirth": "",
-  //   "urlAvatar": "",
-  //   "email": "",
-  //   "address": ""
-  // }
-
   return instance.post(`/users/updateInfo.php`, payload);
+};
+
+export const changeMyPassword = (oldPassWord, newPassWord) => {
+  const payload = JSON.stringify({
+    oldPassWord: oldPassWord,
+    newPassWord: newPassWord,
+  });
+  return instance.post(`/users/updatePassWord.php`, payload);
 };
 
 // ================== Admin ==================

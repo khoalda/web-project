@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { updateMyInfo } from "../api/users";
+import { updateMyInfo, changeMyPassword } from "../api/users";
 import { useSnackbar } from "notistack";
 import { updateInfo } from "../redux/slices/auth";
 
@@ -28,6 +28,34 @@ export default function Profile() {
     }
   }, [info]);
 
+  const [passwordInfo, setPasswordInfo] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const handleChangePassword = async (event) => {
+    event.preventDefault();
+    if (passwordInfo.newPassword !== passwordInfo.confirmPassword) {
+      enqueueSnackbar("Mật khẩu xác nhận không khớp", { variant: "error" });
+      return;
+    }
+    try {
+      await changeMyPassword(
+        passwordInfo.currentPassword,
+        passwordInfo.newPassword
+      );
+      enqueueSnackbar("Đổi mật khẩu thành công", { variant: "success" });
+      setPasswordInfo({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: "error" });
+    }
+  };
+
   return (
     <div style={{ backgroundColor: "#F2F4F3" }}>
       {!user && <Navigate to="/" replace={true} />}
@@ -45,7 +73,7 @@ export default function Profile() {
               <center>
                 <div className="py-3">
                   <img
-                    src={currentInfo.urlAvatar || "/images/avatar.png"}
+                    src={currentInfo.urlAvatar || "/avatar.png"}
                     alt="Avatar"
                     style={{
                       width: "145px",
@@ -175,47 +203,69 @@ export default function Profile() {
                         />
                       </div>
                     </div>
-
-                    <div className="py-3"></div>
+                    <div className="row mb-3">
+                      <div className="col-md-3"></div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark border-0 shadow"
+                          style={{ backgroundColor: "#A9927D" }}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            updateMyInfo(currentInfo)
+                              .then((res) => {
+                                console.log(res);
+                                if (res) {
+                                  enqueueSnackbar(
+                                    "Cập nhật thông tin thành công!",
+                                    {
+                                      variant: "success",
+                                    }
+                                  );
+                                  dispatch(updateInfo(currentInfo));
+                                } else {
+                                  enqueueSnackbar(
+                                    "Cập nhật thông tin thất bại!",
+                                    {
+                                      variant: "error",
+                                    }
+                                  );
+                                }
+                              })
+                              .catch((err) => {
+                                enqueueSnackbar(
+                                  "Cập nhật thông tin thất bại!",
+                                  {
+                                    variant: "error",
+                                  }
+                                );
+                              });
+                          }}
+                        >
+                          Cập nhật
+                        </button>
+                      </div>
+                    </div>
                   </form>
-                  <button
-                    type="submit"
-                    className="btn btn-dark border-0 shadow"
-                    style={{ backgroundColor: "#A9927D" }}
-                    onClick={() => {
-                      console.log(currentInfo);
-                      updateMyInfo(currentInfo)
-                        .then((res) => {
-                          console.log(res);
-                          if (res) {
-                            enqueueSnackbar("Cập nhật thông tin thành công!", {
-                              variant: "success",
-                            });
-                            dispatch(updateInfo(currentInfo));
-                          } else {
-                            enqueueSnackbar("Cập nhật thông tin thất bại!", {
-                              variant: "error",
-                            });
-                          }
-                        })
-                        .catch((err) => {
-                          enqueueSnackbar("Cập nhật thông tin thất bại!", {
-                            variant: "error",
-                          });
-                        });
-                    }}
-                  >
-                    Cập nhật
-                  </button>
                   <hr />
                   THAY ĐỔI MẬT KHẨU <div className="py-3"></div>
-                  <form>
+                  <form onSubmit={handleChangePassword}>
                     <div className="row mb-3">
                       <label className="col-md-3 col-form-label">
-                        Mật khẩu cũ
+                        Mật khẩu hiện tại
                       </label>
                       <div className="col-md-6">
-                        <input type="password" className="form-control" />
+                        <input
+                          type="password"
+                          className="form-control"
+                          value={passwordInfo.currentPassword}
+                          onChange={(event) => {
+                            setPasswordInfo({
+                              ...passwordInfo,
+                              currentPassword: event.target.value,
+                            });
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="row mb-3">
@@ -223,27 +273,49 @@ export default function Profile() {
                         Mật khẩu mới
                       </label>
                       <div className="col-md-6">
-                        <input type="password" className="form-control" />
+                        <input
+                          type="password"
+                          className="form-control"
+                          value={passwordInfo.newPassword}
+                          onChange={(event) => {
+                            setPasswordInfo({
+                              ...passwordInfo,
+                              newPassword: event.target.value,
+                            });
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="row mb-3">
                       <label className="col-md-3 col-form-label">
-                        Nhập lại mật khẩu
+                        Xác nhận mật khẩu mới
                       </label>
                       <div className="col-md-6">
-                        <input type="password" className="form-control" />
+                        <input
+                          type="password"
+                          className="form-control"
+                          value={passwordInfo.confirmPassword}
+                          onChange={(event) => {
+                            setPasswordInfo({
+                              ...passwordInfo,
+                              confirmPassword: event.target.value,
+                            });
+                          }}
+                        />
                       </div>
                     </div>
-
-                    <button
-                      type="submit"
-                      className="btn btn-dark border-0 shadow"
-                      style={{ backgroundColor: "#A9927D" }}
-                    >
-                      Thay đổi
-                    </button>
-
-                    <div className="py-3"></div>
+                    <div className="row mb-3">
+                      <div className="col-md-3"></div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark border-0 shadow"
+                          style={{ backgroundColor: "#A9927D" }}
+                        >
+                          Đổi mật khẩu
+                        </button>
+                      </div>
+                    </div>
                   </form>
                 </b>
               </div>
