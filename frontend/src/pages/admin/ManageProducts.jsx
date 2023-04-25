@@ -19,6 +19,10 @@ import {
   TablePagination,
   TableSortLabel,
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import {
   Edit as EditIcon,
@@ -26,7 +30,14 @@ import {
   Add as AddIcon,
 } from "@mui/icons-material";
 
-import { readAll } from "../../api/products";
+import { readAll, create, update, deleteOne } from "../../api/products";
+import {
+  Categories,
+  categoryMapper,
+  categoryKeyMapper,
+} from "../../constants/categories";
+
+import { useSnackbar } from "notistack";
 
 const initialProduct = {
   pId: "",
@@ -50,6 +61,8 @@ const ManageProducts = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [sortColumn, setSortColumn] = useState("pId");
 
+  const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
     const fetchProducts = async () => {
       const data = await readAll();
@@ -64,6 +77,7 @@ const ManageProducts = () => {
 
   const handleCloseAdd = () => {
     setOpenAdd(false);
+    setSelectedProduct(initialProduct);
   };
 
   const handleOpenEdit = (product) => {
@@ -87,22 +101,76 @@ const ManageProducts = () => {
   };
 
   const handleAdd = (product) => {
-    setProducts([...products, product]);
-    setOpenAdd(false);
+    const payload = {
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      image: product.image,
+      categoryId: categoryKeyMapper(product.Cname),
+    };
+
+    create(payload)
+      .then((res) => {
+        enqueueSnackbar("Thêm sản phẩm thành công", {
+          variant: "success",
+        });
+        readAll().then((data) => {
+          setProducts(data.data);
+        });
+        setSelectedProduct(initialProduct);
+        setOpenAdd(false);
+      })
+      .catch((err) => {
+        enqueueSnackbar("Thêm sản phẩm thất bại", {
+          variant: "error",
+        });
+      });
   };
 
   const handleEdit = (product) => {
-    const index = products.findIndex((p) => p.pId === product.pId);
-    const newProducts = [...products];
-    newProducts[index] = product;
-    setProducts(newProducts);
-    setOpenEdit(false);
-    setSelectedProduct(initialProduct);
+    const payload = {
+      pId: product.pId,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      image: product.image,
+      categoryId: categoryKeyMapper(product.Cname),
+    };
+
+    update(payload)
+      .then((res) => {
+        enqueueSnackbar("Cập nhật sản phẩm thành công", {
+          variant: "success",
+        });
+        const index = products.findIndex((p) => p.pId === product.pId);
+        const newProducts = [...products];
+        newProducts[index] = product;
+        setProducts(newProducts);
+        setOpenEdit(false);
+        setSelectedProduct(initialProduct);
+      })
+      .catch((err) => {
+        enqueueSnackbar("Cập nhật sản phẩm thất bại", {
+          variant: "error",
+        });
+      });
   };
 
   const handleDelete = (pId) => {
-    const newProducts = products.filter((product) => product.pId !== pId);
-    setProducts(newProducts);
+    deleteOne(pId)
+      .then((res) => {
+        enqueueSnackbar("Xóa sản phẩm thành công", {
+          variant: "success",
+        });
+        const newProducts = products.filter((product) => product.pId !== pId);
+        setProducts(newProducts);
+        handleCloseDelete();
+      })
+      .catch((err) => {
+        enqueueSnackbar("Xóa sản phẩm thất bại", {
+          variant: "error",
+        });
+      });
   };
 
   const handleSort = (column) => {
@@ -141,7 +209,6 @@ const ManageProducts = () => {
           <AddIcon />
           Thêm sản phẩm
         </Button>
-
         {products?.length > 0 ? (
           <Box sx={{ width: "100%" }}>
             <Paper sx={{ width: "100%", mb: 2 }}>
@@ -231,7 +298,7 @@ const ManageProducts = () => {
                               }}
                             />
                           </TableCell>
-                          <TableCell>{product.Cname}</TableCell>
+                          <TableCell>{categoryMapper(product.Cname)}</TableCell>
                           <TableCell>
                             <IconButton onClick={() => handleOpenEdit(product)}>
                               <EditIcon />
@@ -276,8 +343,12 @@ const ManageProducts = () => {
         {/* Add Product Dialog */}
         <Dialog open={openAdd} onClose={handleCloseAdd}>
           <DialogTitle>Thêm sản phẩm</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Nhập thông tin sản phẩm:</DialogContentText>
+          <DialogContent
+            sx={{ display: "flex", flexDirection: "column", width: "450px" }}
+          >
+            <DialogContentText sx={{ marginBottom: 2 }}>
+              Nhập thông tin sản phẩm:
+            </DialogContentText>
             <TextField
               label="Tên"
               fullWidth
@@ -285,6 +356,8 @@ const ManageProducts = () => {
               onChange={(e) =>
                 setSelectedProduct({ ...selectedProduct, name: e.target.value })
               }
+              sx={{ marginBottom: 2 }}
+              variant="filled"
             />
             <TextField
               label="Giá"
@@ -296,6 +369,8 @@ const ManageProducts = () => {
                   price: e.target.value,
                 })
               }
+              sx={{ marginBottom: 2 }}
+              variant="filled"
             />
             <TextField
               label="Mô tả"
@@ -307,6 +382,8 @@ const ManageProducts = () => {
                   description: e.target.value,
                 })
               }
+              sx={{ marginBottom: 2 }}
+              variant="filled"
             />
             <TextField
               label="URL hình ảnh"
@@ -318,25 +395,38 @@ const ManageProducts = () => {
                   image: e.target.value,
                 })
               }
+              sx={{ marginBottom: 2 }}
+              variant="filled"
             />
-            <TextField
-              label="Danh mục"
-              fullWidth
-              value={selectedProduct.Cname}
-              onChange={(e) =>
-                setSelectedProduct({
-                  ...selectedProduct,
-                  Cname: e.target.value,
-                })
-              }
-            />
+            <FormControl fullWidth sx={{ marginBottom: 2 }} variant="filled">
+              <InputLabel htmlFor="category-select">Danh mục</InputLabel>
+              <Select
+                value={selectedProduct.Cname}
+                onChange={(e) =>
+                  setSelectedProduct({
+                    ...selectedProduct,
+                    Cname: e.target.value,
+                  })
+                }
+                inputProps={{
+                  name: "Danh mục",
+                  id: "category-select",
+                }}
+              >
+                {Categories.map((category) => (
+                  <MenuItem value={category.name}>{category.value}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseAdd}>Hủy</Button>
+            <Button variant="outlined" onClick={handleCloseAdd}>
+              Hủy
+            </Button>
             <Button
+              variant="contained"
               onClick={() => {
                 handleAdd(selectedProduct);
-                setSelectedProduct(initialProduct);
               }}
             >
               Thêm
@@ -346,21 +436,17 @@ const ManageProducts = () => {
 
         {/* Edit Product Dialog */}
         <Dialog open={openEdit} onClose={handleCloseEdit}>
-          <DialogTitle>Edit Product</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Please update product details:
+          <DialogTitle>Cập nhật sản phẩm</DialogTitle>
+          <DialogContent
+            sx={{ display: "flex", flexDirection: "column", width: "450px" }}
+          >
+            <DialogContentText sx={{ marginBottom: 2 }}>
+              Chỉnh sửa thông tin sản phẩm:
             </DialogContentText>
             <TextField
-              label="Product Id"
-              fullWidth
-              value={selectedProduct.pId}
-              onChange={(e) =>
-                setSelectedProduct({ ...selectedProduct, pId: e.target.value })
-              }
-            />
-            <TextField
-              label="Name"
+              sx={{ marginBottom: 2 }}
+              variant="filled"
+              label="Tên sản phẩm"
               fullWidth
               value={selectedProduct.name}
               onChange={(e) =>
@@ -368,7 +454,9 @@ const ManageProducts = () => {
               }
             />
             <TextField
-              label="Price"
+              sx={{ marginBottom: 2 }}
+              variant="filled"
+              label="Giá"
               fullWidth
               value={selectedProduct.price}
               onChange={(e) =>
@@ -379,7 +467,9 @@ const ManageProducts = () => {
               }
             />
             <TextField
-              label="Description"
+              sx={{ marginBottom: 2 }}
+              variant="filled"
+              label="Mô tả"
               fullWidth
               value={selectedProduct.description}
               onChange={(e) =>
@@ -390,7 +480,9 @@ const ManageProducts = () => {
               }
             />
             <TextField
-              label="Image"
+              sx={{ marginBottom: 2 }}
+              variant="filled"
+              label="URL hình ảnh"
               fullWidth
               value={selectedProduct.image}
               onChange={(e) =>
@@ -400,49 +492,62 @@ const ManageProducts = () => {
                 })
               }
             />
-            <TextField
-              label="Category Id"
-              fullWidth
-              value={selectedProduct.Cname}
-              onChange={(e) =>
-                setSelectedProduct({
-                  ...selectedProduct,
-                  Cname: e.target.value,
-                })
-              }
-            />
+            <FormControl fullWidth sx={{ marginBottom: 2 }} variant="filled">
+              <InputLabel htmlFor="category-select">Danh mục</InputLabel>
+              <Select
+                value={selectedProduct.Cname}
+                onChange={(e) =>
+                  setSelectedProduct({
+                    ...selectedProduct,
+                    Cname: e.target.value,
+                  })
+                }
+                inputProps={{
+                  name: "Danh mục",
+                  id: "category-select",
+                }}
+              >
+                {Categories.map((category) => (
+                  <MenuItem value={category.name}>{category.value}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseEdit}>Cancel</Button>
+            <Button onClick={handleCloseEdit} variant="outlined">
+              Hủy
+            </Button>
             <Button
               onClick={() => {
                 handleEdit(selectedProduct);
-                setSelectedProduct(initialProduct);
               }}
+              variant="contained"
             >
-              Update
+              Cập nhật
             </Button>
           </DialogActions>
         </Dialog>
 
         {/* Delete Product Dialog */}
         <Dialog open={openDelete} onClose={handleCloseDelete}>
-          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogTitle>Xác nhận xóa</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Are you sure you want to delete this product?
+              Bạn có chắc chắn muốn xóa sản phẩm này không?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDelete}>Cancel</Button>
+            <Button onClick={handleCloseDelete} variant="outlined">
+              Hủy
+            </Button>
             <Button
               onClick={() => {
                 handleDelete(deleteProductId);
                 handleCloseDelete();
               }}
-              color="secondary"
+              variant="contained"
             >
-              Delete
+              Xóa
             </Button>
           </DialogActions>
         </Dialog>

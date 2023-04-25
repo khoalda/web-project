@@ -5,3 +5,13 @@ export const Categories = [
   { key: "4", name: "Burgers", value: "Hambuger" },
   { key: "5", name: "Salads", value: "Salad" },
 ];
+
+export const categoryMapper = (category) => {
+  const found = Categories.find((item) => item.name === category);
+  return found ? found.value : "";
+};
+
+export const categoryKeyMapper = (category) => {
+  const found = Categories.find((item) => item.name === category);
+  return found ? found.key : "";
+};

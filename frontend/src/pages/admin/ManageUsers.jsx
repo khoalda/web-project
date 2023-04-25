@@ -42,16 +42,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
   // hide last border
-  '&:last-child td, &:last-child th': {
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
-
-
 
 const initialUsersList = {
   aId: "",
@@ -90,7 +88,7 @@ const ManageProducts = () => {
 
   const handleOpenStatus = (user) => {
     setOpenStatus(true);
-    setChangeStatus(user.status == 0 ? 1 : 0);
+    // setChangeStatus(user.status == 0 ? 1 : 0);
   };
 
   const handleCloseStatus = () => {
@@ -147,15 +145,19 @@ const ManageProducts = () => {
     setSortColumn(column);
     const sortedProducts = users.sort((a, b) => {
       return isAsc
-          ? a[column].toString().localeCompare(b[column].toString())
-          : b[column].toString().localeCompare(a[column].toString());
+        ? a[column].toString().localeCompare(b[column].toString())
+        : b[column].toString().localeCompare(a[column].toString());
     });
     setUsersList(sortedProducts);
   };
 
   return (
     <div>
-      <Container>
+      <Container
+        sx={{
+          marginTop: "20px",
+        }}
+      >
         {users?.length > 0 ? (
           <Box sx={{ width: "100%" }}>
             <Paper sx={{ width: "100%", mb: 2 }}>
@@ -169,21 +171,22 @@ const ManageProducts = () => {
                           direction={sortColumn === "aId" ? sortOrder : "asc"}
                           onClick={() => handleSort("aId")}
                         >
-                          Account ID
+                          ID
                         </TableSortLabel>
                       </StyledTableCell>
                       <StyledTableCell></StyledTableCell>
                       <StyledTableCell>
                         <TableSortLabel
                           active={sortColumn === "username"}
-                          direction={sortColumn === "username" ? sortOrder : "asc"}
+                          direction={
+                            sortColumn === "username" ? sortOrder : "asc"
+                          }
                           onClick={() => handleSort("username")}
                         >
                           Username
                         </TableSortLabel>
                       </StyledTableCell>
 
-                      
                       <StyledTableCell>
                         <TableSortLabel
                           active={sortColumn === "name"}
@@ -223,7 +226,7 @@ const ManageProducts = () => {
                       .map((user) => (
                         <StyledTableRow key={user.aId}>
                           <TableCell>{user.aId}</TableCell>
-                          
+
                           <TableCell>
                             <img
                               src={`${user.urlAvatar}`}
@@ -242,12 +245,14 @@ const ManageProducts = () => {
                           <TableCell>{user.status}</TableCell>
                           <TableCell>
                             <IconButton onClick={() => handleOpenStatus(user)}>
-                            <PersonOff />
+                              <PersonOff />
                             </IconButton>
                             <IconButton onClick={() => handleOpenEdit(user)}>
                               <EditIcon />
                             </IconButton>
-                            <IconButton onClick={() => handleOpenDelete(user.aId)}>
+                            <IconButton
+                              onClick={() => handleOpenDelete(user.aId)}
+                            >
                               <DeleteIcon />
                             </IconButton>
                           </TableCell>
@@ -269,12 +274,16 @@ const ManageProducts = () => {
                   setRowsPerPage(parseInt(event.target.value, 10));
                   setPage(0);
                 }}
+                labelDisplayedRows={({ from, to, count }) =>
+                  `${from}-${to} trên ${count}`
+                }
+                labelRowsPerPage="Số người dùng mỗi trang"
               />
             </Paper>
           </Box>
         ) : (
           <div>
-            <h2>Không có sản phẩm nào</h2>
+            <h2>Không có người dùng nào</h2>
           </div>
         )}
 
@@ -290,7 +299,7 @@ const ManageProducts = () => {
             <Button onClick={handleCloseStatus}>Cancel</Button>
             <Button
               onClick={() => {
-                handleStatus(userId);
+                // handleStatus(userId);
                 handleCloseDelete();
               }}
               color="secondary"
@@ -299,8 +308,8 @@ const ManageProducts = () => {
             </Button>
           </DialogActions>
         </Dialog>
-      
-        {/* Enable/Disable user Dialog */}      
+
+        {/* Enable/Disable user Dialog */}
         <Dialog open={openDelete} onClose={handleCloseDelete}>
           <DialogTitle>Confirm Delete</DialogTitle>
           <DialogContent>
@@ -320,7 +329,7 @@ const ManageProducts = () => {
               Delete
             </Button>
           </DialogActions>
-        </Dialog>  
+        </Dialog>
 
         {/* Edit Product Dialog */}
         <Dialog open={openEdit} onClose={handleCloseEdit}>

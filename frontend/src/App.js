@@ -58,7 +58,7 @@ function App() {
 
   const themeOptions = {
     palette: {
-      mode: "dark",
+      mode: "light",
       primary: {
         main: "#8e3200",
       },
@@ -70,7 +70,7 @@ function App() {
       },
     },
     typography: {
-      fontFamily: "Plus Jakarta Sans",
+      fontFamily: "Roboto, BlinkMacSystemFont, sans-serif",
     },
   };
 
