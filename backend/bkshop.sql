@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2023 at 09:57 AM
+-- Generation Time: Apr 25, 2023 at 05:41 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -101,7 +101,9 @@ CREATE TABLE `orderaccount` (
 INSERT INTO `orderaccount` (`oId`, `aId`) VALUES
 ('BK25042023000003', NULL),
 ('BK25042023000001', 2),
-('BK25042023000002', 2);
+('BK25042023000002', 2),
+('BK25042023000005', 2),
+('BK25042023000006', 2);
 
 -- --------------------------------------------------------
 
@@ -115,17 +117,22 @@ CREATE TABLE `ordering` (
   `name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `phoneNumber` varchar(255) NOT NULL,
-  `statusId` int(11) DEFAULT NULL
+  `statusId` int(11) DEFAULT NULL,
+  `deliveryCost` int(11) DEFAULT NULL,
+  `totalPrice` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `ordering`
 --
 
-INSERT INTO `ordering` (`oId`, `time`, `name`, `address`, `phoneNumber`, `statusId`) VALUES
-('BK25042023000001', '2023-04-25 14:56:05', 'Nguyen Van A', 'Ký túc xá khu B Đại học quốc gia TP.HCM', '0934897659', 1),
-('BK25042023000002', '2023-04-25 14:56:05', 'Nguyen Van B', '26 Trường Chinh, thành phố Pleiku, tỉnh Gia Lai', '0134892371', 2),
-('BK25042023000003', '2023-04-25 14:56:05', 'Nguyen Van C', '58 Lê Lai, Ba Đình, Hà Nội', '01648785758', 3);
+INSERT INTO `ordering` (`oId`, `time`, `name`, `address`, `phoneNumber`, `statusId`, `deliveryCost`, `totalPrice`) VALUES
+('BK25042023000001', '2023-04-25 22:37:27', 'Nguyen Van A', 'Ký túc xá khu B Đại học quốc gia TP.HCM', '0934897659', 1, 20000, 115000),
+('BK25042023000002', '2023-04-25 22:37:27', 'Nguyen Van B', '26 Trường Chinh, thành phố Pleiku, tỉnh Gia Lai', '0134892371', 2, 20000, 305000),
+('BK25042023000003', '2023-04-25 22:37:27', 'Nguyen Van C', '58 Lê Lai, Ba Đình, Hà Nội', '01648785758', 3, 20000, 116000),
+('BK25042023000004', '2023-04-25 22:37:35', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 20000, NULL),
+('BK25042023000005', '2023-04-25 22:37:35', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 20000, 610000),
+('BK25042023000006', '2023-04-25 22:38:37', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 20000, 610000);
 
 --
 -- Triggers `ordering`
@@ -166,11 +173,34 @@ INSERT INTO `orderproduct` (`oId`, `pId`, `count`, `totalPrice`) VALUES
 ('BK25042023000001', 10, 1, 30000),
 ('BK25042023000002', 6, 1, 35000),
 ('BK25042023000002', 9, 5, 250000),
-('BK25042023000003', 20, 4, 96000);
+('BK25042023000003', 20, 4, 96000),
+('BK25042023000005', 7, 5, 200000),
+('BK25042023000005', 12, 6, 180000),
+('BK25042023000005', 22, 3, 210000),
+('BK25042023000006', 7, 5, 200000),
+('BK25042023000006', 12, 6, 180000),
+('BK25042023000006', 22, 3, 210000);
 
 --
 -- Triggers `orderproduct`
 --
+DELIMITER $$
+CREATE TRIGGER `after_OrderProduct_insert` AFTER INSERT ON `orderproduct` FOR EACH ROW BEGIN
+    declare ttPrice int;
+    declare delCost int;
+    select totalPrice from Ordering where oId = NEW.oId into ttPrice;
+    select deliveryCost from Ordering where oId = NEW.oId into delCost;
+    IF ttPrice IS NULL THEN
+        SET ttPrice = 0;
+    END IF;
+    IF ttPrice = 0 THEN
+        UPDATE Ordering SET totalPrice = delCost + ttPrice + NEW.totalPrice WHERE oId = NEW.oId;
+    ELSE
+    	UPDATE Ordering SET totalPrice = ttPrice + NEW.totalPrice WHERE oId = NEW.oId;
+    END IF;
+END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `before_OrderProduct_insert` BEFORE INSERT ON `orderproduct` FOR EACH ROW BEGIN
     declare oPrice int;
@@ -267,7 +297,10 @@ CREATE TABLE `s` (
 INSERT INTO `s` (`_no`) VALUES
 (1),
 (2),
-(3);
+(3),
+(4),
+(5),
+(6);
 
 -- --------------------------------------------------------
 
@@ -396,7 +429,7 @@ ALTER TABLE `rating`
 -- AUTO_INCREMENT for table `s`
 --
 ALTER TABLE `s`
-  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `statusorder`
@@ -419,7 +452,7 @@ ALTER TABLE `cart`
 -- Constraints for table `orderaccount`
 --
 ALTER TABLE `orderaccount`
-  ADD CONSTRAINT `fk_oAccount_Account_aId` FOREIGN KEY (`aId`) REFERENCES `account` (`aId`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_oAccount_Account_aId` FOREIGN KEY (`aId`) REFERENCES `account` (`aId`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_oAccount_Ordering_oId` FOREIGN KEY (`oId`) REFERENCES `ordering` (`oId`) ON DELETE CASCADE;
 
 --
