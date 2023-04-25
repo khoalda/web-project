@@ -31,10 +31,11 @@ const Cart = () => {
   };
 
   return (
-    <div>
+    <div style={{backgroundColor: "#CDC0B4",
+      backgroundImage: 'linear-gradient(to left top, #F7F6F4 50%, #CDC0B4 50%)' }}>
       {!user && <Navigate to="/login" replace={true} />}
       <div className="container">
-        <h1 className="py-5 fw-bold">Your Cart</h1>
+        <h2 className="py-5 fw-bold"> Your Cart</h2>
         <div className="row align-items-start">
           <div className="col-12 col-sm-8 items">
             {cartItems.map((item) => (
