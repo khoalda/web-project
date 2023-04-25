@@ -26,6 +26,7 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Add as AddIcon,
+  PersonOff,
 } from "@mui/icons-material";
 
 import { readAllUsers, updateUserInfo } from "../../api/users";
@@ -86,17 +87,17 @@ const ManageProducts = () => {
     };
     fetchUsers();
   }, []);
-/*
+
   const handleOpenStatus = (user) => {
-    setSelectedUser(user);
-    setOpenEdit(true);
+    setOpenStatus(true);
+    setChangeStatus(user.status == 0 ? 1 : 0);
   };
 
   const handleCloseStatus = () => {
-    setOpenEdit(false);
+    setOpenStatus(false);
     setSelectedUser(initialUsersList);
   };
-*/
+
   const handleOpenEdit = (user) => {
     setSelectedUser(user);
     setOpenEdit(true);
@@ -116,18 +117,17 @@ const ManageProducts = () => {
     setOpenDelete(false);
     setDeleteUserId(null);
   };
-/*
+
   const handleStatus = (user) => {
-    const index = users.findIndex((p) => p.aId === user.aId);
+    const index = users.findIndex((u) => u.aId === user.aId);
     const newUsersList = [...users];
     newUsersList[index] = user;
     setUsersList(newUsersList);
-    setOpenStatus(false);
     setSelectedUser(initialUsersList);
   };
-*/
+
   const handleEdit = (user) => {
-    const index = users.findIndex((p) => p.aId === user.aId);
+    const index = users.findIndex((u) => u.aId === user.aId);
     const newUsersList = [...users];
     newUsersList[index] = user;
     setUsersList(newUsersList);
@@ -136,7 +136,7 @@ const ManageProducts = () => {
   };
 
   const handleDelete = (aId) => {
-    const newUsersList = users.filter((user) => user.aId !== aId);
+    const newUsersList = users.filter((u) => u.aId !== aId);
     setUsersList(newUsersList);
   };
 
@@ -241,12 +241,13 @@ const ManageProducts = () => {
                           <TableCell>{user.level}</TableCell>
                           <TableCell>{user.status}</TableCell>
                           <TableCell>
+                            <IconButton onClick={() => handleOpenStatus(user)}>
+                            <PersonOff />
+                            </IconButton>
                             <IconButton onClick={() => handleOpenEdit(user)}>
                               <EditIcon />
                             </IconButton>
-                            <IconButton
-                              onClick={() => handleOpenDelete(user.aId)}
-                            >
+                            <IconButton onClick={() => handleOpenDelete(user.aId)}>
                               <DeleteIcon />
                             </IconButton>
                           </TableCell>
@@ -277,10 +278,9 @@ const ManageProducts = () => {
           </div>
         )}
 
-        {/* Enable/Disable user Dialog */}      
-        {/*
+        {/* Enable/Disable user Dialog */}
         <Dialog open={openStatus} onClose={handleCloseStatus}>
-          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogTitle>Confirm Change</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Are you sure you want to delete this product?
@@ -299,7 +299,7 @@ const ManageProducts = () => {
             </Button>
           </DialogActions>
         </Dialog>
-      */}
+      
         {/* Enable/Disable user Dialog */}      
         <Dialog open={openDelete} onClose={handleCloseDelete}>
           <DialogTitle>Confirm Delete</DialogTitle>
@@ -321,7 +321,7 @@ const ManageProducts = () => {
             </Button>
           </DialogActions>
         </Dialog>  
-*/
+
         {/* Edit Product Dialog */}
         <Dialog open={openEdit} onClose={handleCloseEdit}>
           <DialogTitle>User Detail</DialogTitle>
