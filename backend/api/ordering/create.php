@@ -16,7 +16,8 @@ if (!is_logged()) {
     // echo json_encode(array('message' => "You are not logged in"));
 }
 else if(!isset($data->name) || $data->name == "" || !isset($data->address) || $data->address == ""
-|| !isset($data->phoneNumber) || $data->phoneNumber == ""|| !isset($data->products) || $data->products == "") {
+|| !isset($data->phoneNumber) || $data->phoneNumber == ""|| !isset($data->products) || $data->products == ""
+|| !isset($data->deliveryCost) || $data->deliveryCost == "") {
     die("Missing data");
     // http_response_code(404);
     // echo json_encode(array('message' => "Missing data"));
