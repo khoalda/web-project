@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2023 at 05:41 PM
+-- Generation Time: Apr 25, 2023 at 07:38 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -46,8 +46,8 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`aId`, `username`, `password`, `level`, `name`, `dateOfBirth`, `urlAvatar`, `phoneNumber`, `email`, `address`, `status`) VALUES
-(1, 'laptrinhweb', '565008d1f6f712771b27eee29afc8899', 2, 'admin', '1999-05-06', 'https://tenten.vn/tin-tuc/wp-content/uploads/2022/09/2-6.png', '0362704387', 'admin123@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1),
-(2, 'customer', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Nguyễn Văn Tân', '2001-08-09', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg', '0362704387', 'tan@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1);
+(1, 'laptrinhweb', '$2y$10$CG2z..VPEA3CMbQoCr3W/ufb6rXGWrwbILmhsMShxwKrD2E4BwSXm', 2, 'admin', '1999-05-06', 'https://tenten.vn/tin-tuc/wp-content/uploads/2022/09/2-6.png', '0362704387', 'admin123@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1),
+(2, 'customer', '$2y$10$bK5KGBVRL8i3PtZ17LN0yOk1VTIWbXcVsQhsKQSzAJSQvcpay.tpW', 1, 'Nguyễn Văn Tân', '2001-08-09', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg', '0362704387', 'tan@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1);
 
 -- --------------------------------------------------------
 
@@ -99,11 +99,11 @@ CREATE TABLE `orderaccount` (
 --
 
 INSERT INTO `orderaccount` (`oId`, `aId`) VALUES
-('BK25042023000003', NULL),
-('BK25042023000001', 2),
-('BK25042023000002', 2),
-('BK25042023000005', 2),
-('BK25042023000006', 2);
+('BK26042023000003', NULL),
+('BK26042023000004', 1),
+('BK26042023000001', 2),
+('BK26042023000002', 2),
+('BK26042023000005', 2);
 
 -- --------------------------------------------------------
 
@@ -127,12 +127,11 @@ CREATE TABLE `ordering` (
 --
 
 INSERT INTO `ordering` (`oId`, `time`, `name`, `address`, `phoneNumber`, `statusId`, `deliveryCost`, `totalPrice`) VALUES
-('BK25042023000001', '2023-04-25 22:37:27', 'Nguyen Van A', 'Ký túc xá khu B Đại học quốc gia TP.HCM', '0934897659', 1, 20000, 115000),
-('BK25042023000002', '2023-04-25 22:37:27', 'Nguyen Van B', '26 Trường Chinh, thành phố Pleiku, tỉnh Gia Lai', '0134892371', 2, 20000, 305000),
-('BK25042023000003', '2023-04-25 22:37:27', 'Nguyen Van C', '58 Lê Lai, Ba Đình, Hà Nội', '01648785758', 3, 20000, 116000),
-('BK25042023000004', '2023-04-25 22:37:35', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 20000, NULL),
-('BK25042023000005', '2023-04-25 22:37:35', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 20000, 610000),
-('BK25042023000006', '2023-04-25 22:38:37', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 20000, 610000);
+('BK26042023000001', '2023-04-26 00:17:12', 'Nguyen Van A', 'Ký túc xá khu B Đại học quốc gia TP.HCM', '0934897659', 1, 20000, 115000),
+('BK26042023000002', '2023-04-26 00:17:12', 'Nguyen Van B', '26 Trường Chinh, thành phố Pleiku, tỉnh Gia Lai', '0134892371', 2, 20000, 305000),
+('BK26042023000003', '2023-04-26 00:17:12', 'Nguyen Van C', '58 Lê Lai, Ba Đình, Hà Nội', '01648785758', 3, 20000, 116000),
+('BK26042023000004', '2023-04-26 00:37:40', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 50000, 275000),
+('BK26042023000005', '2023-04-26 00:38:29', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 50000, 435000);
 
 --
 -- Triggers `ordering`
@@ -168,18 +167,20 @@ CREATE TABLE `orderproduct` (
 --
 
 INSERT INTO `orderproduct` (`oId`, `pId`, `count`, `totalPrice`) VALUES
-('BK25042023000001', 2, 1, 15000),
-('BK25042023000001', 3, 2, 50000),
-('BK25042023000001', 10, 1, 30000),
-('BK25042023000002', 6, 1, 35000),
-('BK25042023000002', 9, 5, 250000),
-('BK25042023000003', 20, 4, 96000),
-('BK25042023000005', 7, 5, 200000),
-('BK25042023000005', 12, 6, 180000),
-('BK25042023000005', 22, 3, 210000),
-('BK25042023000006', 7, 5, 200000),
-('BK25042023000006', 12, 6, 180000),
-('BK25042023000006', 22, 3, 210000);
+('BK26042023000001', 2, 1, 15000),
+('BK26042023000001', 3, 2, 50000),
+('BK26042023000001', 10, 1, 30000),
+('BK26042023000002', 6, 1, 35000),
+('BK26042023000002', 9, 5, 250000),
+('BK26042023000003', 20, 4, 96000),
+('BK26042023000004', 1, 4, 80000),
+('BK26042023000004', 4, 2, 40000),
+('BK26042023000004', 6, 1, 35000),
+('BK26042023000004', 22, 1, 70000),
+('BK26042023000005', 1, 2, 40000),
+('BK26042023000005', 4, 5, 100000),
+('BK26042023000005', 6, 1, 35000),
+('BK26042023000005', 22, 3, 210000);
 
 --
 -- Triggers `orderproduct`
@@ -299,8 +300,7 @@ INSERT INTO `s` (`_no`) VALUES
 (2),
 (3),
 (4),
-(5),
-(6);
+(5);
 
 -- --------------------------------------------------------
 
@@ -429,7 +429,7 @@ ALTER TABLE `rating`
 -- AUTO_INCREMENT for table `s`
 --
 ALTER TABLE `s`
-  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `statusorder`
