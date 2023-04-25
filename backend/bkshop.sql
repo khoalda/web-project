@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2023 at 03:52 PM
+-- Generation Time: Apr 25, 2023 at 04:09 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -47,7 +47,11 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`aId`, `username`, `password`, `level`, `name`, `dateOfBirth`, `urlAvatar`, `phoneNumber`, `email`, `address`, `status`) VALUES
 (1, 'laptrinhweb', '565008d1f6f712771b27eee29afc8899', 2, 'admin', '1999-05-06', 'https://tenten.vn/tin-tuc/wp-content/uploads/2022/09/2-6.png', '0362704387', 'admin123@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1),
-(2, 'customer', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Nguyễn Văn Tân', '2001-08-09', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg', '0362704387', 'tan@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1);
+(2, 'customer', 'e10adc3949ba59abbe56e057f20f883e', 1, 'Nguyễn Văn Tân', '2001-08-09', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg', '0362704387', 'tan@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1),
+(3, 'tanngkt3', '565008d1f6f712771b27eee29afc8899', 1, 'Nguyen Van Tan', '0000-00-00', '', '0976984255', '', '', 1),
+(4, 'tanngkt4', '565008d1f6f712771b27eee29afc8899', 1, 'Nguyen Van Tan', '0000-00-00', '', '0976984255', '', '', 1),
+(5, 'tanngkt5', '565008d1f6f712771b27eee29afc8899', 1, 'Nguyen Van Tan', '0000-00-00', '', '0976984255', '', '', 1),
+(6, 'tanngkt6', '565008d1f6f712771b27eee29afc8899', 1, 'Nguyen Van Tan', '0000-00-00', '', '0976984255', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -210,7 +214,8 @@ INSERT INTO `product` (`pId`, `name`, `price`, `description`, `image`, `category
 (22, 'Chicken Medium', 70000, 'Gà chiên trong dai ngoài giòn', 'chicken 8.png', 3),
 (23, 'Sprite Bottle', 20000, 'Sprite mát lạnh thơm nồng vị chanh', 'sprite1.png', 1),
 (24, 'Pepsi Bottle', 20000, 'Pepsi mát lạnh, sảng khoái', 'pepsi2.png', 1),
-(25, 'Orange Juice', 25000, 'Nước cam ép đến từ thiên nhiên, không phẩm màu không chất bảo quản', 'orange.png', 1);
+(25, 'Orange Juice', 25000, 'Nước cam ép đến từ thiên nhiên, không phẩm màu không chất bảo quản', 'orange.png', 1),
+(26, 'bò húc', 30000, 'Bò húc mát lạnh', 'https://hangnhapkhauthailan.com/images/hanghoa/bnuoc-tang-luc-bo-huc-lon-24-1-N7C.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -219,8 +224,8 @@ INSERT INTO `product` (`pId`, `name`, `price`, `description`, `image`, `category
 --
 
 CREATE TABLE `rating` (
-  `rId` char(16) NOT NULL,
-  `comment` varchar(2000) DEFAULT NULL,
+  `rId` int(11) NOT NULL,
+  `comment` varchar(1000) DEFAULT NULL,
   `star` int(1) NOT NULL CHECK (`star` >= 1 and `star` <= 5),
   `aId` int(11) DEFAULT NULL,
   `pId` int(11) DEFAULT NULL
@@ -232,7 +237,12 @@ CREATE TABLE `rating` (
 
 INSERT INTO `rating` (`rId`, `comment`, `star`, `aId`, `pId`) VALUES
 (1, 'Sản phẩm thật tuyệt vời', 5, 2, 6),
-(2, 'Nước chanh rất ngon', 4, 2, 4);
+(2, 'Nước chanh rất ngon', 4, 2, 4),
+(4, 'Do an rat ngon', 5, 2, 5),
+(5, 'Không thể nuốt nổi', 1, 2, 17),
+(7, 'Không thể nuốt nổi', 1, 2, 18),
+(8, 'Great!', 3, 1, 7),
+(9, 'Đồ ăn cũng ngon', 5, 6, 7);
 
 -- --------------------------------------------------------
 
@@ -356,7 +366,7 @@ ALTER TABLE `statusorder`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `aId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `aId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -368,13 +378,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `pId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `pId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `rId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `rId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `s`

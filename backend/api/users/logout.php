@@ -8,13 +8,16 @@ require_once '../../config/Role.php';
 
 $user = new UserModel();
     if(!is_logged()) {
+        http_response_code(404);
         echo json_encode(array('message' => 'You are not logged in'));
     }
     else {
         if($user->logout()) {
+            http_response_code(200);
             echo json_encode(array('message' => 'Logout successfully'));
         }
         else {
+            http_response_code(404);
             echo json_encode(array('message' => 'Logout failed'));
         }
     }

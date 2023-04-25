@@ -25,7 +25,8 @@ class UserModel extends Database {
         else
         {
             $row = mysqli_fetch_assoc($query_stmt);
-            if(!password_verify($password, $row['password'])) return array('status'=>false, 'message'=>'Invalid password', 'data'=>NULL);
+            $md5Password = md5($password);
+            if($md5Password != $row['password']) return array('status'=>false, 'message'=>'Invalid password', 'data'=>NULL);
             else {
                 set_logged($username, $row['level'], $row['aId']);
                 return array('status'=>true, 'message'=>'', 'data'=>array('aId'=>$row['aId'],'level'=>$row['level']));
@@ -50,7 +51,7 @@ class UserModel extends Database {
             return array("status"=>False,"message"=>"Account already exists");
         }
 
-        $password = password_hash($data->password, PASSWORD_DEFAULT);
+        $password = md5($data->password);
         $level = 1;
         $name = $data->name;
         $dateOfBirth = isset($data->dateOfBirth) ? $data->dateOfBirth : NULL;
@@ -140,16 +141,16 @@ class UserModel extends Database {
         if($count != 1) return array("status"=>false,"message"=>"Error current username or database");
 
         $row = $result->fetch_assoc();
-        if (!password_verify($oldPassWord, $row['password'])) return array("status"=>false,"message"=>"Incorrect password");
+        if (md5($oldPassWord) != $row['password']) return array("status"=>false,"message"=>"Incorrect password");
 
         $query2 = "UPDATE $this->dbTable 
         SET password = ?
         WHERE username = ?";
         // Tạo đối tượng repared
         $stmt2 = $this->conn->prepare($query2);
-        $NewPassWord = password_hash($newPassWord, PASSWORD_DEFAULT);
+        $md5NewPassWord = md5($newPassWord);
         // Gán giá trị vào các tham số ẩn
-        $stmt2->bind_param("ss", $NewPassWord, $currUsername);
+        $stmt2->bind_param("ss", $md5NewPassWord, $currUsername);
         if($stmt2->execute()) return array("status"=>true,"message"=>"");
         else return array("status"=>false,"message"=>"Error system");
 
@@ -212,4 +213,5 @@ class UserModel extends Database {
         return $stmt->execute();
     }
 }
+
 ?>
