@@ -12,14 +12,6 @@ class UserModel extends Database {
         // SELECT * FROM account WHERE username = 'laptrinhweb';
 
         $query_stmt = mysqli_query($this->conn, $query);
-        // Tạo đối tượng repared
-        // $stmt = $this->conn->prepare($query);
-
-        // // Gán giá trị vào các tham số ẩn
-        // $data = array($dbTable, $username);
-        // // $stmt->bindParam(1, $dbTable);
-        // // $stmt->bindParam(2, $username);
-        // $stmt->execute($data);
 
         if(mysqli_num_rows($query_stmt) != 1) return array('status'=>false, 'message'=>'Invalid username', 'data'=>NULL);
         else

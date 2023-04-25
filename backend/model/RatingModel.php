@@ -93,5 +93,13 @@ class RatingModel extends Database {
         return array('status'=>$stmt->execute(), 'message'=>'Error system');
         
     }
+    public function deleteAll(){
+        $query = "SELECT * FROM $this->dbTable";
+        $stmt = mysqli_query($this->conn, $query);
+        if(mysqli_num_rows($stmt) <= 0) return array('status'=>false, 'message'=>'Empty data');
+        $query2 = "DELETE FROM $this->dbTable";
+        $stmt2 = mysqli_query($this->conn, $query2);
+        return array('status'=>$stmt2, 'message'=>'Error system');
+    }
 }
 ?>
