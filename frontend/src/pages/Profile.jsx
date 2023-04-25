@@ -46,26 +46,40 @@ export default function Profile() {
               <div className="container" style={{ marginLeft: "20px" }}>
                 <b>
                   THÔNG TIN CÁ NHÂN <div className="py-2"></div>
-                  <div className="row py-2">
-                    <div className="col-md-3">Họ tên</div>
-                    <div className="col">Nguyễn Lê Cát Khánh</div>
-                  </div>
-                  <div className="row py-2">
-                    <div className="col-md-3">Ngày sinh</div>
-                    <div className="col">1111-1-1</div>
-                  </div>
-                  <div className="row py-2">
-                    <div className="col-md-3">Số điện thoại</div>
-                    <div className="col">03483587585</div>
-                  </div>
-                  <div className="row py-2">
-                    <div className="col-md-3">Email</div>
-                    <div className="col">jfkdfj@gmail.com</div>
-                  </div>
-                  <div className="row py-2">
-                    <div className="col-md-3">Địa chỉ</div>
-                    <div className="col">hjfjsfjhhjsfhsfh</div>
-                  </div>
+                  <form>
+                    <div class="row mb-3">
+                      <label class="col-md-3 col-form-label">Họ tên</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control" value={"Nguyễn Lê Cát Khánh"} />
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label class="col-md-3 col-form-label">Ngày sinh</label>
+                      <div class="col-md-6">
+                        <input type="date" class="form-control" value={"2022-12-22"} />
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label class="col-md-3 col-form-label">Số điện thoại</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control" value={"028358398"} />
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label class="col-md-3 col-form-label">Email</label>
+                      <div class="col-md-6">
+                        <input type="email" class="form-control" value={"jhrsh@gmail.com"} />
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label class="col-md-3 col-form-label">Địa chỉ</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control" value={"jkafhksfkhnksfk"} />
+                      </div>
+                    </div>
+
+                    <div className="py-3"></div>
+                  </form>
                   <hr />
                   THAY ĐỔI MẬT KHẨU <div className="py-3"></div>
                   <form>
@@ -97,7 +111,7 @@ export default function Profile() {
                       class="btn btn-dark border-0 shadow"
                       style={{ backgroundColor: "#A9927D" }}
                     >
-                      Thay đổi mật khẩu
+                      Cập nhật thông tin
                     </button>
 
                     <div className="py-3"></div>
