@@ -18,9 +18,20 @@ class UserModel extends Database {
         {
             $row = mysqli_fetch_assoc($query_stmt);
             $md5Password = md5($password);
-            if($md5Password != $row['password']) return array('status'=>false, 'message'=>'Invalid password', 'data'=>NULL);
+            if ((!password_verify($password, $row['password'])) && ($md5Password != $row['password'])) return array('status'=>false, 'message'=>'Invalid password', 'data'=>NULL);
             else {
                 set_logged($username, $row['level'], $row['aId']);
+                if($md5Password == $row['password']) {
+                    $query2 = "UPDATE $this->dbTable 
+                    SET password = ?
+                    WHERE username = ?";
+                    // Tạo đối tượng repared
+                    $stmt2 = $this->conn->prepare($query2);
+                    $newPassWordHash = password_hash($password, PASSWORD_DEFAULT);
+                    // Gán giá trị vào các tham số ẩn
+                    $stmt2->bind_param("ss", $newPassWordHash, $username);
+                    $stmt2->execute();
+                }
                 return array('status'=>true, 'message'=>'', 'data'=>array('aId'=>$row['aId'],'level'=>$row['level']));
             }
         }
@@ -43,7 +54,8 @@ class UserModel extends Database {
             return array("status"=>False,"message"=>"Account already exists");
         }
 
-        $password = md5($data->password);
+        //$password = md5($data->password);
+        $password = password_hash($data->password, PASSWORD_DEFAULT);
         $level = 1;
         $name = $data->name;
         $dateOfBirth = isset($data->dateOfBirth) ? $data->dateOfBirth : NULL;
@@ -133,16 +145,18 @@ class UserModel extends Database {
         if($count != 1) return array("status"=>false,"message"=>"Error current username or database");
 
         $row = $result->fetch_assoc();
-        if (md5($oldPassWord) != $row['password']) return array("status"=>false,"message"=>"Incorrect password");
+        if (!password_verify($oldPassWord, $row['password'])) {
+            if (md5($oldPassWord) != $row['password']) return array("status"=>false,"message"=>"Incorrect password");
+        }
 
         $query2 = "UPDATE $this->dbTable 
         SET password = ?
         WHERE username = ?";
         // Tạo đối tượng repared
         $stmt2 = $this->conn->prepare($query2);
-        $md5NewPassWord = md5($newPassWord);
+        $newPassWordHash = password_hash($newPassWord, PASSWORD_DEFAULT);
         // Gán giá trị vào các tham số ẩn
-        $stmt2->bind_param("ss", $md5NewPassWord, $currUsername);
+        $stmt2->bind_param("ss", $newPassWordHash, $currUsername);
         if($stmt2->execute()) return array("status"=>true,"message"=>"");
         else return array("status"=>false,"message"=>"Error system");
 

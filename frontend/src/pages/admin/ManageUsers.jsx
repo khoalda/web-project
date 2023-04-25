@@ -211,6 +211,7 @@ const ManageProducts = () => {
                           Status
                         </TableSortLabel>
                       </StyledTableCell>
+                      <StyledTableCell></StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
