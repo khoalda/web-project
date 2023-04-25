@@ -116,22 +116,23 @@ const Navbar = () => {
                     <img
                       src="https://img.hoidap247.com/picture/answer/20210427/large_1619529081459.jpg"
                       alt="Avatar"
-                      style={{ width: "40px", borderRadius: "50%" }}
+                      style={{ width: "35px", borderRadius: "50%" }}
+                      className="me-3"
                     />
                   </Link>
 
                   {user.level === "1" && (
-                    <Link to="/cart" className="btn btn-outline-dark ms-2">
-                      <i className="fa fa-shopping-cart me-1"></i>Giỏ hàng (
-                      {cartItems.length})
+                    <Link to="/cart" className="btn btn-lg" style={{borderRadius: "20%" }}>
+                      <i className="fa fa-shopping-cart fa-lg"></i><sup>(
+                      {cartItems.length})</sup>
                     </Link>
                   )}
 
                   <button
-                    className="btn btn-outline-dark ms-2"
+                    className="btn btn-btn-lg" 
                     onClick={handleLogout}
                   >
-                    <i className="fa fa-sign-in me-1"></i>Đăng xuất
+                    <i className="fa fa-power-off fa-lg"></i>
                   </button>
                 </>
               ) : (
