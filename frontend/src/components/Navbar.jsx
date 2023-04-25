@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { logout } from "../api/users";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutSuccess } from "../redux/slices/auth";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { clearCart } from "../redux/slices/cart";
+import { useSnackbar } from "notistack";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -13,16 +14,21 @@ const Navbar = () => {
   const cartItems = useSelector((state) => state.cart.items);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path) => {
     return location.pathname === path ? "active" : "";
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleLogout = () => {
     logout();
-    sessionStorage.clear();
+    localStorage.clear();
     dispatch(logoutSuccess());
     dispatch(clearCart());
+    enqueueSnackbar("Đăng xuất thành công", { variant: "success" });
+    navigate("/");
   };
 
   return (

@@ -34,7 +34,7 @@ const Login = () => {
         enqueueSnackbar("Đăng nhập thành công!", {
           variant: "success",
         });
-        sessionStorage.setItem("user", JSON.stringify(response.data.data));
+        localStorage.setItem("user", JSON.stringify(response.data.data));
         navigate("/");
         dispatch(loginSuccess(response.data.data));
         readMyInfo().then((res) => {

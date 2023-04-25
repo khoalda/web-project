@@ -35,8 +35,8 @@ import { loadCartSuccess } from "./redux/slices/cart";
 
 
 function App() {
-  const user = sessionStorage.getItem("user");
-  const cart = sessionStorage.getItem("cart");
+  const user = localStorage.getItem("user");
+  const cart = localStorage.getItem("cart");
   const dispatch = useDispatch();
 
   useEffect(() => {
