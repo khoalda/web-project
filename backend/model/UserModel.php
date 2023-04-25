@@ -20,7 +20,7 @@ class UserModel extends Database {
             $md5Password = md5($password);
             if ((!password_verify($password, $row['password'])) && ($md5Password != $row['password'])) return array('status'=>false, 'message'=>'Invalid password', 'data'=>NULL);
             else {
-                set_logged($username, $row['level'], $row['aId']);
+                set_logged($username, $row['level'], $row['aId'], $row['status']);
                 if($md5Password == $row['password']) {
                     $query2 = "UPDATE $this->dbTable 
                     SET password = ?

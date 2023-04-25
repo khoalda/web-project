@@ -113,6 +113,8 @@ const ManageProducts = () => {
     const sortedProducts = products.sort((a, b) => {
       if (column === "price") {
         return isAsc ? a.price - b.price : b.price - a.price;
+      } else if (column === "pId") {
+        return isAsc ? a.pId - b.pId : b.pId - a.pId;
       } else {
         return isAsc
           ? a[column].toString().localeCompare(b[column].toString())
@@ -124,8 +126,18 @@ const ManageProducts = () => {
 
   return (
     <div>
-      <Container>
-        <Button variant="contained" onClick={handleOpenAdd}>
+      <Container
+        sx={{
+          marginTop: "20px",
+        }}
+      >
+        <Button
+          variant="contained"
+          onClick={handleOpenAdd}
+          sx={{
+            marginBottom: "10px",
+          }}
+        >
           <AddIcon />
           Thêm sản phẩm
         </Button>
@@ -164,7 +176,14 @@ const ManageProducts = () => {
                           Giá
                         </TableSortLabel>
                       </TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          height: "50px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
                         <TableSortLabel
                           active={sortColumn === "description"}
                           direction={
@@ -241,6 +260,10 @@ const ManageProducts = () => {
                   setRowsPerPage(parseInt(event.target.value, 10));
                   setPage(0);
                 }}
+                labelDisplayedRows={({ from, to, count }) =>
+                  `${from}-${to} trên ${count}`
+                }
+                labelRowsPerPage="Số sản phẩm mỗi trang"
               />
             </Paper>
           </Box>
