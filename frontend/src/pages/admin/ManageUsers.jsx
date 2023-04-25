@@ -321,7 +321,7 @@ const ManageProducts = () => {
             </Button>
           </DialogActions>
         </Dialog>  
-*/
+
         {/* Edit Product Dialog */}
         <Dialog open={openEdit} onClose={handleCloseEdit}>
           <DialogTitle>User Detail</DialogTitle>
