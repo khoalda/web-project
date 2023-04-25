@@ -14,6 +14,10 @@ if(is_logged()){
     http_response_code(404);
     echo json_encode(array('message'=>"You are logged in"));
 }
+// else if(true){
+//     http_response_code(200);
+//     set_logged('laptrinhweb', 2, 1);
+// }
 else if(!isset($data->username) || $data->username == "") {
     http_response_code(404);
     echo json_encode(array('message'=>"Don't have the username"));
