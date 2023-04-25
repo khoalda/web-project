@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutSuccess } from "../redux/slices/auth";
 import { useLocation } from "react-router-dom";
 import "./Navbar.css";
+import { clearCart } from "../redux/slices/cart";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Navbar = () => {
     logout();
     sessionStorage.clear();
     dispatch(logoutSuccess());
+    dispatch(clearCart());
   };
 
   return (

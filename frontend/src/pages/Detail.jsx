@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { readOne } from "../api/products";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cart";
 import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
 
 export default function Detail() {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const { user } = useSelector((state) => state.auth);
 
   const pId = window.location.pathname.split("/")[2];
   const dispatch = useDispatch();
@@ -67,8 +70,15 @@ export default function Detail() {
                     className="btn btn-lg"
                     style={{ backgroundColor: "#5E503F", color: "#F2F4F3" }}
                     onClick={() => {
-                      dispatch(addToCart(product));
+                      if (!user) {
+                        enqueueSnackbar("Vui lòng đăng nhập để mua hàng", {
+                          variant: "warning",
+                        });
+                        navigate("/login");
+                        return;
+                      }
 
+                      dispatch(addToCart(product));
                       enqueueSnackbar(`Đã thêm ${product.name} vào giỏ hàng`, {
                         variant: "success",
                       });

@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 import {
   removeFromCart,
@@ -8,6 +9,7 @@ import {
 } from "../redux/slices/cart";
 
 const Cart = () => {
+  const { user } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
@@ -30,6 +32,7 @@ const Cart = () => {
 
   return (
     <div>
+      {!user && <Navigate to="/login" replace={true} />}
       <div className="container">
         <h1 className="py-5 fw-bold">Your Cart</h1>
         <div className="row align-items-start">

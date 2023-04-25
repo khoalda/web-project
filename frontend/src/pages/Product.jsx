@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { readAll } from "../api/products";
 import { Categories } from "../constants/categories";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cart";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import "./Product.css";
 
@@ -13,7 +14,9 @@ const Product = () => {
   const [category, setCategory] = useState("");
   const [sortType, setSortType] = useState("");
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -170,6 +173,14 @@ const Product = () => {
                         type="button"
                         className="btn btn-light fw-bold"
                         onClick={() => {
+                          if (!user) {
+                            enqueueSnackbar("Vui lòng đăng nhập để mua hàng", {
+                              variant: "warning",
+                            });
+                            navigate("/login");
+                            return;
+                          }
+
                           dispatch(addToCart(product));
                           enqueueSnackbar(`Đã thêm ${product.name} vào giỏ hàng`, {
                             variant: "success",

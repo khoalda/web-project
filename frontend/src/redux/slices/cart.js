@@ -92,6 +92,9 @@ const cartSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    clearCart: (state) => {
+      state.items = [];
+    },
   },
 });
 
@@ -104,6 +107,7 @@ export const {
   loadCartRequest,
   loadCartSuccess,
   loadCartFailure,
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

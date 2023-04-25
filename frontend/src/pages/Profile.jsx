@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { updateMyInfo, changeMyPassword } from "../api/users";
 import { useSnackbar } from "notistack";
-import { updateInfo } from "../redux/slices/auth";
+import auth, { updateInfo } from "../redux/slices/auth";
 
 export default function Profile() {
   const { user, info } = useSelector((state) => state.auth);
@@ -98,12 +98,18 @@ export default function Profile() {
                     </button>
                   </sup>
                 </div>
-                <div className="py-3"></div>
                 <b>
-                  <h5 className="py-1">Username: {info?.username}</h5>
-                  <p>
-                    <i className="fa fa-solid fa-star"></i> Level: 1
-                  </p>
+                  <h5 className="py-1">{info?.username}</h5>
+                  <span
+                    style={{
+                      color: "#F2F4F3",
+                      backgroundColor: "#57452e",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    {user.level === 2 ? "Admin" : "Khách hàng"}{" "}
+                  </span>
                 </b>
               </center>
             </div>
