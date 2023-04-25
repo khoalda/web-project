@@ -143,7 +143,7 @@ const ManageProducts = () => {
                           direction={sortColumn === "pId" ? sortOrder : "asc"}
                           onClick={() => handleSort("pId")}
                         >
-                          Product Id
+                          Id
                         </TableSortLabel>
                       </TableCell>
                       <TableCell>
@@ -152,7 +152,7 @@ const ManageProducts = () => {
                           direction={sortColumn === "name" ? sortOrder : "asc"}
                           onClick={() => handleSort("name")}
                         >
-                          Name
+                          Tên
                         </TableSortLabel>
                       </TableCell>
                       <TableCell>
@@ -161,7 +161,7 @@ const ManageProducts = () => {
                           direction={sortColumn === "price" ? sortOrder : "asc"}
                           onClick={() => handleSort("price")}
                         >
-                          Price
+                          Giá
                         </TableSortLabel>
                       </TableCell>
                       <TableCell>
@@ -172,20 +172,20 @@ const ManageProducts = () => {
                           }
                           onClick={() => handleSort("description")}
                         >
-                          Description
+                          Mô tả
                         </TableSortLabel>
                       </TableCell>
-                      <TableCell>Image</TableCell>
+                      <TableCell>Hình ảnh</TableCell>
                       <TableCell>
                         <TableSortLabel
                           active={sortColumn === "Cname"}
                           direction={sortColumn === "Cname" ? sortOrder : "asc"}
                           onClick={() => handleSort("Cname")}
                         >
-                          Category Id
+                          Danh mục
                         </TableSortLabel>
                       </TableCell>
-                      <TableCell>Action</TableCell>
+                      <TableCell>Hành động</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -252,19 +252,11 @@ const ManageProducts = () => {
 
         {/* Add Product Dialog */}
         <Dialog open={openAdd} onClose={handleCloseAdd}>
-          <DialogTitle>Add Product</DialogTitle>
+          <DialogTitle>Thêm sản phẩm</DialogTitle>
           <DialogContent>
-            <DialogContentText>Please enter product details:</DialogContentText>
+            <DialogContentText>Nhập thông tin sản phẩm:</DialogContentText>
             <TextField
-              label="Product Id"
-              fullWidth
-              value={selectedProduct.pId}
-              onChange={(e) =>
-                setSelectedProduct({ ...selectedProduct, pId: e.target.value })
-              }
-            />
-            <TextField
-              label="Name"
+              label="Tên"
               fullWidth
               value={selectedProduct.name}
               onChange={(e) =>
@@ -272,7 +264,7 @@ const ManageProducts = () => {
               }
             />
             <TextField
-              label="Price"
+              label="Giá"
               fullWidth
               value={selectedProduct.price}
               onChange={(e) =>
@@ -283,7 +275,7 @@ const ManageProducts = () => {
               }
             />
             <TextField
-              label="Description"
+              label="Mô tả"
               fullWidth
               value={selectedProduct.description}
               onChange={(e) =>
@@ -294,7 +286,7 @@ const ManageProducts = () => {
               }
             />
             <TextField
-              label="Image"
+              label="URL hình ảnh"
               fullWidth
               value={selectedProduct.image}
               onChange={(e) =>
@@ -305,7 +297,7 @@ const ManageProducts = () => {
               }
             />
             <TextField
-              label="Category Id"
+              label="Danh mục"
               fullWidth
               value={selectedProduct.Cname}
               onChange={(e) =>
@@ -317,14 +309,14 @@ const ManageProducts = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseAdd}>Cancel</Button>
+            <Button onClick={handleCloseAdd}>Hủy</Button>
             <Button
               onClick={() => {
                 handleAdd(selectedProduct);
                 setSelectedProduct(initialProduct);
               }}
             >
-              Add
+              Thêm
             </Button>
           </DialogActions>
         </Dialog>
