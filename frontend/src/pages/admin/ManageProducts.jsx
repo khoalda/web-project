@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TableContainer,
   Table,
@@ -18,6 +18,7 @@ import {
   Container,
   TablePagination,
   TableSortLabel,
+  Box,
 } from "@mui/material";
 import {
   Edit as EditIcon,
@@ -25,36 +26,19 @@ import {
   Add as AddIcon,
 } from "@mui/icons-material";
 
+import { readAll } from "../../api/products";
+
 const initialProduct = {
   pId: "",
   name: "",
   price: "",
   description: "",
   image: "",
-  categoryId: "",
+  Cname: "",
 };
 
-const productsData = [
-  {
-    pId: 1,
-    name: "Product 1",
-    price: 10,
-    description: "Description for Product 1",
-    image: "https://via.placeholder.com/150",
-    categoryId: 1,
-  },
-  {
-    pId: 2,
-    name: "Product 2",
-    price: 20,
-    description: "Description for Product 2",
-    image: "https://via.placeholder.com/150",
-    categoryId: 2,
-  },
-];
-
 const ManageProducts = () => {
-  const [products, setProducts] = useState(productsData);
+  const [products, setProducts] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(initialProduct);
@@ -65,6 +49,14 @@ const ManageProducts = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortOrder, setSortOrder] = useState("asc");
   const [sortColumn, setSortColumn] = useState("pId");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await readAll();
+      setProducts(data.data);
+    };
+    fetchProducts();
+  }, []);
 
   const handleOpenAdd = () => {
     setOpenAdd(true);
@@ -137,100 +129,126 @@ const ManageProducts = () => {
           <AddIcon />
           Thêm sản phẩm
         </Button>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortColumn === "pId"}
-                    direction={sortColumn === "pId" ? sortOrder : "asc"}
-                    onClick={() => handleSort("pId")}
-                  >
-                    Product Id
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortColumn === "name"}
-                    direction={sortColumn === "name" ? sortOrder : "asc"}
-                    onClick={() => handleSort("name")}
-                  >
-                    Name
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortColumn === "price"}
-                    direction={sortColumn === "price" ? sortOrder : "asc"}
-                    onClick={() => handleSort("price")}
-                  >
-                    Price
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortColumn === "description"}
-                    direction={sortColumn === "description" ? sortOrder : "asc"}
-                    onClick={() => handleSort("description")}
-                  >
-                    Description
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell>Image</TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortColumn === "categoryId"}
-                    direction={sortColumn === "categoryId" ? sortOrder : "asc"}
-                    onClick={() => handleSort("categoryId")}
-                  >
-                    Category Id
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {products
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((product) => (
-                  <TableRow key={product.pId}>
-                    <TableCell>{product.pId}</TableCell>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.price}</TableCell>
-                    <TableCell>{product.description}</TableCell>
-                    <TableCell>
-                      <img src={product.image} alt={product.name} width="50" />
-                    </TableCell>
-                    <TableCell>{product.categoryId}</TableCell>
-                    <TableCell>
-                      <IconButton onClick={() => handleOpenEdit(product)}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton onClick={() => handleOpenDelete(product.pId)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
 
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={products.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={(event, newPage) => {
-                setPage(newPage);
-              }}
-              onRowsPerPageChange={(event) => {
-                setRowsPerPage(parseInt(event.target.value, 10));
-                setPage(0);
-              }}
-            />
-          </Table>
-        </TableContainer>
+        {products?.length > 0 ? (
+          <Box sx={{ width: "100%" }}>
+            <Paper sx={{ width: "100%", mb: 2 }}>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortColumn === "pId"}
+                          direction={sortColumn === "pId" ? sortOrder : "asc"}
+                          onClick={() => handleSort("pId")}
+                        >
+                          Product Id
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortColumn === "name"}
+                          direction={sortColumn === "name" ? sortOrder : "asc"}
+                          onClick={() => handleSort("name")}
+                        >
+                          Name
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortColumn === "price"}
+                          direction={sortColumn === "price" ? sortOrder : "asc"}
+                          onClick={() => handleSort("price")}
+                        >
+                          Price
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortColumn === "description"}
+                          direction={
+                            sortColumn === "description" ? sortOrder : "asc"
+                          }
+                          onClick={() => handleSort("description")}
+                        >
+                          Description
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>Image</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortColumn === "Cname"}
+                          direction={sortColumn === "Cname" ? sortOrder : "asc"}
+                          onClick={() => handleSort("Cname")}
+                        >
+                          Category Id
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {products
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((product) => (
+                        <TableRow key={product.pId}>
+                          <TableCell>{product.pId}</TableCell>
+                          <TableCell>{product.name}</TableCell>
+                          <TableCell>{product.price}</TableCell>
+                          <TableCell>{product.description}</TableCell>
+                          <TableCell>
+                            <img
+                              src={`/${product.image}`}
+                              alt={product.name}
+                              width="50"
+                              height="50"
+                              style={{
+                                objectFit: "contain",
+                                objectPosition: "center center",
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell>{product.Cname}</TableCell>
+                          <TableCell>
+                            <IconButton onClick={() => handleOpenEdit(product)}>
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton
+                              onClick={() => handleOpenDelete(product.pId)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={products.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={(event, newPage) => {
+                  setPage(newPage);
+                }}
+                onRowsPerPageChange={(event) => {
+                  setRowsPerPage(parseInt(event.target.value, 10));
+                  setPage(0);
+                }}
+              />
+            </Paper>
+          </Box>
+        ) : (
+          <div>
+            <h2>Không có sản phẩm nào</h2>
+          </div>
+        )}
 
         {/* Add Product Dialog */}
         <Dialog open={openAdd} onClose={handleCloseAdd}>
@@ -289,11 +307,11 @@ const ManageProducts = () => {
             <TextField
               label="Category Id"
               fullWidth
-              value={selectedProduct.categoryId}
+              value={selectedProduct.Cname}
               onChange={(e) =>
                 setSelectedProduct({
                   ...selectedProduct,
-                  categoryId: e.target.value,
+                  Cname: e.target.value,
                 })
               }
             />
@@ -370,11 +388,11 @@ const ManageProducts = () => {
             <TextField
               label="Category Id"
               fullWidth
-              value={selectedProduct.categoryId}
+              value={selectedProduct.Cname}
               onChange={(e) =>
                 setSelectedProduct({
                   ...selectedProduct,
-                  categoryId: e.target.value,
+                  Cname: e.target.value,
                 })
               }
             />
