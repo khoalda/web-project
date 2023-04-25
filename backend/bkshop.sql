@@ -219,8 +219,8 @@ INSERT INTO `product` (`pId`, `name`, `price`, `description`, `image`, `category
 --
 
 CREATE TABLE `rating` (
-  `rId` int(11) NOT NULL,
-  `comment` varchar(1000) DEFAULT NULL,
+  `rId` char(16) NOT NULL,
+  `comment` varchar(2000) DEFAULT NULL,
   `star` int(1) NOT NULL CHECK (`star` >= 1 and `star` <= 5),
   `aId` int(11) DEFAULT NULL,
   `pId` int(11) DEFAULT NULL
