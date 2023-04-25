@@ -63,12 +63,20 @@ export default function Profile() {
       <div className="container py-5">
         <div
           className="card shadow"
-          style={{background: "linear-gradient(to right, #000 0%,  #000 50%, #fff 50% #fff 100%)", borderColor: "#D3D3D3" }}
+          style={{
+            background:
+              "linear-gradient(to right, #000 0%,  #000 50%, #fff 50% #fff 100%)",
+            borderColor: "#D3D3D3",
+          }}
         >
           <div className="row g-0">
             <div
               className="col-md-3 py-2"
-              style={{ backgroundImage: 'linear-gradient(109.5deg, rgb(229, 233, 177) 11.2%, rgb(223, 205, 187) 100.2%)', color: "#F2F4F3" }}
+              style={{
+                backgroundImage:
+                  "linear-gradient(109.5deg, rgb(229, 233, 177) 11.2%, rgb(223, 205, 187) 100.2%)",
+                color: "#F2F4F3",
+              }}
             >
               <center>
                 <div className="py-3">
@@ -99,7 +107,9 @@ export default function Profile() {
                   </sup>
                 </div>
                 <b>
-                  <h5 className="py-1">{info?.username}</h5>
+                  <h5 className="py-1" style={{ color: "black" }}>
+                    {info?.username}
+                  </h5>
                   <span
                     style={{
                       color: "#F2F4F3",

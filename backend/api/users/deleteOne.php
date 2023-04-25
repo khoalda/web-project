@@ -11,20 +11,17 @@ $user = new UserModel();
 $rq_aId = isset($_GET['aId']) ? $_GET['aId'] : die("Don't have the aId"); //request aId
 if (!is_admin()) {
     echo json_encode(array('message' => "You aren't admin"));
-}
-else {
+} else {
     $result = $user->deleteOne($rq_aId);
-    if($result) {
-        if($result['status']) {
+    if ($result) {
+        if ($result['status']) {
             http_response_code(201);
             echo json_encode(array('message' => 'Delete successful'));
-        }
-        else {
+        } else {
             http_response_code(404);
             echo json_encode(array('message' => $result['message']));
         }
-    }
-    else {
+    } else {
         http_response_code(404);
         echo json_encode(
             array('message' => "Error system")

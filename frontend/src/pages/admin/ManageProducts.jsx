@@ -23,6 +23,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  styled,
 } from "@mui/material";
 import {
   Edit as EditIcon,
@@ -38,6 +39,15 @@ import {
 } from "../../constants/categories";
 
 import { useSnackbar } from "notistack";
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 const initialProduct = {
   pId: "",
@@ -281,7 +291,7 @@ const ManageProducts = () => {
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((product) => (
-                        <TableRow key={product.pId}>
+                        <StyledTableRow key={product.pId}>
                           <TableCell>{product.pId}</TableCell>
                           <TableCell>{product.name}</TableCell>
                           <TableCell>{product.price}</TableCell>
@@ -309,7 +319,7 @@ const ManageProducts = () => {
                               <DeleteIcon />
                             </IconButton>
                           </TableCell>
-                        </TableRow>
+                        </StyledTableRow>
                       ))}
                   </TableBody>
                 </Table>

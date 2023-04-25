@@ -17,41 +17,29 @@ import {
   TextField,
   Container,
   TablePagination,
-  tableCellClasses,
   TableSortLabel,
   Box,
   styled,
 } from "@mui/material";
 import {
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Add as AddIcon,
+  Delete,
+  Visibility,
   PersonOff,
+  PersonAdd,
 } from "@mui/icons-material";
-
-import { readAllUsers, updateUserInfo } from "../../api/users";
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+import { useSnackbar } from "notistack";
+import { readAllUsers, deleteUser, toggleUserStatus } from "../../api/users";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 
-const initialUsersList = {
+const initialUser = {
   aId: "",
   username: "",
   level: "",
@@ -65,45 +53,45 @@ const initialUsersList = {
 };
 
 const ManageProducts = () => {
-  const [users, setUsersList] = useState([]);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(initialUsersList);
+  const [users, setUsers] = useState([]);
+  const [openDetail, setOpenEdit] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(initialUser);
   const [openDelete, setOpenDelete] = useState(false);
   const [openStatus, setOpenStatus] = useState(false);
-  const [userId, setChangeStatus] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortOrder, setSortOrder] = useState("asc");
   const [sortColumn, setSortColumn] = useState("aId");
 
+  const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
     const fetchUsers = async () => {
       const data = await readAllUsers();
-      console.log(data.data);
-      setUsersList(data.data);
+      setUsers(data.data);
     };
     fetchUsers();
   }, []);
 
   const handleOpenStatus = (user) => {
     setOpenStatus(true);
-    // setChangeStatus(user.status == 0 ? 1 : 0);
+    setSelectedUser(user);
   };
 
   const handleCloseStatus = () => {
     setOpenStatus(false);
-    setSelectedUser(initialUsersList);
+    setSelectedUser(initialUser);
   };
 
-  const handleOpenEdit = (user) => {
+  const handleOpenDetail = (user) => {
     setSelectedUser(user);
     setOpenEdit(true);
   };
 
-  const handleCloseEdit = () => {
+  const handleCloseDetail = () => {
     setOpenEdit(false);
-    setSelectedUser(initialUsersList);
+    setSelectedUser(initialUser);
   };
 
   const handleOpenDelete = (aId) => {
@@ -116,26 +104,39 @@ const ManageProducts = () => {
     setDeleteUserId(null);
   };
 
-  const handleStatus = (user) => {
-    const index = users.findIndex((u) => u.aId === user.aId);
-    const newUsersList = [...users];
-    newUsersList[index] = user;
-    setUsersList(newUsersList);
-    setSelectedUser(initialUsersList);
-  };
-
-  const handleEdit = (user) => {
-    const index = users.findIndex((u) => u.aId === user.aId);
-    const newUsersList = [...users];
-    newUsersList[index] = user;
-    setUsersList(newUsersList);
-    setOpenEdit(false);
-    setSelectedUser(initialUsersList);
+  const handleStatus = (id) => {
+    toggleUserStatus(id).then((res) => {
+      enqueueSnackbar("Cập nhật thành công", {
+        variant: "success",
+      });
+      readAllUsers()
+        .then((res) => {
+          setUsers(res.data);
+          handleCloseStatus();
+        })
+        .catch((err) => {
+          enqueueSnackbar("Cập nhật thất bại", {
+            variant: "error",
+          });
+        });
+    });
   };
 
   const handleDelete = (aId) => {
-    const newUsersList = users.filter((u) => u.aId !== aId);
-    setUsersList(newUsersList);
+    deleteUser(aId)
+      .then((res) => {
+        enqueueSnackbar("Xóa người dùng thành công", {
+          variant: "success",
+        });
+        const newUsersList = users.filter((user) => user.aId !== aId);
+        setUsers(newUsersList);
+        handleCloseDelete();
+      })
+      .catch((err) => {
+        enqueueSnackbar("Xóa người dùng thất bại", {
+          variant: "error",
+        });
+      });
   };
 
   const handleSort = (column) => {
@@ -148,7 +149,7 @@ const ManageProducts = () => {
         ? a[column].toString().localeCompare(b[column].toString())
         : b[column].toString().localeCompare(a[column].toString());
     });
-    setUsersList(sortedProducts);
+    setUsers(sortedProducts);
   };
 
   return (
@@ -165,7 +166,7 @@ const ManageProducts = () => {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell>
+                      <TableCell>
                         <TableSortLabel
                           active={sortColumn === "aId"}
                           direction={sortColumn === "aId" ? sortOrder : "asc"}
@@ -173,9 +174,9 @@ const ManageProducts = () => {
                         >
                           ID
                         </TableSortLabel>
-                      </StyledTableCell>
-                      <StyledTableCell></StyledTableCell>
-                      <StyledTableCell>
+                      </TableCell>
+                      <TableCell>Ảnh đại diện</TableCell>
+                      <TableCell>
                         <TableSortLabel
                           active={sortColumn === "username"}
                           direction={
@@ -183,38 +184,38 @@ const ManageProducts = () => {
                           }
                           onClick={() => handleSort("username")}
                         >
-                          Username
+                          Tên đăng nhập
                         </TableSortLabel>
-                      </StyledTableCell>
+                      </TableCell>
 
-                      <StyledTableCell>
+                      <TableCell>
                         <TableSortLabel
                           active={sortColumn === "name"}
                           direction={sortColumn === "name" ? sortOrder : "asc"}
                           onClick={() => handleSort("name")}
                         >
-                          Name
+                          Tên
                         </TableSortLabel>
-                      </StyledTableCell>
-                      <StyledTableCell>
+                      </TableCell>
+                      <TableCell>
                         <TableSortLabel
                           active={sortColumn === "level"}
                           direction={sortColumn === "level" ? sortOrder : "asc"}
                           onClick={() => handleSort("level")}
                         >
-                          Level
+                          Loại tài khoản
                         </TableSortLabel>
-                      </StyledTableCell>
-                      <StyledTableCell>
+                      </TableCell>
+                      <TableCell>
                         <TableSortLabel
                           active={sortColumn === "staus"}
                           direction={sortColumn === "staus" ? sortOrder : "asc"}
                           onClick={() => handleSort("status")}
                         >
-                          Status
+                          Trạng thái
                         </TableSortLabel>
-                      </StyledTableCell>
-                      <StyledTableCell></StyledTableCell>
+                      </TableCell>
+                      <TableCell>Hành động</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -229,7 +230,7 @@ const ManageProducts = () => {
 
                           <TableCell>
                             <img
-                              src={`${user.urlAvatar}`}
+                              src={user.urlAvatar || "/avatar.png"}
                               alt={user.name}
                               width="50"
                               height="50"
@@ -241,20 +242,53 @@ const ManageProducts = () => {
                           </TableCell>
                           <TableCell>{user.username}</TableCell>
                           <TableCell>{user.name}</TableCell>
-                          <TableCell>{user.level}</TableCell>
-                          <TableCell>{user.status}</TableCell>
                           <TableCell>
-                            <IconButton onClick={() => handleOpenStatus(user)}>
-                              <PersonOff />
-                            </IconButton>
-                            <IconButton onClick={() => handleOpenEdit(user)}>
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton
-                              onClick={() => handleOpenDelete(user.aId)}
+                            <span
+                              style={{
+                                color: "#F2F4F3",
+                                backgroundColor: "#57452e",
+                                padding: "5px",
+                                borderRadius: "5px",
+                              }}
                             >
-                              <DeleteIcon />
+                              {user.level === "2" ? "Admin" : "Khách hàng"}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <span
+                              style={{
+                                color: "#FFFFFF",
+                                backgroundColor:
+                                  user.status === "0" ? "red" : "green",
+                                padding: "5px",
+                                borderRadius: "5px",
+                              }}
+                            >
+                              {user.status === "0" ? "Bị chặn" : "Hoạt động"}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <IconButton onClick={() => handleOpenDetail(user)}>
+                              <Visibility />
                             </IconButton>
+                            {user.level === "1" && (
+                              <>
+                                <IconButton
+                                  onClick={() => handleOpenStatus(user)}
+                                >
+                                  {user.status === "0" ? (
+                                    <PersonAdd />
+                                  ) : (
+                                    <PersonOff />
+                                  )}
+                                </IconButton>
+                                <IconButton
+                                  onClick={() => handleOpenDelete(user.aId)}
+                                >
+                                  <Delete />
+                                </IconButton>
+                              </>
+                            )}
                           </TableCell>
                         </StyledTableRow>
                       ))}
@@ -287,149 +321,131 @@ const ManageProducts = () => {
           </div>
         )}
 
-        {/* Enable/Disable user Dialog */}
-        <Dialog open={openStatus} onClose={handleCloseStatus}>
-          <DialogTitle>Confirm Change</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Are you sure you want to delete this product?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseStatus}>Cancel</Button>
-            <Button
-              onClick={() => {
-                // handleStatus(userId);
-                handleCloseDelete();
+        {/* User detail Dialog */}
+        <Dialog open={openDetail} onClose={handleCloseDetail}>
+          <DialogTitle>Thông tin người dùng</DialogTitle>
+          <DialogContent
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "450px",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={selectedUser.urlAvatar || "/avatar.png"}
+              alt="Avatar"
+              style={{
+                width: "145px",
+                height: "145px",
+                borderRadius: "50%",
+                marginTop: "50px",
+                position: "relative",
               }}
-              color="secondary"
-            >
-              Enable
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {/* Enable/Disable user Dialog */}
-        <Dialog open={openDelete} onClose={handleCloseDelete}>
-          <DialogTitle>Confirm Delete</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Are you sure you want to delete this product?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDelete}>Cancel</Button>
-            <Button
-              onClick={() => {
-                handleDelete(deleteUserId);
-                handleCloseDelete();
+            />
+            <h5 className="py-1" style={{ color: "black" }}>
+              {selectedUser.username}
+            </h5>
+            <span
+              style={{
+                color: "#F2F4F3",
+                backgroundColor: "#57452e",
+                padding: "5px",
+                borderRadius: "5px",
               }}
-              color="secondary"
             >
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {/* Edit Product Dialog */}
-        <Dialog open={openEdit} onClose={handleCloseEdit}>
-          <DialogTitle>User Detail</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Please update product details:
-            </DialogContentText>
+              {selectedUser.level === "2" ? "Admin" : "Khách hàng"}
+            </span>
             <TextField
-              label="Account ID"
+              label="Tên"
               fullWidth
-              value={selectedUser.aId}
-              onChange={(e) =>
-                setSelectedUser({ ...selectedUser, aId: e.target.value })
-              }
+              value={selectedUser.name}
+              sx={{ marginTop: 2 }}
+              variant="standard"
             />
             <TextField
-              label="Username"
+              label="Ngày sinh"
               fullWidth
-              value={selectedUser.username}
-              onChange={(e) =>
-                setSelectedUser({ ...selectedUser, name: e.target.value })
-              }
+              value={selectedUser.dateOfBirth}
+              sx={{ marginTop: 2 }}
+              variant="standard"
             />
             <TextField
-              label="Price"
+              label="Số điện thoại"
               fullWidth
-              value={selectedUser.price}
-              onChange={(e) =>
-                setSelectedUser({
-                  ...selectedUser,
-                  price: e.target.value,
-                })
-              }
+              value={selectedUser.phoneNumber}
+              sx={{ marginTop: 2 }}
+              variant="standard"
             />
             <TextField
-              label="Description"
+              label="Email"
               fullWidth
-              value={selectedUser.description}
-              onChange={(e) =>
-                setSelectedUser({
-                  ...selectedUser,
-                  description: e.target.value,
-                })
-              }
+              value={selectedUser.email}
+              sx={{ marginTop: 2 }}
+              variant="standard"
             />
             <TextField
-              label="Image"
+              label="Địa chỉ"
               fullWidth
-              value={selectedUser.urlAvatar}
-              onChange={(e) =>
-                setSelectedUser({
-                  ...selectedUser,
-                  image: e.target.value,
-                })
-              }
-            />
-            <TextField
-              label="Category Id"
-              fullWidth
-              value={selectedUser.Cname}
-              onChange={(e) =>
-                setSelectedUser({
-                  ...selectedUser,
-                  Cname: e.target.value,
-                })
-              }
+              value={selectedUser.address}
+              sx={{ marginTop: 2 }}
+              variant="standard"
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseEdit}>Cancel</Button>
-            <Button
-              onClick={() => {
-                handleEdit(selectedUser);
-                setSelectedUser(initialUsersList);
-              }}
-            >
-              Update
+            <Button variant="contained" onClick={handleCloseDetail}>
+              Xong
             </Button>
           </DialogActions>
         </Dialog>
 
         {/* Delete user Dialog */}
         <Dialog open={openDelete} onClose={handleCloseDelete}>
-          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogTitle>Xác nhận xóa</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Are you sure you want to delete this user?
+              Bạn có chắc chắn muốn xóa người dùng này không?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDelete}>Cancel</Button>
+            <Button onClick={handleCloseDelete} variant="outlined">
+              Hủy
+            </Button>
             <Button
               onClick={() => {
                 handleDelete(deleteUserId);
                 handleCloseDelete();
               }}
-              color="secondary"
+              variant="contained"
             >
-              Delete
+              Xóa
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={openStatus} onClose={handleCloseStatus}>
+          <DialogTitle>
+            Xác nhận {selectedUser.status === "1" ? "chặn" : "bỏ chặn"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Bạn có chắc chắn muốn{" "}
+              {selectedUser.status === "1" ? "chặn" : "bỏ chặn"} người dùng này
+              không?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseStatus} variant="outlined">
+              Hủy
+            </Button>
+            <Button
+              onClick={() => {
+                handleStatus(selectedUser.aId);
+              }}
+              variant="contained"
+            >
+              {selectedUser.status === "1" ? "chặn" : "bỏ chặn"}
             </Button>
           </DialogActions>
         </Dialog>

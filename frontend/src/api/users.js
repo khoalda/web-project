@@ -52,15 +52,13 @@ export const readUser = (id) => {
 
 export const updateUserInfo = (id, data) => {
   const payload = JSON.stringify(data);
-
-  // {
-  //   "name": "Khoa Lai",
-  //   "phoneNumber": "0905335297",
-  //   "dateOfBirth": "",
-  //   "urlAvatar": "",
-  //   "email": "",
-  //   "address": ""
-  // }
-
   return instance.post(`/users/updateInfo.php?aId=${id}`, payload);
+};
+
+export const deleteUser = (id) => {
+  return instance.delete(`/users/deleteOne.php?aId=${id}`);
+};
+
+export const toggleUserStatus = (id) => {
+  return instance.put(`/users/updateStatus.php?aId=${id}`);
 };

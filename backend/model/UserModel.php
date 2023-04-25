@@ -188,7 +188,6 @@ class UserModel extends Database {
         $stmt->bind_param("ii", $status, $aId);
         if($stmt->execute()) return array("status"=>true,"message"=>'');
         else return array("status"=>false,"message"=>'Error system');
-
     }
     public function deleteOne($aId) {
         $query0 = "SELECT * FROM $this->dbTable WHERE aId = ?";
