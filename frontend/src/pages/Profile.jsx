@@ -108,7 +108,7 @@ export default function Profile() {
                       borderRadius: "5px",
                     }}
                   >
-                    {user.level === 2 ? "Admin" : "Khách hàng"}{" "}
+                    {user.level === "2" ? "Admin" : "Khách hàng"}{" "}
                   </span>
                 </b>
               </center>

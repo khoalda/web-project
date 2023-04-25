@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2023 at 07:38 PM
+-- Generation Time: Apr 25, 2023 at 08:33 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -103,7 +103,9 @@ INSERT INTO `orderaccount` (`oId`, `aId`) VALUES
 ('BK26042023000004', 1),
 ('BK26042023000001', 2),
 ('BK26042023000002', 2),
-('BK26042023000005', 2);
+('BK26042023000005', 2),
+('BK26042023000006', 2),
+('BK26042023000007', 2);
 
 -- --------------------------------------------------------
 
@@ -131,7 +133,9 @@ INSERT INTO `ordering` (`oId`, `time`, `name`, `address`, `phoneNumber`, `status
 ('BK26042023000002', '2023-04-26 00:17:12', 'Nguyen Van B', '26 Trường Chinh, thành phố Pleiku, tỉnh Gia Lai', '0134892371', 2, 20000, 305000),
 ('BK26042023000003', '2023-04-26 00:17:12', 'Nguyen Van C', '58 Lê Lai, Ba Đình, Hà Nội', '01648785758', 3, 20000, 116000),
 ('BK26042023000004', '2023-04-26 00:37:40', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 50000, 275000),
-('BK26042023000005', '2023-04-26 00:38:29', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 50000, 435000);
+('BK26042023000005', '2023-04-26 00:38:29', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 50000, 435000),
+('BK26042023000006', '2023-04-26 01:17:32', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000),
+('BK26042023000007', '2023-04-26 01:19:06', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000);
 
 --
 -- Triggers `ordering`
@@ -180,7 +184,15 @@ INSERT INTO `orderproduct` (`oId`, `pId`, `count`, `totalPrice`) VALUES
 ('BK26042023000005', 1, 2, 40000),
 ('BK26042023000005', 4, 5, 100000),
 ('BK26042023000005', 6, 1, 35000),
-('BK26042023000005', 22, 3, 210000);
+('BK26042023000005', 22, 3, 210000),
+('BK26042023000006', 4, 5, 100000),
+('BK26042023000006', 8, 1, 14000),
+('BK26042023000006', 15, 2, 200000),
+('BK26042023000006', 22, 3, 210000),
+('BK26042023000007', 4, 5, 100000),
+('BK26042023000007', 8, 1, 14000),
+('BK26042023000007', 15, 2, 200000),
+('BK26042023000007', 22, 3, 210000);
 
 --
 -- Triggers `orderproduct`
@@ -300,7 +312,9 @@ INSERT INTO `s` (`_no`) VALUES
 (2),
 (3),
 (4),
-(5);
+(5),
+(6),
+(7);
 
 -- --------------------------------------------------------
 
@@ -429,7 +443,7 @@ ALTER TABLE `rating`
 -- AUTO_INCREMENT for table `s`
 --
 ALTER TABLE `s`
-  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `statusorder`

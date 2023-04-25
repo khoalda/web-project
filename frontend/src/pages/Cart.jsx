@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { createOrder } from "../api/orders";
+import { useSnackbar } from "notistack";
 
 import {
   removeFromCart,
   decrementCartItem,
   incrementCartItem,
+  clearCart,
 } from "../redux/slices/cart";
 
 const Cart = () => {
   const { user } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
+
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -32,8 +40,13 @@ const Cart = () => {
   };
 
   return (
-    <div style={{backgroundColor: "#CDC0B4",
-      backgroundImage: 'linear-gradient(to left top, #F7F6F4 50%, #CDC0B4 50%)' }}>
+    <div
+      style={{
+        backgroundColor: "#CDC0B4",
+        backgroundImage:
+          "linear-gradient(to left top, #F7F6F4 50%, #CDC0B4 50%)",
+      }}
+    >
       {!user && <Navigate to="/login" replace={true} />}
       <div className="container">
         <h2 className="py-5 fw-bold"> Your Cart</h2>
@@ -126,6 +139,8 @@ const Cart = () => {
                     className="form-control"
                     placeholder="Name"
                     style={{ width: "100%" }}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
@@ -135,6 +150,8 @@ const Cart = () => {
                     className="form-control"
                     placeholder="Address"
                     style={{ width: "100%" }}
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
@@ -144,6 +161,8 @@ const Cart = () => {
                     className="form-control"
                     placeholder="Phone"
                     style={{ width: "100%" }}
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </div>
               </div>
@@ -161,14 +180,40 @@ const Cart = () => {
                 </p>
               </div>
               <hr />
-              <a
+              <button
                 type="button"
                 className="btn btn-light btn-block fw-bold"
                 style={{ width: "100%" }}
-                href="/checkout"
+                onClick={() => {
+                  const order = {
+                    name,
+                    address,
+                    phoneNumber,
+                    products: cartItems.map((item) => ({
+                      pId: parseInt(item.pId),
+                      quantity: item.quantity,
+                    })),
+                    deliveryCost: 10000,
+                  };
+
+                  createOrder(order)
+                    .then((res) => {
+                      console.log(res);
+                      dispatch(clearCart());
+                      enqueueSnackbar("Đặt hàng thành công", {
+                        variant: "success",
+                      });
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      enqueueSnackbar("Đặt hàng thất bại", {
+                        variant: "error",
+                      });
+                    });
+                }}
               >
-                Thanh Toán
-              </a>
+                Đặt hàng
+              </button>
             </div>
           </div>
 

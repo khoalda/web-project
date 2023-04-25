@@ -124,7 +124,11 @@ const Navbar = () => {
                     <img
                       src={info?.urlAvatar || "/avatar.png"}
                       alt="Avatar"
-                      style={{ width: "35px", borderRadius: "50%" }}
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        borderRadius: "50%",
+                      }}
                       className="me-3"
                     />
                   </Link>
