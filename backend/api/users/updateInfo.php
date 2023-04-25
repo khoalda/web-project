@@ -16,6 +16,10 @@ $data = json_decode(file_get_contents("php://input"));
 if(!is_logged()) {
     echo json_encode(array('message' => "You are not logged in"));
 }
+else if(is_block()) {
+    http_response_code(404);
+    echo json_encode(array('message' => 'Your account is blocked'));
+}
 else {
     $aId = NULL;
     $rq_aId = isset($_GET['aId']) ? $_GET['aId'] : NULL; //request aId

@@ -2,11 +2,12 @@
 require_once 'Session.php';
 
 // Hàm thiết lập là đã đăng nhập
-function set_logged($username, $level, $aId){
+function set_logged($username, $level, $aId, $status){
     session_set('ss_user_token', array(
         'username' => $username,
         'level' => $level,
-        'aId' => $aId
+        'aId' => $aId,
+        'status'=> $status
     ));
 }
  
@@ -30,6 +31,18 @@ function is_admin(){
     return false;
 }
 
+// Hàm kiểm tra người dùng có bị block không?
+function is_block(){
+    $user  = is_logged();
+    // echo $user['status'];
+    // echo ($user['status'] == 0);
+    if (isset($user['status']) && (($user['status'] == 0) || ($user['status'] == '0'))){
+        return true;
+    }
+    // echo "vao dc";
+    return false;
+}
+
 // Lấy username người dùng hiện tại
 function get_current_username(){
     $user  = is_logged();
@@ -46,5 +59,11 @@ function get_current_level(){
 function get_current_aId(){
     $user  = is_logged();
     return isset($user['aId']) ? $user['aId'] : '';
+}
+
+// Lấy status người dùng hiện tại
+function get_current_status(){
+    $user  = is_logged();
+    return isset($user['status']) ? $user['status'] : '';
 }
 ?>

@@ -16,6 +16,10 @@ if (!is_logged()) {
     http_response_code(404);
     echo json_encode(array('message' => "You are not logged in"));
 }
+else if(is_block()) {
+    http_response_code(404);
+    echo json_encode(array('message' => 'Your account is blocked'));
+}
 else if(!isset($data->rId) || $data->rId == "") {
     http_response_code(404);
     echo json_encode(array('message' => "Don't have rId field"));

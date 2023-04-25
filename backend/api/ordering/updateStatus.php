@@ -15,6 +15,10 @@ if(!is_logged()) {
     // echo json_encode(array('message' => "You are not logged in"));
     die("You are not logged in");
 }
+else if(is_block()) {
+    http_response_code(404);
+    echo json_encode(array('message' => 'Your account is blocked'));
+}
 else {
     // $rq_status = isset($_GET['status']) ? $_GET['status'] : die("Don't have the status field"); //request status
     $rq_oId = isset($_GET['oId']) ? $_GET['oId'] : die("Don't have the oId field"); //request oId
