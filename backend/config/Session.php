@@ -1,17 +1,16 @@
 <?php
-$lifetime = 604800;
+// $lifetime = 604800;
 
 session_start();
-
-setcookie(session_name(),session_id(), [
-    'expires' => time() + $lifetime,
-    'path' => '/',
-    'domain' => $_SERVER['HTTP_HOST'],
-    'secure' => true,
-    'httponly' => true,
-    'samesite' => 'strict',
-]);
-
+// session_set_cookie_params([
+// setcookie(session_name(),session_id(), [
+//     'expires' => time() + $lifetime,
+//     'path' => '/',
+//     'domain' => $_SERVER['HTTP_HOST'],
+//     'secure' => true,
+//     'httponly' => true,
+//     'samesite' => 'strict',
+// ]);
 // Gán session (SET)
 function session_set($key, $val){
     $_SESSION[$key] = $val;
