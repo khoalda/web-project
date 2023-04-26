@@ -10,7 +10,7 @@ const ManageOrders = () => {
     setOrders(data);
     console.log(data);
   };
-  
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -160,30 +160,56 @@ const ManageOrders = () => {
                 </div>
                 <hr />
                 {order.statusName === "Waiting" && (
-                  <button
-                    type="button"
-                    className="btn btn-light btn-block fw-bold"
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                      updateOrderStatus({
-                        oId: order.oId,
-                        statusId: 3,
-                      })
-                        .then((res) => {
-                          enqueueSnackbar("Hủy đơn hàng thành công", {
-                            variant: "success",
-                          });
-                          fetchOrders();
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-light btn-block fw-bold"
+                      style={{ width: "48%" }}
+                      onClick={() => {
+                        updateOrderStatus({
+                          oId: order.oId,
+                          statusId: 3,
                         })
-                        .catch((err) => {
-                          enqueueSnackbar("Hủy đơn hàng thất bại", {
-                            variant: "error",
+                          .then((res) => {
+                            enqueueSnackbar("Hủy đơn hàng thành công", {
+                              variant: "success",
+                            });
+                            fetchOrders();
+                          })
+                          .catch((err) => {
+                            enqueueSnackbar("Hủy đơn hàng thất bại", {
+                              variant: "error",
+                            });
                           });
-                        });
-                    }}
-                  >
-                    Hủy đơn hàng
-                  </button>
+                      }}
+                    >
+                      Hủy đơn hàng
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-light btn-block fw-bold"
+                      style={{ width: "48%", marginLeft: "4%" }}
+                      onClick={() => {
+                        updateOrderStatus({
+                          oId: order.oId,
+                          statusId: 2,
+                        })
+                          .then((res) => {
+                            enqueueSnackbar("Xác nhận đơn hàng thành công", {
+                              variant: "success",
+                            });
+                            fetchOrders();
+                          })
+                          .catch((err) => {
+                            enqueueSnackbar("Xác nhận đơn hàng thất bại", {
+                              variant: "error",
+                            });
+                          });
+                      }}
+                    >
+                      Xác nhận đơn hàng
+                    </button>
+                  </>
                 )}
               </div>
             </div>
