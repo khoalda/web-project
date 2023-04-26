@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
 import News from "./pages/News";
 import Profile from "./pages/Profile";
+import History from "./pages/History";
 
 import {
   BrowserRouter as Router,
@@ -103,6 +104,7 @@ function App() {
                 <Route path="/product" element={<Product />}></Route>
                 <Route path="/product/:id" element={<Detail />}></Route>
                 <Route path="/profile" element={<Profile />}></Route>
+                <Route path="/history" element={<History />}></Route>
                 <Route path="/news/news1" element={<News1 />}></Route>
                 <Route path="/news/news2" element={<News2 />}></Route>
                 <Route path="/news/news3" element={<News3 />}></Route>

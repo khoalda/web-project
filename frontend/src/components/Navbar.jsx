@@ -85,6 +85,17 @@ const Navbar = () => {
                     Tin tức
                   </Link>
                 </li>
+
+                {user && (
+                  <li className="nav-item">
+                    <Link
+                      className={`nav-link ${isActive("/history")}`}
+                      to="/history"
+                    >
+                      Lịch sử
+                    </Link>
+                  </li>
+                )}
               </ul>
             )}
 
