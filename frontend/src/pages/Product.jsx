@@ -6,6 +6,7 @@ import { addToCart } from "../redux/slices/cart";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import Pagination from "@mui/material/Pagination";
 import "./Product.css";
 
 const Product = () => {
@@ -13,6 +14,9 @@ const Product = () => {
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("");
   const [sortType, setSortType] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(8);
+
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
@@ -41,6 +45,34 @@ const Product = () => {
   useEffect(() => {
     console.log(products);
   }, [products]);
+
+  const filteredProducts = products
+    .filter(
+      (product) => category.length === 0 || category.includes(product.Cname)
+    )
+    .sort((a, b) => {
+      switch (sortType) {
+        case "price-asc":
+          return a.price - b.price;
+        case "price-desc":
+          return b.price - a.price;
+        case "name-asc":
+          return a.name.localeCompare(b.name);
+        case "name-desc":
+          return b.name.localeCompare(a.name);
+        default:
+          return 0;
+      }
+    });
+
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div style={{ backgroundColor: "#F2F4F3" }}>
@@ -122,91 +154,102 @@ const Product = () => {
               <div className="spinner-border" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
-            ) : products && products.length > 0 ? (
-              products
-                .filter(
-                  (product) =>
-                    category.length === 0 || category.includes(product.Cname)
-                )
-                .sort((a, b) => {
-                  switch (sortType) {
-                    case "price-asc":
-                      return a.price - b.price;
-                    case "price-desc":
-                      return b.price - a.price;
-                    case "name-asc":
-                      return a.name.localeCompare(b.name);
-                    case "name-desc":
-                      return b.name.localeCompare(a.name);
-                    default:
-                      return 0;
-                  }
-                })
-                .map((product) => (
-                  <div className="col" key={product.pId}>
-                    <div className="card h-100 shadow-sm">
-                      <div
-                        style={{
-                          position: "relative",
-                          paddingBottom: "100%",
-                        }}
-                      >
-                        <img
-                          src={product.image}
-                          className="card-img-top position-absolute w-100 h-100"
-                          alt="..."
+            ) : paginatedProducts.length > 0 ? (
+              <>
+                {paginatedProducts
+                  .filter(
+                    (product) =>
+                      category.length === 0 || category.includes(product.Cname)
+                  )
+                  .sort((a, b) => {
+                    switch (sortType) {
+                      case "price-asc":
+                        return a.price - b.price;
+                      case "price-desc":
+                        return b.price - a.price;
+                      case "name-asc":
+                        return a.name.localeCompare(b.name);
+                      case "name-desc":
+                        return b.name.localeCompare(a.name);
+                      default:
+                        return 0;
+                    }
+                  })
+                  .map((product) => (
+                    <div className="col" key={product.pId}>
+                      <div className="card h-100 shadow-sm">
+                        <div
                           style={{
-                            objectFit: "contain",
-                            objectPosition: "center center",
+                            position: "relative",
+                            paddingBottom: "100%",
                           }}
-                        />
-                        <div className="card-img-overlay">
-                          <Link to={`/product/${product.pId}`}>
-                            <button type="button" onClick={() => {}}>
-                              Xem chi tiết
-                            </button>
-                          </Link>
+                        >
+                          <img
+                            src={product.image}
+                            className="card-img-top position-absolute w-100 h-100"
+                            alt="..."
+                            style={{
+                              objectFit: "contain",
+                              objectPosition: "center center",
+                            }}
+                          />
+                          <div className="card-img-overlay">
+                            <Link to={`/product/${product.pId}`}>
+                              <button type="button" onClick={() => {}}>
+                                Xem chi tiết
+                              </button>
+                            </Link>
+                          </div>
                         </div>
-                      </div>
-                      <div className="card-body">
-                        <center>
-                          <p
-                            className="card-title fw-bold"
-                            style={{ color: "#49111C" }}
-                          >
-                            {product.name} <br />
-                            <b className="fw-bold">
-                              {Number(product.price).toLocaleString("de-DE")} ₫
-                            </b>
-                          </p>
-                        </center>
-                      </div>
-                      <button
-                        type="button"
-                        className="btn btn-light fw-bold"
-                        onClick={() => {
-                          if (!user) {
-                            enqueueSnackbar("Vui lòng đăng nhập để mua hàng", {
-                              variant: "warning",
-                            });
-                            navigate("/login");
-                            return;
-                          }
-
-                          dispatch(addToCart(product));
-                          enqueueSnackbar(
-                            `Đã thêm ${product.name} vào giỏ hàng`,
-                            {
-                              variant: "success",
+                        <div className="card-body">
+                          <center>
+                            <p
+                              className="card-title fw-bold"
+                              style={{ color: "#49111C" }}
+                            >
+                              {product.name} <br />
+                              <b className="fw-bold">
+                                {Number(product.price).toLocaleString("de-DE")}{" "}
+                                ₫
+                              </b>
+                            </p>
+                          </center>
+                        </div>
+                        <button
+                          type="button"
+                          className="btn btn-light fw-bold"
+                          onClick={() => {
+                            if (!user) {
+                              enqueueSnackbar(
+                                "Vui lòng đăng nhập để mua hàng",
+                                {
+                                  variant: "warning",
+                                }
+                              );
+                              navigate("/login");
+                              return;
                             }
-                          );
-                        }}
-                      >
-                        Thêm vào giỏ hàng
-                      </button>
+
+                            dispatch(addToCart(product));
+                            enqueueSnackbar(
+                              `Đã thêm ${product.name} vào giỏ hàng`,
+                              {
+                                variant: "success",
+                              }
+                            );
+                          }}
+                        >
+                          Thêm vào giỏ hàng
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))
+                  ))}
+                <Pagination
+                  count={Math.ceil(filteredProducts.length / pageSize)}
+                  page={currentPage}
+                  onChange={(event, value) => handlePageChange(value)}
+                />
+              </>
             ) : (
               <div className="alert alert-danger" role="alert">
                 Không có sản phẩm nào

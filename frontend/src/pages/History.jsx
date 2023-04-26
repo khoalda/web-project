@@ -78,7 +78,7 @@ const History = () => {
                   <div className="col-md-2">
                     <div className="card-body">
                       <h6 className="card-title">
-                        <center>{order.time.toLocaleString()}</center>
+                        <center>{order.time}</center>
                       </h6>
                     </div>
                   </div>
@@ -131,8 +131,8 @@ const History = () => {
                   <p className="fw-bold">Trạng thái</p>
                 </div>
                 <div className="col-4 py-3">
-                  <p>{order.deliveryCost}₫</p>
-                  <p>{order.totalPrice}₫</p>
+                  <p>{order.deliveryCost.toLocaleString("de-DE")}₫</p>
+                  <p>{order.totalPrice.toLocaleString("de-DE")}₫</p>
                   <span
                     style={
                       order.statusName === "Waiting"

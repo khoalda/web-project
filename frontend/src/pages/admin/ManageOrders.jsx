@@ -132,8 +132,8 @@ const ManageOrders = () => {
                   <p className="fw-bold">Trạng thái</p>
                 </div>
                 <div className="col-4 py-3">
-                  <p>{order.deliveryCost}₫</p>
-                  <p>{order.totalPrice}₫</p>
+                  <p>{order.deliveryCost.toLocaleString("de-DE")}₫</p>
+                  <p>{order.totalPrice.toLocaleString("de-DE")}₫</p>
                   <span
                     style={
                       order.statusName === "Waiting"
