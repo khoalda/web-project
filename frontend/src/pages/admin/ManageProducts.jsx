@@ -424,7 +424,9 @@ const ManageProducts = () => {
                 }}
               >
                 {Categories.map((category) => (
-                  <MenuItem value={category.name}>{category.value}</MenuItem>
+                  <MenuItem key={category.name} value={category.name}>
+                    {category.value}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -518,7 +520,9 @@ const ManageProducts = () => {
                 }}
               >
                 {Categories.map((category) => (
-                  <MenuItem value={category.name}>{category.value}</MenuItem>
+                  <MenuItem key={category.name} value={category.name}>
+                    {category.value}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
