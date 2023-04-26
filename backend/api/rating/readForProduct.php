@@ -19,5 +19,4 @@ $result = $rating->readForProduct($rq_pId);
         http_response_code(404);
         echo json_encode(array('message' => 'Error system'));
     }
-
 ?>
