@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2023 at 08:33 PM
+-- Generation Time: Apr 26, 2023 at 06:47 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -47,7 +47,11 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`aId`, `username`, `password`, `level`, `name`, `dateOfBirth`, `urlAvatar`, `phoneNumber`, `email`, `address`, `status`) VALUES
 (1, 'laptrinhweb', '$2y$10$CG2z..VPEA3CMbQoCr3W/ufb6rXGWrwbILmhsMShxwKrD2E4BwSXm', 2, 'admin', '1999-05-06', 'https://tenten.vn/tin-tuc/wp-content/uploads/2022/09/2-6.png', '0362704387', 'admin123@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1),
-(2, 'customer', '$2y$10$bK5KGBVRL8i3PtZ17LN0yOk1VTIWbXcVsQhsKQSzAJSQvcpay.tpW', 1, 'Nguyễn Văn Tân', '2001-08-09', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg', '0362704387', 'tan@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1);
+(2, 'customer', '$2y$10$bK5KGBVRL8i3PtZ17LN0yOk1VTIWbXcVsQhsKQSzAJSQvcpay.tpW', 1, 'Nguyễn Văn Tân', '2001-08-09', 'https://afamilycdn.com/150157425591193600/2022/8/25/img2760-166143316409263801587.jpg', '0362704387', 'tan@gmail.com', 'Ký túc xá khu A đại học Quốc gia TP.HCM', 1),
+(3, 'customer2', '$2y$10$9mFFDB1nJyduEZ3QuhXweeH/fvC1fuRLshPNw/anhm4bcQ5RVD.we', 1, 'Nguyen Van Tan', '0000-00-00', '', '0976984255', '', '', 1),
+(4, 'customer3', '$2y$10$YiCiCRJcz35Md0GacRIytuJ7IY897IId1qhUxfNEQuIHd8.fu4I.u', 1, 'Nguyen Van Tan', '0000-00-00', '', '0976984255', '', '', 1),
+(5, 'customer4', '$2y$10$.v.ESYUp102revkYsnh0KO2/kctZks2l.k.dd4hZVFfpH2kV1MjTq', 1, 'Nguyen Van Tan', '0000-00-00', '', '0976984255', '', '', 1),
+(6, 'customer5', '$2y$10$t6sVlbCCfFqR/V7VTnI8d.lTaYlhguf1o8z5QAz9LsiqtZ1oQ8Rs6', 1, 'Nguyen Van Tan', '0000-00-00', '', '0976984255', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -105,7 +109,12 @@ INSERT INTO `orderaccount` (`oId`, `aId`) VALUES
 ('BK26042023000002', 2),
 ('BK26042023000005', 2),
 ('BK26042023000006', 2),
-('BK26042023000007', 2);
+('BK26042023000007', 2),
+('BK26042023000008', 2),
+('BK26042023000012', 3),
+('BK26042023000009', 6),
+('BK26042023000010', 6),
+('BK26042023000011', 6);
 
 -- --------------------------------------------------------
 
@@ -135,7 +144,12 @@ INSERT INTO `ordering` (`oId`, `time`, `name`, `address`, `phoneNumber`, `status
 ('BK26042023000004', '2023-04-26 00:37:40', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 50000, 275000),
 ('BK26042023000005', '2023-04-26 00:38:29', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 50000, 435000),
 ('BK26042023000006', '2023-04-26 01:17:32', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000),
-('BK26042023000007', '2023-04-26 01:19:06', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000);
+('BK26042023000007', '2023-04-26 01:19:06', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000),
+('BK26042023000008', '2023-04-26 01:37:22', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000),
+('BK26042023000009', '2023-04-26 01:49:29', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000),
+('BK26042023000010', '2023-04-26 01:49:31', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000),
+('BK26042023000011', '2023-04-26 01:50:22', 'Nguyen Van FF', 'KTX khu A', '0119765231', 1, 50000, 270000),
+('BK26042023000012', '2023-04-26 09:34:20', 'Nguyen Van FF', 'KTX khu A', '0119765231', 1, 50000, 270000);
 
 --
 -- Triggers `ordering`
@@ -192,7 +206,27 @@ INSERT INTO `orderproduct` (`oId`, `pId`, `count`, `totalPrice`) VALUES
 ('BK26042023000007', 4, 5, 100000),
 ('BK26042023000007', 8, 1, 14000),
 ('BK26042023000007', 15, 2, 200000),
-('BK26042023000007', 22, 3, 210000);
+('BK26042023000007', 22, 3, 210000),
+('BK26042023000008', 4, 5, 100000),
+('BK26042023000008', 8, 1, 14000),
+('BK26042023000008', 15, 2, 200000),
+('BK26042023000008', 22, 3, 210000),
+('BK26042023000009', 4, 5, 100000),
+('BK26042023000009', 8, 1, 14000),
+('BK26042023000009', 15, 2, 200000),
+('BK26042023000009', 22, 3, 210000),
+('BK26042023000010', 4, 5, 100000),
+('BK26042023000010', 8, 1, 14000),
+('BK26042023000010', 15, 2, 200000),
+('BK26042023000010', 22, 3, 210000),
+('BK26042023000011', 3, 3, 75000),
+('BK26042023000011', 4, 1, 20000),
+('BK26042023000011', 19, 4, 100000),
+('BK26042023000011', 25, 1, 25000),
+('BK26042023000012', 3, 3, 75000),
+('BK26042023000012', 4, 1, 20000),
+('BK26042023000012', 19, 4, 100000),
+('BK26042023000012', 25, 1, 25000);
 
 --
 -- Triggers `orderproduct`
@@ -250,7 +284,7 @@ INSERT INTO `product` (`pId`, `name`, `price`, `description`, `image`, `category
 (3, 'Lemon Juice', 25000, 'Nước chanh tươi mát', 'lemon.png', 1),
 (4, 'Potato big', 20000, 'Khoai tây chiên giòn rụm', 'potato.png', 2),
 (5, 'Potato small', 14000, 'Khoai tây chiên giòn rụm', 'potato3.png', 2),
-(6, 'Chicken McNuggets', 35000, 'Gà chiên trong dai ngoài giòn', 'chicken (2).png', 3),
+(6, 'Chicken McNuggets', 35000, 'Gà chiên trong dai ngoài giòn', 'chickenMcNuggets.png', 3),
 (7, 'Big Mac Burger', 40000, 'Burger siêu đặc biệt ăn không no không tính tiền', 'buger5.png', 4),
 (8, 'Potato slices', 14000, 'Khoai tây cắt lát chiên giòn tan', 'potato2.png', 2),
 (9, 'Combo Chicken', 50000, 'Combo gà đặc biệt với nhiều món cho bạn bữa ăn thật no và ngon', 'chicken.png', 3),
@@ -266,7 +300,7 @@ INSERT INTO `product` (`pId`, `name`, `price`, `description`, `image`, `category
 (19, 'Salat 3', 25000, 'Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả', 'salat3.png', 5),
 (20, 'Salat 4', 24000, 'Salat ăn kèm nhiều chất xơ, chống ngán hiệu quả', 'salat4.png', 5),
 (21, 'Sprite', 16000, 'Sprite mát lạnh thơm nồng vị chanh', 'sprite2.png', 1),
-(22, 'Chicken Medium', 70000, 'Gà chiên trong dai ngoài giòn', 'chicken 8.png', 3),
+(22, 'Chicken Medium', 70000, 'Gà chiên trong dai ngoài giòn', 'chickenMedium.png', 3),
 (23, 'Sprite Bottle', 20000, 'Sprite mát lạnh thơm nồng vị chanh', 'sprite1.png', 1),
 (24, 'Pepsi Bottle', 20000, 'Pepsi mát lạnh, sảng khoái', 'pepsi2.png', 1),
 (25, 'Orange Juice', 25000, 'Nước cam ép đến từ thiên nhiên, không phẩm màu không chất bảo quản', 'orange.png', 1);
@@ -291,7 +325,8 @@ CREATE TABLE `rating` (
 
 INSERT INTO `rating` (`rId`, `comment`, `star`, `aId`, `pId`) VALUES
 (1, 'Sản phẩm thật tuyệt vời', 5, 2, 6),
-(2, 'Nước chanh rất ngon', 4, 2, 4);
+(2, 'Nước chanh rất ngon', 4, 2, 4),
+(3, 'Nuốt không nổi', 1, 3, 7);
 
 -- --------------------------------------------------------
 
@@ -314,7 +349,12 @@ INSERT INTO `s` (`_no`) VALUES
 (4),
 (5),
 (6),
-(7);
+(7),
+(8),
+(9),
+(10),
+(11),
+(12);
 
 -- --------------------------------------------------------
 
@@ -419,7 +459,7 @@ ALTER TABLE `statusorder`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `aId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `aId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -437,13 +477,13 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `rId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `rId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `s`
 --
 ALTER TABLE `s`
-  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `statusorder`
