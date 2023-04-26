@@ -73,7 +73,7 @@ class RatingModel extends Database {
             $dataResult[] = $row;
             $sumStar += $row['star'];
         }
-        $averageStar = $sumStar / $count;
+        $averageStar = ($count != 0) ? ($sumStar / $count) : 0;
         return array('ratings'=>$dataResult, 'averageStar'=>$averageStar);
     }
     public function deleteOne($rId) {

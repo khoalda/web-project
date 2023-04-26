@@ -11,11 +11,13 @@ $product = new ProductModel();
 $pId = isset($_GET['pId']) ? $_GET['pId'] : die();
 if (!is_admin()) {
     echo json_encode(array('message' => "You aren't admin"));
-} else {
-    if ($product->deleteOne($pId)) {
+}
+else {
+    if($product->deleteOne($pId)) {
         http_response_code(201);
         echo json_encode(array('message' => 'Delete successful'));
-    } else {
+    }
+    else {
         http_response_code(404);
         echo json_encode(
             array('message' => 'Delete failed')
