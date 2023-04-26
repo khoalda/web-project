@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2023 at 06:47 AM
+-- Generation Time: Apr 26, 2023 at 08:26 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -112,6 +112,9 @@ INSERT INTO `orderaccount` (`oId`, `aId`) VALUES
 ('BK26042023000007', 2),
 ('BK26042023000008', 2),
 ('BK26042023000012', 3),
+('BK26042023000013', 3),
+('BK26042023000015', 4),
+('BK26042023000014', 5),
 ('BK26042023000009', 6),
 ('BK26042023000010', 6),
 ('BK26042023000011', 6);
@@ -149,7 +152,10 @@ INSERT INTO `ordering` (`oId`, `time`, `name`, `address`, `phoneNumber`, `status
 ('BK26042023000009', '2023-04-26 01:49:29', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000),
 ('BK26042023000010', '2023-04-26 01:49:31', 'Nguyen Van Tan', 'KTX khu A', '0999765231', 1, 60000, 584000),
 ('BK26042023000011', '2023-04-26 01:50:22', 'Nguyen Van FF', 'KTX khu A', '0119765231', 1, 50000, 270000),
-('BK26042023000012', '2023-04-26 09:34:20', 'Nguyen Van FF', 'KTX khu A', '0119765231', 1, 50000, 270000);
+('BK26042023000012', '2023-04-26 09:34:20', 'Nguyen Van FF', 'KTX khu A', '0119765231', 1, 50000, 270000),
+('BK26042023000013', '2023-04-26 11:51:10', 'Phan Minh Thống', 'KTX khu B', '0322421123', 1, 50000, 304000),
+('BK26042023000014', '2023-04-26 12:00:26', 'Cát Khánh', 'TP HCM', '0329521123', 2, 30000, 248000),
+('BK26042023000015', '2023-04-26 13:25:15', 'Cát Khánh', 'TP HCM', '0329521123', 1, 30000, 248000);
 
 --
 -- Triggers `ordering`
@@ -226,7 +232,19 @@ INSERT INTO `orderproduct` (`oId`, `pId`, `count`, `totalPrice`) VALUES
 ('BK26042023000012', 3, 3, 75000),
 ('BK26042023000012', 4, 1, 20000),
 ('BK26042023000012', 19, 4, 100000),
-('BK26042023000012', 25, 1, 25000);
+('BK26042023000012', 25, 1, 25000),
+('BK26042023000013', 5, 11, 154000),
+('BK26042023000013', 9, 1, 50000),
+('BK26042023000013', 13, 1, 30000),
+('BK26042023000013', 24, 1, 20000),
+('BK26042023000014', 6, 3, 105000),
+('BK26042023000014', 17, 1, 23000),
+('BK26042023000014', 24, 2, 40000),
+('BK26042023000014', 25, 2, 50000),
+('BK26042023000015', 6, 3, 105000),
+('BK26042023000015', 17, 1, 23000),
+('BK26042023000015', 24, 2, 40000),
+('BK26042023000015', 25, 2, 50000);
 
 --
 -- Triggers `orderproduct`
@@ -326,7 +344,9 @@ CREATE TABLE `rating` (
 INSERT INTO `rating` (`rId`, `comment`, `star`, `aId`, `pId`) VALUES
 (1, 'Sản phẩm thật tuyệt vời', 5, 2, 6),
 (2, 'Nước chanh rất ngon', 4, 2, 4),
-(3, 'Nuốt không nổi', 1, 3, 7);
+(3, 'Nuốt không nổi', 1, 3, 7),
+(4, 'Đồ uống rất ngon', 5, 5, 3),
+(5, 'Cũng khá  ngon', 3, 5, 10);
 
 -- --------------------------------------------------------
 
@@ -354,7 +374,10 @@ INSERT INTO `s` (`_no`) VALUES
 (9),
 (10),
 (11),
-(12);
+(12),
+(13),
+(14),
+(15);
 
 -- --------------------------------------------------------
 
@@ -477,13 +500,13 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `rId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `rId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `s`
 --
 ALTER TABLE `s`
-  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `statusorder`
