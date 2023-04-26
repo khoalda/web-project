@@ -38,23 +38,23 @@ export default function Detail() {
   };
 
   const [newRating, setNewRating] = useState(initialRating);
+  const fetchProduct = async () => {
+    setLoading(true);
+    await readOne(pId).then((res) => {
+      setProduct(res.data);
+      console.log(res.data);
+    });
 
+    await getProductRatings(pId).then((res) => {
+      setRatings(res.data.ratings);
+      setAverageStar(parseFloat(res.data.averageStar));
+      console.log(res.data);
+    });
+
+    setLoading(false);
+  };
+  
   useEffect(() => {
-    const fetchProduct = async () => {
-      setLoading(true);
-      await readOne(pId).then((res) => {
-        setProduct(res.data);
-        console.log(res.data);
-      });
-
-      await getProductRatings(pId).then((res) => {
-        setRatings(res.data.ratings);
-        setAverageStar(parseFloat(res.data.averageStar));
-        console.log(res.data);
-      });
-
-      setLoading(false);
-    };
     fetchProduct();
   }, [pId]);
 
@@ -72,8 +72,10 @@ export default function Detail() {
         enqueueSnackbar("Đánh giá thành công", { variant: "success" });
         setNewRating(initialRating);
         getProductRatings(pId).then((res) => {
-          setRatings(res.data);
+          setRatings(res.data.ratings);
         });
+        handleCloseAdd();
+        fetchProduct();
       })
       .catch((err) => {
         enqueueSnackbar("Đánh giá thất bại", { variant: "error" });
@@ -150,7 +152,9 @@ export default function Detail() {
                   >
                     Thêm vào giỏ hàng
                   </button>
-                  {ratings?.some((rating) => rating.aId === user?.aId) && (
+                  {(ratings.length === 0 ||
+                    (ratings &&
+                      ratings.some((rating) => rating.aId === user?.aId))) && (
                     <button
                       type="button"
                       className="btn btn-lg"
