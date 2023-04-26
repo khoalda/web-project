@@ -32,7 +32,7 @@ class UserModel extends Database {
                     $stmt2->bind_param("ss", $newPassWordHash, $username);
                     $stmt2->execute();
                 }
-                return array('status'=>true, 'message'=>'', 'data'=>array('aId'=>$row['aId'],'level'=>$row['level']));
+                return array('status'=>true, 'message'=>'', 'data'=>array('aId'=>$row['aId'],'level'=>$row['level'],'status'=>$row['status']));
             }
         }
     }
@@ -188,6 +188,7 @@ class UserModel extends Database {
         $stmt->bind_param("ii", $status, $aId);
         if($stmt->execute()) return array("status"=>true,"message"=>'');
         else return array("status"=>false,"message"=>'Error system');
+
     }
     public function deleteOne($aId) {
         $query0 = "SELECT * FROM $this->dbTable WHERE aId = ?";
