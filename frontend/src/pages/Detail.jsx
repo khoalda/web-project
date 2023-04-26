@@ -183,9 +183,8 @@ export default function Detail() {
           sx={{ display: "flex", flexDirection: "column", width: "450px" }}
         >
           <Rating
-            name="read-only"
             value={newRating.star}
-            precision={0.5}
+            precision={1}
             onChange={(e) =>
               setNewRating({ ...newRating, star: e.target.value })
             }
