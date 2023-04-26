@@ -3,7 +3,7 @@ $lifetime = 604800;
 
 session_start();
 
-session_set_cookie_params([
+setcookie(session_name(),session_id(), [
     'expires' => time() + $lifetime,
     'path' => '/',
     'domain' => $_SERVER['HTTP_HOST'],

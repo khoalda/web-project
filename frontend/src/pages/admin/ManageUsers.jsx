@@ -52,7 +52,7 @@ const initialUser = {
   status: "",
 };
 
-const ManageProducts = () => {
+const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [openDetail, setOpenEdit] = useState(false);
   const [selectedUser, setSelectedUser] = useState(initialUser);
@@ -454,4 +454,4 @@ const ManageProducts = () => {
   );
 };
 
-export default ManageProducts;
+export default ManageUsers;
