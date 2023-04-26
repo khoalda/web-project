@@ -1,12 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-import { login } from "../api/users";
+import { login, logout } from "../api/users";
 import { useSnackbar } from "notistack";
 import { useSelector, useDispatch } from "react-redux";
 import { loginSuccess, updateInfo } from "../redux/slices/auth";
 import { readMyInfo } from "../api/users";
-
 
 <link rel="stylesheet" href="./Login.css"></link>;
 
@@ -31,6 +30,15 @@ const Login = () => {
     login(username, password)
       .then((response) => {
         console.log(response);
+        if (response.data.data.status === "0") {
+          enqueueSnackbar("Tài khoản đã bị khóa!", {
+            variant: "error",
+          });
+          logout();
+
+          return;
+        }
+
         enqueueSnackbar("Đăng nhập thành công!", {
           variant: "success",
         });
