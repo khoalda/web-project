@@ -244,11 +244,20 @@ const Product = () => {
                       </div>
                     </div>
                   ))}
-                <Pagination
-                  count={Math.ceil(filteredProducts.length / pageSize)}
-                  page={currentPage}
-                  onChange={(event, value) => handlePageChange(value)}
-                />
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Pagination
+                    count={Math.ceil(filteredProducts.length / pageSize)}
+                    page={currentPage}
+                    onChange={(event, value) => handlePageChange(value)}
+                  />
+                </div>
               </>
             ) : (
               <div className="alert alert-danger" role="alert">
