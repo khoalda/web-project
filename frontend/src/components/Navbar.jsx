@@ -31,6 +31,8 @@ const Navbar = () => {
     navigate("/");
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div>
       <nav
@@ -45,7 +47,7 @@ const Navbar = () => {
               style={{ width: "95px" }}
             />
           </Link>
-          <button
+          {/* <button
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
@@ -55,8 +57,19 @@ const Navbar = () => {
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
+          </button> */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div
+            className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}
+            id="navbarSupportedContent"
+          >
             {(!user || (user && user.level === "1")) && (
               <ul className="navbar-nav mx-auto mb-2 mb-lg-0 fs-5">
                 <li className="nav-item">
