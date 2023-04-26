@@ -15,9 +15,8 @@ export const readAllOrders = () => {
 };
 
 export const updateOrderStatus = (data) => {
-  return instance.post("/ordering/updateStatus.php", data);
-  // {
-  //   oId: 1234, 
-  //   statusId: 2 
-  // }
+  const payload = {
+    statusId: data.statusId,
+  };
+  return instance.post(`/ordering/updateStatus.php?oId=${data.oId}`, payload);
 };
