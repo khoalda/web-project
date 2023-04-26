@@ -14,11 +14,16 @@ class OrderingModel extends Database {
         $deliveryCost = $data->deliveryCost;
         // $products = $data->products;
                                                     //oId, time, name, address, phoneNumber, statusId
-        $query = "INSERT INTO $this->dbTable VALUES(NULL,NOW(), ?, ?, ?, ?, ?, NULL)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("sssis", $name, $address, $phoneNumber, $statusId, $deliveryCost);
+        // $query = "INSERT INTO $this->dbTable VALUES(NULL,NOW(), ?, ?, ?, ?, ?, NULL)";
+        // $stmt = $this->conn->prepare($query);
+        // $stmt->bind_param("sssis", $name, $address, $phoneNumber, $statusId, $deliveryCost);
+        // $stmt = $this->conn->prepare($query);
+        // $stmt->bind_param("sssis", $name, $address, $phoneNumber, $statusId, $deliveryCost);
         // $stmt->execute();
-        if(!$stmt->execute()) return array('status'=>false,'message'=>'Error system 1');
+
+        $query = "INSERT INTO $this->dbTable VALUES(NULL,NOW(), '$name', '$address', '$phoneNumber', $statusId, $deliveryCost, NULL)";
+        $stmt = mysqli_query($this->conn, $query);
+        if(!$stmt) return array('status'=>false,'message'=>'Error system 1');
 
         $query2 = "SELECT max(oId) FROM $this->dbTable as ooId";
         $stmt2 = mysqli_query($this->conn, $query2);
