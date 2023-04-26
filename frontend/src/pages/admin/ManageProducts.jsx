@@ -294,7 +294,7 @@ const ManageProducts = () => {
                         <StyledTableRow key={product.pId}>
                           <TableCell>{product.pId}</TableCell>
                           <TableCell>{product.name}</TableCell>
-                          <TableCell>{product.price}</TableCell>
+                          <TableCell>{Number(product.price).toLocaleString("de-DE")}</TableCell>
                           <TableCell>{product.description}</TableCell>
                           <TableCell>
                             <img
