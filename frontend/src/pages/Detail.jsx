@@ -3,7 +3,8 @@ import { readOne } from "../api/products";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cart";
 import { useSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { categoryMapper } from "../constants/categories";
 
 export default function Detail() {
   const [product, setProduct] = useState({});
@@ -50,7 +51,14 @@ export default function Detail() {
                 >
                   <h5 className="py-4">
                     <i className="fa fa-solid fa-tags"></i> Danh mục:{" "}
-                    {product.Cname}
+                    <Link
+                      style={{
+                        color: "#F2F4F3",
+                      }}
+                      to={`/product?category=${product.Cname}`}
+                    >
+                      {categoryMapper(product.Cname)}
+                    </Link>
                   </h5>
 
                   <h2 className="card-title fw-bold">{product.name}</h2>

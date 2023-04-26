@@ -3,7 +3,7 @@ import { readAll } from "../api/products";
 import { Categories } from "../constants/categories";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slices/cart";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import "./Product.css";
@@ -18,6 +18,15 @@ const Product = () => {
 
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const categoryFromQuery = query.get("category");
+    if (categoryFromQuery) {
+      setCategory(categoryFromQuery);
+    }
+  }, [location]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -59,11 +68,14 @@ const Product = () => {
               }}
               className="form-select"
               aria-label="Filter by category"
+              value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value="">Tất cả</option>
               {Categories.map((category) => (
-                <option value={category.name}>{category.value}</option>
+                <option key={category.name} value={category.name}>
+                  {category.value}
+                </option>
               ))}
             </select>
           </div>
@@ -86,7 +98,7 @@ const Product = () => {
               style={{
                 backgroundColor: "#0a0908",
                 color: "#F2F4F3",
-                width: "160px",
+                width: "200px",
               }}
               className="form-select"
               aria-label="Sort by"
@@ -131,7 +143,7 @@ const Product = () => {
                   }
                 })
                 .map((product) => (
-                  <div className="col">
+                  <div className="col" key={product.pId}>
                     <div className="card h-100 shadow-sm">
                       <div
                         style={{
@@ -182,9 +194,12 @@ const Product = () => {
                           }
 
                           dispatch(addToCart(product));
-                          enqueueSnackbar(`Đã thêm ${product.name} vào giỏ hàng`, {
-                            variant: "success",
-                          });
+                          enqueueSnackbar(
+                            `Đã thêm ${product.name} vào giỏ hàng`,
+                            {
+                              variant: "success",
+                            }
+                          );
                         }}
                       >
                         Thêm vào giỏ hàng
