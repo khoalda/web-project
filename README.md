@@ -3,7 +3,8 @@
 
 In the folder fronend of the project directory. First, you need run:
 ### `npm i`
-You need to run this command line to install the necessary packages for the project.\\\\
+You need to run this command line to install the necessary packages for the project.\
+\
 Then, you can run:
 ### `npm start`
 Runs the app in the development mode.\
